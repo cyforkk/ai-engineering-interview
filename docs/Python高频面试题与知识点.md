@@ -2,6 +2,8 @@
 
 > **专题序：语言轨 / 权重 P0（Python 岗）· P1（AI 应用岗）**  
 > **面渣级长口述：** [Python面渣级口述.md](./Python面渣级口述.md)  
+> **异步/FastAPI 实战长口述：** [Python异步与FastAPI面渣级口述.md](./Python异步与FastAPI面渣级口述.md)  
+> **追问三连：** [追问三连-Python.md](./追问三连-Python.md)  
 > 主线：基础语法与类型 → 迭代/生成器 → **GIL 与并发** → 装饰器/上下文 → Web·工程  
 > 总索引：[README.md](./README.md)
 

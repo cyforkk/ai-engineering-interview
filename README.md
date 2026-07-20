@@ -29,10 +29,11 @@ docs/
 
 | 方向 | 专题（详见 docs 索引） |
 |------|------------------------|
-| **AI 工程** | AI 应用工程 · Agent ·（RAG/评测/上线） |
-| **Python** | 基础/并发异步/Web·工程实践 |
+| **AI 工程** | AI 应用工程 · Agent · **向量库** · **Prompt 注入与安全** |
+| **Python** | 基础 · **异步/FastAPI 实战口述** · 追问三连 |
 | **Java 后端** | 集合 · 并发 · JVM · Spring · MySQL · Redis · MQ … |
 | **通用** | 网络 · OS · 算法 · 设计模式 · 项目 STAR · 微服务 |
+| **追问** | 分轨：[Java](./docs/追问三连-Java.md) / [Python](./docs/追问三连-Python.md) / [AI](./docs/追问三连-AI.md) |
 
 ---
 
