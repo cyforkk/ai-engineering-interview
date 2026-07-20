@@ -8,9 +8,10 @@
 
 ## 快速开始
 
-1. **[docs/学习路线图-4到8周.md](./docs/学习路线图-4到8周.md)** ← 先选 AI / Java / Python 路径  
-2. **[docs/README.md](./docs/README.md)** ← 全部专题索引  
-3. 每天：知识点 P0 → 面渣录音 → 追问或手写  
+1. **[docs/学习地图-串联.md](./docs/学习地图-串联.md)** ← 逻辑主线（上一篇/下一篇）  
+2. **[docs/学习路线图-4到8周.md](./docs/学习路线图-4到8周.md)** ← 按周练习  
+3. **[docs/README.md](./docs/README.md)** ← 全部专题索引  
+4. 每天：知识点 P0 → 面渣录音 → 追问或手写（文首可点「下一篇」串联）  
 
 **仓库：** https://github.com/cyforkk/ai-engineering-interview  
 

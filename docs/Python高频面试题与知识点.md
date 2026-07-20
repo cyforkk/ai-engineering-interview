@@ -1,5 +1,18 @@
 # Python · 高频面试
 
+<!-- NAV:START -->
+> **导航串联**
+>
+> **系列：Python 主线**（1/10）
+> - 上一篇：无（本系列起点）
+> - 下一篇：[Python·面渣](./Python面渣级口述.md)
+>
+> **配对面渣：** [Python·面渣](./Python面渣级口述.md)
+>
+> **返回：** [总索引](./README.md) · [串联地图](./学习地图-串联.md) · [路线图](./学习路线图-4到8周.md) · [架构图](./架构图集.md)
+>
+<!-- NAV:END -->
+
 > **专题序：语言轨 / 权重 P0（Python 岗）· P1（AI 应用岗）**  
 > **面渣级长口述：** [Python面渣级口述.md](./Python面渣级口述.md)  
 > **异步/FastAPI 实战长口述：** [Python异步与FastAPI面渣级口述.md](./Python异步与FastAPI面渣级口述.md)  
