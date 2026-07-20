@@ -1,25 +1,16 @@
 # AI Engineering Interview
 
-**AI 工程 / 应用开发 & 后端面试题库**（Java · Python · JVM · Agent）
+**AI 工程 / 应用开发 & 后端面试题库**（Java · Python · LLM · Agent）
 
-按**面试出现频率**整理：每个专题 = **知识点骨架（P0→P1→P2）** + **面渣级长口述**。  
-适合：**AI 应用开发、LLM 工程、Java/Python 后端** 等岗位。
+每个专题 ≈ **知识点（P0→P2）** + **面渣级口述**；另有追问三连、手写题、STAR 范例与 **4～8 周路线图**。
 
 ---
 
 ## 快速开始
 
-1. 打开总索引 → **[docs/README.md](./docs/README.md)**  
-2. 先刷专题 **P0**，再打开对应 **面渣级口述** 录音练习  
-3. 按岗位裁剪路径见下方  
-
-```text
-docs/
-├── README.md                      ← 专题总表（从这里进）
-├── *高频面试题与知识点.md
-├── *面渣级口述.md
-└── …
-```
+1. **[docs/学习路线图-4到8周.md](./docs/学习路线图-4到8周.md)** ← 先选 AI / Java / Python 路径  
+2. **[docs/README.md](./docs/README.md)** ← 全部专题索引  
+3. 每天：知识点 P0 → 面渣录音 → 追问或手写  
 
 **仓库：** https://github.com/cyforkk/ai-engineering-interview  
 
@@ -27,37 +18,36 @@ docs/
 
 ## 内容地图
 
-| 方向 | 专题（详见 docs 索引） |
-|------|------------------------|
-| **AI 工程** | AI 应用工程 · Agent · **向量库** · **Prompt 注入与安全** |
-| **Python** | 基础 · **异步/FastAPI 实战口述** · 追问三连 |
-| **Java 后端** | 集合 · 并发 · JVM · Spring · MySQL · Redis · MQ … |
-| **通用** | 网络 · OS · 算法 · 设计模式 · 项目 STAR · 微服务 |
-| **追问** | 分轨：[Java](./docs/追问三连-Java.md) / [Python](./docs/追问三连-Python.md) / [AI](./docs/追问三连-AI.md) |
+| 方向 | 内容 |
+|------|------|
+| **AI 工程** | LLM 基础 · Prompt 工程 · 应用架构 · Agent · 向量库 · 安全 · LLMOps · 推理部署 |
+| **Python** | 语言基础 · 异步/FastAPI · 手写题 |
+| **Java 后端** | 集合/并发/JVM/Spring/MySQL/Redis/MQ/微服务… |
+| **通用** | 算法 · 系统设计 · Docker/K8s · 项目 STAR（模板+AI/Java 范例） |
+| **追问** | [Java](./docs/追问三连-Java.md) · [Python](./docs/追问三连-Python.md) · [AI](./docs/追问三连-AI.md) |
 
 ---
 
-## 按岗位怎么学
+## 岗位怎么选
 
-| 岗位 | 建议路径 |
-|------|----------|
-| **AI 应用 / LLM 工程** | AI应用工程 → Agent → Python → 项目STAR → Redis/HTTP 按需 |
-| **Java 后端** | Java→并发→JVM→MySQL→Redis→Spring→项目STAR |
-| **Python 后端** | Python→网络→MySQL/Redis 概念→项目STAR→AI 按需 |
-| **校招** | 语言基础 + 算法 + 网络 + 一个项目 STAR |
+| 岗位 | 入口 |
+|------|------|
+| AI 应用 / LLM 工程 | 路线图 **路径 A** |
+| Java 后端 | 路线图 **路径 B** |
+| Python 后端 / AI 服务 | 路线图 **路径 C** |
 
 ---
 
-## 仓库说明
+## 说明
 
-- 纯 Markdown，无运行时依赖  
-- 许可证：[MIT License](./LICENSE)  
-- 本地目录名可能仍为 `jvm`（历史路径），**以 GitHub 名 `ai-engineering-interview` 为准**
+- 纯 Markdown · [MIT License](./LICENSE)  
+- 本地文件夹名可能仍为历史名 `jvm`，**以 GitHub 仓库名为准**  
+- Java 口述合集与分册有重叠时，**以各专题 `*面渣级口述.md` 为准**
 
 ```bash
 git clone https://github.com/cyforkk/ai-engineering-interview.git
 cd ai-engineering-interview
-# 打开 docs/README.md
+# 打开 docs/学习路线图-4到8周.md
 ```
 
 ---
