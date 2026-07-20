@@ -27,6 +27,6 @@ dist/
 *.pem
 *.key
 
-# Project temp
-artifacts/tmp/
+# Project temp / local artifacts
+artifacts/
 **/tmp/
