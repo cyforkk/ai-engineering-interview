@@ -125,7 +125,14 @@
 
 ---
 
-## 七、关联
+## 七、产品专册
+
+| 产品 | 文档 |
+|------|------|
+| Kafka | [知识点](./Kafka高频面试题与知识点.md) · [面渣](./Kafka面渣级口述.md) |
+| RocketMQ | [知识点](./RocketMQ高频面试题与知识点.md) · [面渣](./RocketMQ面渣级口述.md) |
+
+## 八、关联
 
 [MySQL](./MySQL高频面试题与知识点.md) · [Redis](./Redis高频面试题与知识点.md) · [README](./README.md)
 

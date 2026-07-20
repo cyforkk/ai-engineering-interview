@@ -20,10 +20,10 @@
 
 | 方向 | 内容 |
 |------|------|
-| **AI 工程** | LLM 基础 · Prompt 工程 · 应用架构 · Agent · 向量库 · 安全 · LLMOps · 推理部署 |
-| **Python** | 语言基础 · 异步/FastAPI · 手写题 |
-| **Java 后端** | 集合/并发/JVM/Spring/MySQL/Redis/MQ/微服务… |
-| **通用** | 算法 · 系统设计 · Docker/K8s · 项目 STAR（模板+AI/Java 范例） |
+| **AI 工程** | LLM · Prompt · 应用 · Agent · 向量库 · 安全 · LLMOps · 推理 · **LangGraph 选型** |
+| **Python** | 语言 · 异步/FastAPI · 手写 |
+| **Java 后端** | 八股全套 · **Kafka/RocketMQ** · 微服务 |
+| **通用** | 算法 · **系统设计（Feed/搜索/延时）** · Docker/K8s · STAR · **行为面试** · [架构图集](./docs/架构图集.md) |
 | **追问** | [Java](./docs/追问三连-Java.md) · [Python](./docs/追问三连-Python.md) · [AI](./docs/追问三连-AI.md) |
 
 ---

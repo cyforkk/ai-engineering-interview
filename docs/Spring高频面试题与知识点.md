@@ -157,7 +157,7 @@ Filter（Servlet）更靠前；Interceptor 在 Spring MVC。
 
 ## 七、关联
 
-[MySQL](./MySQL高频面试题与知识点.md) 隔离 · [并发](./并发高频面试题与知识点.md) · [口述](./Java高频面试口述答案.md) · [README](./README.md)
+[MySQL](./MySQL高频面试题与知识点.md) 隔离 · [并发](./并发高频面试题与知识点.md) · [Spring面渣](./Spring面渣级口述.md) · [README](./README.md)
 
 ---
 
