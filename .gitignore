@@ -33,3 +33,7 @@ artifacts/
 
 # Netlify CLI local
 .netlify/
+
+# Python
+__pycache__/
+*.pyc
