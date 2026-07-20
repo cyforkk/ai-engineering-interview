@@ -1,15 +1,13 @@
 # Python 异步 · FastAPI · 面渣级长口述（实战向）
 
 <!-- NAV:START -->
-> **导航串联**
+> **导航**
 >
-> **系列：Python 主线**（3/10）
-> - 上一篇：[Python·面渣](./Python面渣级口述.md)
-> - 下一篇：[Python手写题](./Python手写题.md)
+> 📍 **Python** · 第 3/9 步 · [完整路径](./路径-Python.md)
+> ← [1.Python·述](./Python面渣级口述.md)
+> → [3.手写](./Python手写题.md)
 >
-> **相关专题：** [Python 基础](./Python高频面试题与知识点.md) · [AI 应用](./AI应用工程高频面试题与知识点.md) · [LLMOps](./LLMOps与可观测高频面试题与知识点.md)
->
-> **返回：** [总索引](./README.md) · [串联地图](./学习地图-串联.md) · [路线图](./学习路线图-4到8周.md) · [架构图](./架构图集.md)
+> [首页](./README.md) · [AI路径](./路径-AI工程.md) · [Java路径](./路径-Java后端.md) · [Python路径](./路径-Python.md)
 >
 <!-- NAV:END -->
 

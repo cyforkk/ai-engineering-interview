@@ -1,15 +1,15 @@
 # Python · 面渣级长口述
 
 <!-- NAV:START -->
-> **导航串联**
+> **导航**
 >
-> **系列：Python 主线**（2/10）
-> - 上一篇：[Python·知识点](./Python高频面试题与知识点.md)
-> - 下一篇：[Python异步与FastAPI·面渣](./Python异步与FastAPI面渣级口述.md)
+> 📍 **Python** · 第 2/9 步 · [完整路径](./路径-Python.md)
+> ← [1.Python·知](./Python高频面试题与知识点.md)
+> → [2.FastAPI·述](./Python异步与FastAPI面渣级口述.md)
 >
-> **配对知识点：** [Python·知识点](./Python高频面试题与知识点.md)
+> 📘 [知识点](./Python高频面试题与知识点.md)
 >
-> **返回：** [总索引](./README.md) · [串联地图](./学习地图-串联.md) · [路线图](./学习路线图-4到8周.md) · [架构图](./架构图集.md)
+> [首页](./README.md) · [AI路径](./路径-AI工程.md) · [Java路径](./路径-Java后端.md) · [Python路径](./路径-Python.md)
 >
 <!-- NAV:END -->
 

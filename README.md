@@ -1,86 +1,39 @@
 # AI Engineering Interview
 
-**AI 工程 / 应用开发 & 后端面试题库**（Java · Python · LLM · Agent）
-
-每个专题 ≈ **知识点（P0→P2）** + **面渣级口述**；另有追问三连、手写题、STAR 范例与 **4～8 周路线图**。
+**AI 工程 + Java / Python 后端面试题库**（知识点 + 面渣口述）
 
 ---
 
-## 快速开始
+## 怎么用（三步）
 
-1. **[docs/学习地图-串联.md](./docs/学习地图-串联.md)** ← 逻辑主线（上一篇/下一篇）  
-2. **[docs/学习路线图-4到8周.md](./docs/学习路线图-4到8周.md)** ← 按周练习  
-3. **[docs/README.md](./docs/README.md)** ← 全部专题索引  
-4. 每天：知识点 P0 → 面渣录音 → 追问或手写（文首可点「下一篇」串联）  
+1. 打开站点或 `docs/README.md`
+2. **只选一条路径**：AI / Java / Python  
+3. 按表从上往下学：知识点 → 口述 → 下一步  
+
+| 路径 | 链接 |
+|------|------|
+| AI 工程 | [docs/路径-AI工程.md](./docs/路径-AI工程.md) |
+| Java 后端 | [docs/路径-Java后端.md](./docs/路径-Java后端.md) |
+| Python | [docs/路径-Python.md](./docs/路径-Python.md) |
+| 首页索引 | [docs/README.md](./docs/README.md) |
+| 周计划 | [docs/学习路线图-4到8周.md](./docs/学习路线图-4到8周.md) |
+
+---
+
+## 本地预览 / Netlify
+
+```bash
+npx --yes serve -l 3000
+```
+
+打开 http://localhost:3000 · 右下角可切换深色与字号。
+
+Netlify：连接本仓库，Publish directory = `.`（已有 `netlify.toml`）。
 
 **仓库：** https://github.com/cyforkk/ai-engineering-interview  
-
-### 本地预览（HTML 站点）
-
-```bash
-# 任意静态服务器（任选其一）
-npx --yes serve -l 3000
-# 或: python -m http.server 8080
-```
-
-浏览器打开 `http://localhost:3000`（Docsify 渲染 `docs/` 下 Markdown）。  
-右下角可切换 **深色/浅色** 与 **A- / A / A+ 字号**（偏好会记在浏览器本地）。
-
-### 部署到 Netlify
-
-1. [Netlify](https://app.netlify.com) → Add new site → Import from Git  
-2. 选中本仓库 `ai-engineering-interview`  
-3. Build settings（已有 `netlify.toml`）：  
-   - **Build command：** 可留空或用配置文件  
-   - **Publish directory：** `.`（仓库根目录）  
-4. Deploy → 获得 `https://xxx.netlify.app`  
-
-也可用 Netlify CLI：
-
-```bash
-npm i -g netlify-cli
-netlify login
-netlify init    # 或 netlify deploy --prod
-```  
-
----
-
-## 内容地图
-
-| 方向 | 内容 |
-|------|------|
-| **AI 工程** | LLM · Prompt · 应用 · Agent · 向量库 · 安全 · LLMOps · 推理 · **LangGraph 选型** |
-| **Python** | 语言 · 异步/FastAPI · 手写 |
-| **Java 后端** | 八股全套 · **Kafka/RocketMQ** · 微服务 |
-| **通用** | 算法 · **系统设计（Feed/搜索/延时）** · Docker/K8s · STAR · **行为面试** · [架构图集](./docs/架构图集.md) |
-| **追问** | [Java](./docs/追问三连-Java.md) · [Python](./docs/追问三连-Python.md) · [AI](./docs/追问三连-AI.md) |
-
----
-
-## 岗位怎么选
-
-| 岗位 | 入口 |
-|------|------|
-| AI 应用 / LLM 工程 | 路线图 **路径 A** |
-| Java 后端 | 路线图 **路径 B** |
-| Python 后端 / AI 服务 | 路线图 **路径 C** |
-
----
-
-## 说明
-
-- 纯 Markdown · [MIT License](./LICENSE)  
-- 本地文件夹名可能仍为历史名 `jvm`，**以 GitHub 仓库名为准**  
-- Java 口述合集与分册有重叠时，**以各专题 `*面渣级口述.md` 为准**
-
-```bash
-git clone https://github.com/cyforkk/ai-engineering-interview.git
-cd ai-engineering-interview
-# 打开 docs/学习路线图-4到8周.md
-```
 
 ---
 
 ## License
 
-MIT · 详见 [LICENSE](./LICENSE)
+[MIT](./LICENSE)

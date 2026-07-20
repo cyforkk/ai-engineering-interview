@@ -1,17 +1,15 @@
 # Spring / Spring Boot · 高频面试
 
 <!-- NAV:START -->
-> **导航串联**
+> **导航**
 >
-> **系列：Java 后端主线**（11/46）
-> - 上一篇：[Redis·面渣](./Redis面渣级口述.md)
-> - 下一篇：[Spring·面渣](./Spring面渣级口述.md)
+> 📍 **Java后端** · 第 11/29 步 · [完整路径](./路径-Java后端.md)
+> ← [5.Redis·述](./Redis面渣级口述.md)
+> → [6.Spring·述](./Spring面渣级口述.md)
 >
-> **配对面渣：** [Spring·面渣](./Spring面渣级口述.md)
+> 🎙 [面渣口述](./Spring面渣级口述.md)
 >
-> **相关专题：** [设计模式](./设计模式高频面试题与知识点.md) · [MySQL](./MySQL高频面试题与知识点.md)
->
-> **返回：** [总索引](./README.md) · [串联地图](./学习地图-串联.md) · [路线图](./学习路线图-4到8周.md) · [架构图](./架构图集.md)
+> [首页](./README.md) · [AI路径](./路径-AI工程.md) · [Java路径](./路径-Java后端.md) · [Python路径](./路径-Python.md)
 >
 <!-- NAV:END -->
 

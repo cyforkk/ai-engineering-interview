@@ -1,17 +1,13 @@
 # Python 手写题 · 面试高频
 
 <!-- NAV:START -->
-> **导航串联**
+> **导航**
 >
-> **系列：Python 主线**（4/10）
-> - 上一篇：[Python异步与FastAPI·面渣](./Python异步与FastAPI面渣级口述.md)
-> - 下一篇：[追问三连-Python](./追问三连-Python.md)
+> 📍 **Python** · 第 4/9 步 · [完整路径](./路径-Python.md)
+> ← [2.FastAPI·述](./Python异步与FastAPI面渣级口述.md)
+> → [4.追问](./追问三连-Python.md)
 >
-> **系列：算法专项**（5/5）
-> - 上一篇：[Java面试追问与手写题](./Java面试追问与手写题.md)
-> - 下一篇：无（本系列终点）→ 可回 [总索引](./README.md)
->
-> **返回：** [总索引](./README.md) · [串联地图](./学习地图-串联.md) · [路线图](./学习路线图-4到8周.md) · [架构图](./架构图集.md)
+> [首页](./README.md) · [AI路径](./路径-AI工程.md) · [Java路径](./路径-Java后端.md) · [Python路径](./路径-Python.md)
 >
 <!-- NAV:END -->
 
