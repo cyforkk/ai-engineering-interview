@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AI Engineering Interview — AI 应用工程 + Java/Python 后端高频面试题与面渣口述" />
+  <title>AI Engineering Interview</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css" />
+  <style>
+    :root {
+      --theme-color: #2563eb;
+    }
+    .app-name-link {
+      font-weight: 700;
+    }
+    .markdown-section {
+      max-width: 920px;
+    }
+    .markdown-section table {
+      display: table;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">加载中…</div>
+  <script>
+    window.$docsify = {
+      name: 'AI Engineering Interview',
+      repo: 'https://github.com/cyforkk/ai-engineering-interview',
+      homepage: 'README.md',
+      basePath: './docs/',
+      loadSidebar: true,
+      loadNavbar: true,
+      subMaxLevel: 3,
+      maxLevel: 4,
+      auto2top: true,
+      relativePath: true,
+      notFoundPage: true,
+      search: {
+        paths: 'auto',
+        placeholder: '搜索面试题 / 知识点',
+        noData: '没有结果',
+        depth: 4,
+      },
+      alias: {
+        '/.*/_sidebar.md': '/_sidebar.md',
+        '/.*/_navbar.md': '/_navbar.md',
+      },
+      pagination: {
+        previousText: '上一篇',
+        nextText: '下一篇',
+        crossChapter: true,
+        crossChapterText: true,
+      },
+      plugins: [
+        function (hook, vm) {
+          hook.beforeEach(function (html) {
+            var url =
+              'https://github.com/cyforkk/ai-engineering-interview/blob/main/docs/' +
+              vm.route.file;
+            return (
+              html +
+              '\n\n---\n\n' +
+              '<small>📝 [编辑本页](' + url + ') · 仓库 [ai-engineering-interview](https://github.com/cyforkk/ai-engineering-interview)</small>\n'
+            );
+          });
+        },
+      ],
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/zoom-image.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-pagination@2/dist/docsify-pagination.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/emoji.min.js"></script>
+  <!-- Mermaid 架构图 -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: false, theme: 'default' });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-mermaid@2/dist/docsify-mermaid.js"></script>
+</body>
+</html>

@@ -14,6 +14,33 @@
 
 **仓库：** https://github.com/cyforkk/ai-engineering-interview  
 
+### 本地预览（HTML 站点）
+
+```bash
+# 任意静态服务器（任选其一）
+npx --yes serve -l 3000
+# 或: python -m http.server 8080
+```
+
+浏览器打开 `http://localhost:3000`（Docsify 渲染 `docs/` 下 Markdown）。
+
+### 部署到 Netlify
+
+1. [Netlify](https://app.netlify.com) → Add new site → Import from Git  
+2. 选中本仓库 `ai-engineering-interview`  
+3. Build settings（已有 `netlify.toml`）：  
+   - **Build command：** 可留空或用配置文件  
+   - **Publish directory：** `.`（仓库根目录）  
+4. Deploy → 获得 `https://xxx.netlify.app`  
+
+也可用 Netlify CLI：
+
+```bash
+npm i -g netlify-cli
+netlify login
+netlify init    # 或 netlify deploy --prod
+```  
+
 ---
 
 ## 内容地图

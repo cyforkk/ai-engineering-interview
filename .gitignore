@@ -30,3 +30,6 @@ dist/
 # Project temp / local artifacts
 artifacts/
 **/tmp/
+
+# Netlify CLI local
+.netlify/

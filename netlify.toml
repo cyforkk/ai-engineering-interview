@@ -1,0 +1,31 @@
+# Netlify 静态站点（Docsify，无需构建）
+# 文档：https://docs.netlify.com/
+
+[build]
+  # 纯静态，不需要 npm build
+  publish = "."
+  command = "echo 'Docsify static site — no build'"
+
+# 单页应用：刷新子路由时回 index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# 安全与缓存（可选）
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/docs/*"
+  [headers.values]
+    Cache-Control = "public, max-age=300"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=60"
