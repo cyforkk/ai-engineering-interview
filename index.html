@@ -9,104 +9,229 @@
   <style>
     :root {
       --theme-color: #2563eb;
-      /* 全局放大阅读字号（默认约 15px，调到 18px） */
       --base-font-size: 18px;
       --sidebar-font-size: 16px;
       --code-font-size: 15px;
+      --bg: #ffffff;
+      --bg-sidebar: #f5f7fa;
+      --text: #34495e;
+      --text-muted: #7f8c8d;
+      --border: #eee;
+      --code-bg: #f8f8f8;
+      --toolbar-bg: rgba(255, 255, 255, 0.92);
+      --toolbar-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    }
+    html.dark {
+      --theme-color: #60a5fa;
+      --bg: #0f1419;
+      --bg-sidebar: #151b23;
+      --text: #e6edf3;
+      --text-muted: #9aa4b2;
+      --border: #2d333b;
+      --code-bg: #1c2128;
+      --toolbar-bg: rgba(21, 27, 35, 0.94);
+      --toolbar-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
     }
     html, body {
       font-size: var(--base-font-size);
+      background: var(--bg) !important;
+      color: var(--text) !important;
     }
-    .app-name-link {
-      font-weight: 700;
-      font-size: 1.15rem;
+    .sidebar { background: var(--bg-sidebar) !important; border-color: var(--border) !important; }
+    .sidebar ul li a { color: var(--text) !important; }
+    .sidebar ul li.active > a { color: var(--theme-color) !important; }
+    .sidebar-nav strong { color: var(--text-muted) !important; }
+    .markdown-section { color: var(--text) !important; }
+    .markdown-section h1, .markdown-section h2, .markdown-section h3,
+    .markdown-section h4, .markdown-section h5 {
+      color: var(--text) !important;
+      border-color: var(--border) !important;
     }
-    /* 正文 */
+    .markdown-section a { color: var(--theme-color) !important; }
+    .markdown-section tr { border-color: var(--border) !important; }
+    .markdown-section tbody tr:nth-child(2n) { background: transparent !important; }
+    html.dark .markdown-section tbody tr:nth-child(2n) {
+      background: rgba(255, 255, 255, 0.03) !important;
+    }
+    .markdown-section code,
+    .markdown-section pre,
+    .markdown-section pre > code {
+      background: var(--code-bg) !important;
+      color: var(--text) !important;
+    }
+    .markdown-section blockquote {
+      border-color: var(--theme-color) !important;
+      color: var(--text-muted) !important;
+    }
+    .search input {
+      background: var(--bg) !important;
+      color: var(--text) !important;
+      border-color: var(--border) !important;
+    }
+    .app-nav a { color: var(--text) !important; }
+    body.close .sidebar { box-shadow: none; }
+
+    .app-name-link { font-weight: 700; font-size: 1.15rem; }
     .markdown-section {
       max-width: 960px;
       font-size: 1.05rem;
       line-height: 1.75;
     }
-    .markdown-section h1 {
-      font-size: 2rem;
-      line-height: 1.35;
-    }
-    .markdown-section h2 {
-      font-size: 1.55rem;
-      line-height: 1.4;
-    }
-    .markdown-section h3 {
-      font-size: 1.28rem;
-    }
-    .markdown-section h4 {
-      font-size: 1.12rem;
-    }
+    .markdown-section h1 { font-size: 2rem; line-height: 1.35; }
+    .markdown-section h2 { font-size: 1.55rem; line-height: 1.4; }
+    .markdown-section h3 { font-size: 1.28rem; }
+    .markdown-section h4 { font-size: 1.12rem; }
     .markdown-section p,
-    .markdown-section li {
-      font-size: 1.05rem;
-      line-height: 1.75;
-    }
-    .markdown-section table {
-      display: table;
-      width: 100%;
-      font-size: 1rem;
-    }
+    .markdown-section li { font-size: 1.05rem; line-height: 1.75; }
+    .markdown-section table { display: table; width: 100%; font-size: 1rem; }
     .markdown-section th,
-    .markdown-section td {
-      padding: 0.55em 0.75em;
-      font-size: 1rem;
-      line-height: 1.55;
-    }
+    .markdown-section td { padding: 0.55em 0.75em; font-size: 1rem; line-height: 1.55; }
     .markdown-section code,
     .markdown-section pre,
     .markdown-section pre > code {
       font-size: var(--code-font-size) !important;
       line-height: 1.55;
     }
-    .markdown-section blockquote {
-      font-size: 1.05rem;
-      line-height: 1.7;
-    }
-    /* 侧栏 */
-    .sidebar {
-      font-size: var(--sidebar-font-size);
-    }
-    .sidebar ul li a {
-      font-size: 0.98rem;
-      line-height: 1.55;
-    }
-    .sidebar-nav strong {
-      font-size: 1.02rem;
-    }
-    /* 顶栏 / 搜索 */
-    .app-nav a {
-      font-size: 1rem;
-    }
-    .search input {
-      font-size: 1rem !important;
-    }
-    .search .matching-post {
-      font-size: 0.95rem;
-    }
-    /* 分页 */
+    .sidebar { font-size: var(--sidebar-font-size); }
+    .sidebar ul li a { font-size: 0.98rem; line-height: 1.55; }
+    .search input { font-size: 1rem !important; }
     .pagination-item-title,
-    .pagination-item-label {
-      font-size: 1rem !important;
+    .pagination-item-label { font-size: 1rem !important; }
+
+    /* 右下角工具条：主题 + 字号 */
+    #site-toolbar {
+      position: fixed;
+      right: 16px;
+      bottom: 20px;
+      z-index: 1000;
+      display: flex;
+      gap: 6px;
+      padding: 8px;
+      border-radius: 12px;
+      background: var(--toolbar-bg);
+      box-shadow: var(--toolbar-shadow);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(8px);
     }
-    /* 移动端略收一点，避免过挤 */
+    #site-toolbar button {
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 14px;
+      cursor: pointer;
+      line-height: 1.2;
+      min-width: 36px;
+    }
+    #site-toolbar button:hover {
+      border-color: var(--theme-color);
+      color: var(--theme-color);
+    }
+    #site-toolbar button.active {
+      background: var(--theme-color);
+      color: #fff;
+      border-color: var(--theme-color);
+    }
+    #site-toolbar .sep {
+      width: 1px;
+      background: var(--border);
+      margin: 0 2px;
+    }
     @media screen and (max-width: 768px) {
       :root {
         --base-font-size: 17px;
         --code-font-size: 14px;
       }
-      .markdown-section {
-        font-size: 1rem;
+      #site-toolbar {
+        right: 10px;
+        bottom: 12px;
+        padding: 6px;
+      }
+      #site-toolbar button {
+        padding: 5px 8px;
+        font-size: 13px;
       }
     }
   </style>
 </head>
 <body>
   <div id="app">加载中…</div>
+  <div id="site-toolbar" aria-label="显示设置">
+    <button type="button" id="btn-theme" title="切换亮/暗色">🌙</button>
+    <span class="sep"></span>
+    <button type="button" id="btn-font-down" title="减小字号">A-</button>
+    <button type="button" id="btn-font-reset" title="默认字号">A</button>
+    <button type="button" id="btn-font-up" title="增大字号">A+</button>
+  </div>
+  <script>
+    (function () {
+      var KEY_THEME = 'aei-theme';
+      var KEY_FONT = 'aei-font-scale';
+      var scales = [0.9, 1.0, 1.1, 1.2, 1.35];
+      var basePx = 18;
+      var codeBase = 15;
+      var sideBase = 16;
+
+      function applyTheme(theme) {
+        var dark = theme === 'dark';
+        document.documentElement.classList.toggle('dark', dark);
+        var btn = document.getElementById('btn-theme');
+        if (btn) {
+          btn.textContent = dark ? '☀️' : '🌙';
+          btn.title = dark ? '切换为浅色' : '切换为深色';
+        }
+        try {
+          if (window.mermaid) {
+            mermaid.initialize({
+              startOnLoad: false,
+              theme: dark ? 'dark' : 'default',
+            });
+          }
+        } catch (e) {}
+      }
+
+      function applyFont(scale) {
+        if (scales.indexOf(scale) < 0) scale = 1.0;
+        document.documentElement.style.setProperty('--base-font-size', basePx * scale + 'px');
+        document.documentElement.style.setProperty('--code-font-size', Math.max(13, codeBase * scale) + 'px');
+        document.documentElement.style.setProperty('--sidebar-font-size', sideBase * scale + 'px');
+        localStorage.setItem(KEY_FONT, String(scale));
+      }
+
+      function currentScale() {
+        var s = parseFloat(localStorage.getItem(KEY_FONT) || '1');
+        return scales.indexOf(s) >= 0 ? s : 1.0;
+      }
+
+      // 尽早应用，减少闪烁
+      var savedTheme = localStorage.getItem(KEY_THEME);
+      if (!savedTheme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        savedTheme = 'dark';
+      }
+      applyTheme(savedTheme === 'dark' ? 'dark' : 'light');
+      applyFont(currentScale());
+
+      document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('btn-theme').onclick = function () {
+          var next = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+          localStorage.setItem(KEY_THEME, next);
+          applyTheme(next);
+        };
+        document.getElementById('btn-font-down').onclick = function () {
+          var i = scales.indexOf(currentScale());
+          applyFont(scales[Math.max(0, i - 1)]);
+        };
+        document.getElementById('btn-font-up').onclick = function () {
+          var i = scales.indexOf(currentScale());
+          applyFont(scales[Math.min(scales.length - 1, i + 1)]);
+        };
+        document.getElementById('btn-font-reset').onclick = function () {
+          applyFont(1.0);
+        };
+      });
+    })();
+  </script>
   <script>
     window.$docsify = {
       name: 'AI Engineering Interview',
@@ -157,10 +282,12 @@
   <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/zoom-image.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify-pagination@2/dist/docsify-pagination.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/emoji.min.js"></script>
-  <!-- Mermaid 架构图 -->
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script>
-    mermaid.initialize({ startOnLoad: false, theme: 'default' });
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
+    });
   </script>
   <script src="https://cdn.jsdelivr.net/npm/docsify-mermaid@2/dist/docsify-mermaid.js"></script>
 </body>

@@ -22,7 +22,8 @@ npx --yes serve -l 3000
 # 或: python -m http.server 8080
 ```
 
-浏览器打开 `http://localhost:3000`（Docsify 渲染 `docs/` 下 Markdown）。
+浏览器打开 `http://localhost:3000`（Docsify 渲染 `docs/` 下 Markdown）。  
+右下角可切换 **深色/浅色** 与 **A- / A / A+ 字号**（偏好会记在浏览器本地）。
 
 ### 部署到 Netlify
 
