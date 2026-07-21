@@ -1,12 +1,27 @@
-# Spring / Spring Boot · 高频八股知识点（完整卷）
+# -*- coding: utf-8 -*-
+"""Spring/Boot：按超高/高/中/低频完整卷 + 频率导航。不碰面渣。"""
+from pathlib import Path
 
-<!-- NAV:START -->
+DOCS = Path(__file__).resolve().parents[1] / "docs"
+
+
+def w(name, text):
+    p = DOCS / name
+    p.write_text(text.strip() + "\n", encoding="utf-8")
+    print(name, p.stat().st_size)
+
+
+NAV = """<!-- NAV:START -->
 > 📖 **Spring 完整卷** · 🗣️ [面渣](./Spring面渣级口述.md) · 🃏 [卡片](./Spring卡片速记.md) · 🔥 [频率导航](./Spring八股频率排序-SABC.md)
 >
 > [四档主线](./Java后端面试频率-四档.md) · [设计模式](./设计模式高频面试题与知识点.md)
 >
 <!-- NAV:END -->
+"""
 
+SPRING = f"""# Spring / Spring Boot · 高频八股知识点（完整卷）
+
+{NAV}
 
 > 中小厂问得较多；大厂更爱结合项目深挖原理。  
 > 超高频：**IoC/AOP + 生命周期 + 三级缓存 + 自动装配 + 事务**。
@@ -510,3 +525,193 @@ SpringApplication.run
 | 日期 | 说明 |
 |------|------|
 | 2026-07-21 | 按超高/高/中/低频大纲重写 Spring 完整卷 |
+"""
+
+RANK = f"""# Spring / Spring Boot · 频率导航（2025–2026）
+
+> **完整卷：** [Spring高频面试题与知识点.md](./Spring高频面试题与知识点.md)  
+> **面渣：** [Spring面渣级口述.md](./Spring面渣级口述.md) · **卡片：** [Spring卡片速记.md](./Spring卡片速记.md)  
+> **全库主线：** [四档 P0](./Java后端面试频率-四档.md)
+
+---
+
+## 专项时间
+
+| 优先级 | 模块 | 时间 |
+|--------|------|:----:|
+| P0 | IoC/AOP + 循环依赖 + 生命周期 + 自动装配 + 事务 | **50%** |
+| P1 | 作用域 + MVC + 设计模式 | 25% |
+| P2 | 传播隔离 + Filter/Interceptor + Async | 15% |
+| P3 | 源码 + Starter + Conditional | 10% |
+
+**说明**：中小厂问 Spring 多；大厂更爱结合项目深挖原理。
+
+---
+
+## 一、超高频
+
+| # | 主题 | 入口 |
+|---|------|------|
+| 1 | IoC/DI（注入方式、Autowired/Resource、组件注解） | [§1](./Spring高频面试题与知识点.md) |
+| 2 | AOP（概念、JDK/CGLIB、通知、场景） | [§2](./Spring高频面试题与知识点.md) |
+| 3 | Bean 生命周期 + BPP + Aware | [§3](./Spring高频面试题与知识点.md) |
+| 4 | 循环依赖三级缓存 | [§4](./Spring高频面试题与知识点.md) |
+| 5 | Boot 自动装配 + Starter + 启动 | [§5](./Spring高频面试题与知识点.md) |
+| 6 | @Transactional 原理/失效/传播/回滚 | [§6](./Spring高频面试题与知识点.md) |
+
+---
+
+## 二、高频
+
+Bean 作用域与线程安全 · FactoryBean · MVC 流程 · 设计模式 · Filter/Interceptor · @Async · 定时任务 · Cache  
+
+---
+
+## 三、中频
+
+Conditional · 配置优先级 · Profile · 事件 · BeanDefinition · BFPP vs BPP · 优雅停机  
+
+---
+
+## 四、低频加分
+
+refresh · 三级缓存源码 · Boot3 · Configuration full/lite · 自定义 Conditional  
+
+---
+
+## 必须画图的三块
+
+```text
+1. Bean 生命周期
+2. 三级缓存解决循环依赖
+3. 自动装配链路
+```
+
+---
+
+## 点名
+
+`三级缓存` · `自动装配` · `事务失效` · `生命周期` · `MVC流程`
+
+---
+
+## 修订
+
+| 日期 | 说明 |
+|------|------|
+| 2026-07-21 | 对齐超高中低频大纲重写频率导航 |
+"""
+
+CARDS = f"""# Spring · 卡片速记
+
+<!-- NAV:START -->
+> [完整卷](./Spring高频面试题与知识点.md) · [频率](./Spring八股频率排序-SABC.md) · [面渣](./Spring面渣级口述.md)
+<!-- NAV:END -->
+
+> 遮住 A。**先 P0。**
+
+---
+
+## IoC / DI
+
+**Q1 IoC vs DI？** A: 控制反转；DI 是实现方式之一。
+
+**Q2 推荐注入？** A: 构造器注入。
+
+**Q3 Autowired vs Resource？** A: 按类型 vs 按名称。
+
+**Q4 @Bean vs @Component？** A: 方法声明第三方/定制 vs 类扫描。
+
+**Q5 四层 stereotype？** A: Component/Service/Repository/Controller 语义分工。
+
+## AOP
+
+**Q6 核心概念？** A: Aspect/Pointcut/Advice/JoinPoint/Weaving。
+
+**Q7 原理？** A: 运行时动态代理。
+
+**Q8 JDK vs CGLIB？** A: 接口 vs 子类；Boot 常偏 CGLIB。
+
+**Q9 通知类型？** A: Before/After/Around/AfterReturning/AfterThrowing。
+
+## 生命周期
+
+**Q10 主干？** A: 实例化→注入→Aware→BPP前→初始化→BPP后→使用→销毁。
+
+**Q11 初始化顺序？** A: PostConstruct→afterPropertiesSet→init-method。
+
+**Q12 BPP？** A: 初始化前后扩展；AOP 常用后置。
+
+## 循环依赖
+
+**Q13 三级缓存？** A: 成品/早期对象/工厂。
+
+**Q14 为何三级？** A: 延迟暴露，正确处理代理。
+
+**Q15 解不了？** A: 构造器环、prototype。
+
+## 自动装配
+
+**Q16 链路？** A: EnableAutoConfiguration→imports/factories→Conditional→注册。
+
+**Q17 Application 三注解？** A: Configuration + EnableAutoConfiguration + ComponentScan。
+
+**Q18 自定义 Starter？** A: 自动配置+属性+Conditional+imports。
+
+## 事务
+
+**Q19 原理？** A: AOP 代理。
+
+**Q20 失效？** A: this调用、非public、吞异常、检查异常、无容器。
+
+**Q21 REQUIRED vs NEW？** A: 加入已有 vs 新开。
+
+**Q22 默认回滚？** A: RuntimeException/Error；检查异常要 rollbackFor。
+
+## 高频
+
+**Q23 单例线程安全？** A: 有状态不安全；无状态 Service OK。
+
+**Q24 MVC 核心？** A: DispatcherServlet→Mapping→Adapter→View。
+
+**Q25 RestController？** A: Controller+ResponseBody。
+
+**Q26 Filter vs Interceptor？** A: Servlet 前 vs Handler 前后。
+
+**Q27 @Async 失效？** A: 同类调用、未 Enable、无代理。
+
+**Q28 BFPP vs BPP？** A: 改定义 vs 改实例。
+
+**Q29 FactoryBean？** A: getObject 产物；& 取工厂本身。
+
+**Q30 Spring 模式？** A: 工厂单例代理模板观察者策略。
+
+---
+
+详解：[Spring高频面试题与知识点.md](./Spring高频面试题与知识点.md)
+"""
+
+
+def patch():
+    ft = DOCS / "Java后端面试频率-四档.md"
+    if ft.exists():
+        t = ft.read_text(encoding="utf-8")
+        # already has spring frequency link maybe
+        if "Spring 完整卷" in t and "Spring八股频率" in t:
+            print("fourtier ok")
+        elif "Spring完整卷" in t:
+            print("fourtier exists")
+
+    # ensure spring frequency filename stays Spring八股频率排序-SABC.md (we overwrite content)
+    print("nav ok")
+
+
+def main():
+    w("Spring高频面试题与知识点.md", SPRING)
+    w("Spring八股频率排序-SABC.md", RANK)
+    w("Spring卡片速记.md", CARDS)
+    patch()
+
+
+if __name__ == "__main__":
+    main()

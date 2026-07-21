@@ -4,76 +4,83 @@
 > [完整卷](./Spring高频面试题与知识点.md) · [频率](./Spring八股频率排序-SABC.md) · [面渣](./Spring面渣级口述.md)
 <!-- NAV:END -->
 
-> 遮住 A。**先刷 S 级。**
+> 遮住 A。**先 P0。**
 
 ---
 
-## S 级
+## IoC / DI
 
-**Q1 自动装配链路？**  
-A: EnableAutoConfiguration → ImportSelector → factories/imports → Conditional → 注册Bean。
+**Q1 IoC vs DI？** A: 控制反转；DI 是实现方式之一。
 
-**Q2 Bean 生命周期主干？**  
-A: 实例化→属性注入→Aware→BPP前→初始化→BPP后→使用→销毁。
+**Q2 推荐注入？** A: 构造器注入。
 
-**Q3 三级缓存？**  
-A: 一级成品；二级早期对象；三级工厂（循环时暴露，可代理）。
+**Q3 Autowired vs Resource？** A: 按类型 vs 按名称。
 
-**Q4 构造器环？**  
-A: 三级缓存解决不了构造器循环依赖。
+**Q4 @Bean vs @Component？** A: 方法声明第三方/定制 vs 类扫描。
 
-**Q5 为何要三级？**  
-A: 延迟创建早期引用，正确处理AOP代理。
+**Q5 四层 stereotype？** A: Component/Service/Repository/Controller 语义分工。
 
-**Q6 IoC/DI？**  
-A: 容器管创建装配；依赖由容器注入。
+## AOP
 
-**Q7 推荐哪种注入？**  
-A: 构造器注入。
+**Q6 核心概念？** A: Aspect/Pointcut/Advice/JoinPoint/Weaving。
 
-**Q8 @Autowired vs @Resource？**  
-A: 默认按类型 vs 按名称。
+**Q7 原理？** A: 运行时动态代理。
 
-**Q9 JDK代理 vs CGLIB？**  
-A: 接口 vs 子类；Boot常默认CGLIB倾向。
+**Q8 JDK vs CGLIB？** A: 接口 vs 子类；Boot 常偏 CGLIB。
 
-**Q10 事务失效 4 条？**  
-A: this调用、非public、吞异常、检查异常未rollbackFor。
+**Q9 通知类型？** A: Before/After/Around/AfterReturning/AfterThrowing。
 
----
+## 生命周期
 
-## A 级
+**Q10 主干？** A: 实例化→注入→Aware→BPP前→初始化→BPP后→使用→销毁。
 
-**Q11 Spring vs Boot？**  
-A: Boot=约定+Starter+自动配置+内嵌容器。
+**Q11 初始化顺序？** A: PostConstruct→afterPropertiesSet→init-method。
 
-**Q12 REQUIRED vs REQUIRES_NEW？**  
-A: 加入已有事务 vs 新开事务。
+**Q12 BPP？** A: 初始化前后扩展；AOP 常用后置。
 
-**Q13 单例线程安全？**  
-A: 默认否（有状态时）；无状态Service可单例。
+## 循环依赖
 
-**Q14 MVC 核心？**  
-A: DispatcherServlet→Mapping→Adapter→ViewResolver。
+**Q13 三级缓存？** A: 成品/早期对象/工厂。
 
-**Q15 启动抓什么？**  
-A: Environment→建上下文→refresh→内嵌服务器。
+**Q14 为何三级？** A: 延迟暴露，正确处理代理。
 
----
+**Q15 解不了？** A: 构造器环、prototype。
 
-## B 级
+## 自动装配
 
-**Q16 自定义Starter？**  
-A: 自动配置类+Conditional+imports/factories。
+**Q16 链路？** A: EnableAutoConfiguration→imports/factories→Conditional→注册。
 
-**Q17 Filter vs Interceptor？**  
-A: Servlet层 vs SpringMVC Handler前后。
+**Q17 Application 三注解？** A: Configuration + EnableAutoConfiguration + ComponentScan。
 
-**Q18 BeanFactory vs ApplicationContext？**  
-A: 基础容器 vs 功能完整上下文。
+**Q18 自定义 Starter？** A: 自动配置+属性+Conditional+imports。
 
-**Q19 @Component vs @Bean？**  
-A: 自有类注解 vs 方法声明第三方/定制Bean。
+## 事务
+
+**Q19 原理？** A: AOP 代理。
+
+**Q20 失效？** A: this调用、非public、吞异常、检查异常、无容器。
+
+**Q21 REQUIRED vs NEW？** A: 加入已有 vs 新开。
+
+**Q22 默认回滚？** A: RuntimeException/Error；检查异常要 rollbackFor。
+
+## 高频
+
+**Q23 单例线程安全？** A: 有状态不安全；无状态 Service OK。
+
+**Q24 MVC 核心？** A: DispatcherServlet→Mapping→Adapter→View。
+
+**Q25 RestController？** A: Controller+ResponseBody。
+
+**Q26 Filter vs Interceptor？** A: Servlet 前 vs Handler 前后。
+
+**Q27 @Async 失效？** A: 同类调用、未 Enable、无代理。
+
+**Q28 BFPP vs BPP？** A: 改定义 vs 改实例。
+
+**Q29 FactoryBean？** A: getObject 产物；& 取工厂本身。
+
+**Q30 Spring 模式？** A: 工厂单例代理模板观察者策略。
 
 ---
 
