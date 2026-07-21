@@ -94,7 +94,7 @@
 | 行锁 / 间隙锁 / 临键锁 | 同上 |
 | 慢查询 / Explain | 同上 |
 
-🗣️ [MySQL面渣](./MySQL面渣级口述.md) · 🃏 [MySQL卡](./MySQL卡片速记.md)
+🗣️ [MySQL面渣](./MySQL面渣级口述.md) · 🃏 [MySQL卡](./MySQL卡片速记.md) · 🔥 [MySQL频率](./MySQL八股频率排序.md)
 
 ## 6. Redis
 

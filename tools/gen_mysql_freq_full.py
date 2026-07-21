@@ -1,12 +1,27 @@
-# MySQL · 高频八股知识点（完整卷）
+# -*- coding: utf-8 -*-
+"""MySQL：按超高/高/中/低频完整卷 + 频率导航。不碰面渣。"""
+from pathlib import Path
 
-<!-- NAV:START -->
+DOCS = Path(__file__).resolve().parents[1] / "docs"
+
+
+def w(name, text):
+    p = DOCS / name
+    p.write_text(text.strip() + "\n", encoding="utf-8")
+    print(name, p.stat().st_size)
+
+
+NAV = """<!-- NAV:START -->
 > 📖 **MySQL 完整卷** · 🗣️ [面渣](./MySQL面渣级口述.md) · 🃏 [卡片](./MySQL卡片速记.md) · 🔥 [频率导航](./MySQL八股频率排序.md)
 >
 > [四档主线](./Java后端面试频率-四档.md) · [Redis](./Redis高频面试题与知识点.md)
 >
 <!-- NAV:END -->
+"""
 
+MYSQL = f"""# MySQL · 高频八股知识点（完整卷）
+
+{NAV}
 
 > 后端面试出现频率极高。**索引 + 事务 + 锁 + MVCC 几乎必考。**  
 > 建议：画图（B+、版本链、临键锁）+ 优化/死锁案例。
@@ -421,3 +436,208 @@
 | 日期 | 说明 |
 |------|------|
 | 2026-07-21 | 按超高/高/中/低频大纲重写 MySQL 完整卷 |
+"""
+
+RANK = f"""# MySQL · 频率导航（2025–2026）
+
+> **完整卷：** [MySQL高频面试题与知识点.md](./MySQL高频面试题与知识点.md)  
+> **面渣：** [MySQL面渣级口述.md](./MySQL面渣级口述.md) · **卡片：** [MySQL卡片速记.md](./MySQL卡片速记.md)  
+> **全库主线：** [四档 P0](./Java后端面试频率-四档.md)
+
+---
+
+## 专项时间
+
+| 优先级 | 模块 | 时间 |
+|--------|------|:----:|
+| P0 | 索引 + 事务 + MVCC + 锁 | **55%** |
+| P1 | 三日志 + Explain + 慢查询 | 20% |
+| P2 | 引擎 + 主从 + 分库分表 | 15% |
+| P3 | Buffer Pool、大表、进阶 | 10% |
+
+---
+
+## 一、超高频
+
+| # | 主题 | 入口 |
+|---|------|------|
+| 1 | 索引（B+、聚簇、回表、覆盖、最左、失效、ICP、主键） | [§1](./MySQL高频面试题与知识点.md) |
+| 2 | 事务 + MVCC + 快照/当前读 + 幻读 | [§2](./MySQL高频面试题与知识点.md) |
+| 3 | 锁（记录/间隙/临键、FOR UPDATE、死锁） | [§3](./MySQL高频面试题与知识点.md) |
+| 4 | redo/undo/binlog + 两阶段 + WAL | [§4](./MySQL高频面试题与知识点.md) |
+
+---
+
+## 二、高频
+
+InnoDB vs MyISAM · SQL 执行过程 · Explain · 慢查询 · 深分页 · COUNT · 主从 · 读写分离 · 分库分表  
+
+---
+
+## 三、中频
+
+Buffer Pool · 16KB 页 · utf8mb4 · CHAR/VARCHAR · DELETE/TRUNCATE · 大表 DDL · 范式  
+
+---
+
+## 四、低频加分
+
+Checkpoint · ReadView 细节 · 半同步 · Sharding · 雪花 ID · MySQL 8 特性  
+
+---
+
+## 必须画图的三块
+
+```text
+1. B+ 树与回表
+2. MVCC 版本链 + ReadView 直觉
+3. 临键锁范围（防幻读）
+```
+
+## 追问链（索引）
+
+```text
+失效了？ → 为什么？ → 怎么改？ → 覆盖索引？ → 回表代价？
+```
+
+---
+
+## 点名
+
+`B+画图` · `MVCC` · `临键锁` · `两阶段提交` · `深分页`
+
+---
+
+## 修订
+
+| 日期 | 说明 |
+|------|------|
+| 2026-07-21 | MySQL 专项频率导航 |
+"""
+
+CARDS = f"""# MySQL · 卡片速记
+
+<!-- NAV:START -->
+> [完整卷](./MySQL高频面试题与知识点.md) · [频率](./MySQL八股频率排序.md) · [面渣](./MySQL面渣级口述.md)
+<!-- NAV:END -->
+
+> 遮住 A。**先 P0。**
+
+---
+
+## 索引
+
+**Q1 为何 B+？** A: 矮胖少IO；叶子链表利范围。
+
+**Q2 聚簇 vs 二级？** A: 叶子整行 vs 主键；二级常回表。
+
+**Q3 覆盖索引？** A: 查询列都在索引，免回表。
+
+**Q4 最左？** A: (a,b,c) 从左连续用。
+
+**Q5 失效？** A: 函数、左模糊、隐式转换、违背最左。
+
+**Q6 ICP？** A: 条件下推引擎，少回表。
+
+**Q7 主键自增？** A: 顺序插，减页分裂。
+
+## 事务 / MVCC
+
+**Q8 默认隔离？** A: RR。
+
+**Q9 脏读/不可重复/幻读？** A: 未提交/行被改/范围行数变。
+
+**Q10 MVCC？** A: undo版本链+ReadView。
+
+**Q11 快照读 vs 当前读？** A: 普通SELECT vs FOR UPDATE等。
+
+**Q12 RR 防幻读？** A: MVCC + 临键锁（当前读）。
+
+## 锁
+
+**Q13 三种行级？** A: 记录锁、间隙锁、临键锁。
+
+**Q14 间隙锁？** A: 锁间隙防插入；RR 当前读常见。
+
+**Q15 FOR UPDATE？** A: 当前读加锁。
+
+**Q16 死锁排查？** A: SHOW ENGINE INNODB STATUS。
+
+## 日志
+
+**Q17 三日志？** A: redo持久；undo回滚MVCC；binlog复制。
+
+**Q18 两阶段？** A: redo与binlog一致。
+
+**Q19 WAL？** A: 先日志后数据页。
+
+**Q20 flush=1？** A: 每事务刷盘最安全。
+
+## 高频
+
+**Q21 InnoDB？** A: 事务+行锁；现代默认。
+
+**Q22 EXPLAIN？** A: type/key/rows/Extra。
+
+**Q23 慢SQL？** A: 慢日志→EXPLAIN→改→验证。
+
+**Q24 深分页？** A: id>last 或延迟关联。
+
+**Q25 主从？** A: binlog→relay→重放。
+
+**Q26 binlog格式？** A: STATEMENT/ROW/MIXED。
+
+---
+
+详解：[MySQL高频面试题与知识点.md](./MySQL高频面试题与知识点.md)
+"""
+
+
+def patch():
+    ft = DOCS / "Java后端面试频率-四档.md"
+    if ft.exists():
+        t = ft.read_text(encoding="utf-8")
+        if "MySQL八股频率排序" not in t:
+            t = t.replace(
+                "🗣️ [MySQL面渣](./MySQL面渣级口述.md) · 🃏 [MySQL卡](./MySQL卡片速记.md)",
+                "🗣️ [MySQL面渣](./MySQL面渣级口述.md) · 🃏 [MySQL卡](./MySQL卡片速记.md) · 🔥 [MySQL频率](./MySQL八股频率排序.md)",
+            )
+            ft.write_text(t, encoding="utf-8")
+            print("fourtier")
+
+    sb = DOCS / "_sidebar.md"
+    if sb.exists():
+        t = sb.read_text(encoding="utf-8")
+        if "MySQL八股频率排序" not in t:
+            t = t.replace(
+                "  * [MySQL完整卷](MySQL高频面试题与知识点.md) · [卡片](MySQL卡片速记.md)\n",
+                "  * [MySQL完整卷](MySQL高频面试题与知识点.md) · [频率](MySQL八股频率排序.md) · [卡片](MySQL卡片速记.md)\n",
+            )
+            t = t.replace(
+                "  * [MySQL](MySQL高频面试题与知识点.md) · [卡片](MySQL卡片速记.md)\n",
+                "  * [MySQL完整卷](MySQL高频面试题与知识点.md) · [频率](MySQL八股频率排序.md) · [卡片](MySQL卡片速记.md)\n",
+            )
+            sb.write_text(t, encoding="utf-8")
+            print("sidebar")
+
+    path = DOCS / "路径-Java后端.md"
+    if path.exists():
+        t = path.read_text(encoding="utf-8")
+        if "MySQL八股频率排序" not in t:
+            t = t.replace(
+                "[MySQL八股](./MySQL高频面试题与知识点.md)",
+                "[MySQL完整卷](./MySQL高频面试题与知识点.md)·[频率](./MySQL八股频率排序.md)",
+            )
+            path.write_text(t, encoding="utf-8")
+            print("path")
+
+
+def main():
+    w("MySQL高频面试题与知识点.md", MYSQL)
+    w("MySQL八股频率排序.md", RANK)
+    w("MySQL卡片速记.md", CARDS)
+    patch()
+
+
+if __name__ == "__main__":
+    main()

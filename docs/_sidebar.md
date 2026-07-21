@@ -37,7 +37,7 @@
   * [Java8+ 加分](Java8加分项知识点.md)
   * [并发完整卷](并发高频面试题与知识点.md) · [频率](并发八股频率排序.md) · [卡片](并发卡片速记.md)
   * [JVM完整卷](JVM高频面试题与知识点.md) · [频率](JVM八股频率排序.md) · [卡片](JVM卡片速记.md)
-  * [MySQL完整卷](MySQL高频面试题与知识点.md) · [卡片](MySQL卡片速记.md)
+  * [MySQL完整卷](MySQL高频面试题与知识点.md) · [频率](MySQL八股频率排序.md) · [卡片](MySQL卡片速记.md)
   * [Redis完整卷](Redis高频面试题与知识点.md) · [卡片](Redis卡片速记.md)
   * [MyBatis](MyBatis高频面试题与知识点.md)
   * [Spring完整卷](Spring高频面试题与知识点.md) · [频率](Spring八股频率排序-SABC.md) · [卡片](Spring卡片速记.md)
