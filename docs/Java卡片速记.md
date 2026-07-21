@@ -1,59 +1,113 @@
-# Java · 卡片速记
+# Java 基础 · 卡片速记
 
 <!-- NAV:START -->
-> **只背要点。** 原理 → [知识点](./Java高频面试题与知识点.md) · 怎么说 → [面渣](./Java面渣级口述.md)
->
-> [模块总览](./Java八股模块总览.md) · [如何使用](./如何使用本仓库.md)
->
+> [完整知识点](./Java高频面试题与知识点.md) · [面渣](./Java面渣级口述.md) · [总览](./Java八股模块总览.md)
 <!-- NAV:END -->
 
-> 遮住 A，只看 Q。
+> 遮住 **A** 回忆。
 
 ---
 
-## 1. == 与 equals？
-**A:** 基本比値/引用比地址；equals 默认同地址，可重写比内容。
+## 语言与平台
 
-## 2. 重写 equals 为何必须 hashCode？
-**A:** 相等对象同 hash；否则 HashMap 存取失败。
+**Q1 JVM/JRE/JDK？**  
+A: 执行引擎 / 运行环境=JVM+库 / 开发包=JRE+工具。
 
-## 3. String 三兄弟？
-**A:** String 不可变；Builder 可变非安全；Buffer 可变且安全。
+**Q2 为何跨平台？**  
+A: 编译成字节码，各平台 JVM 执行。
 
-## 4. String 为何不可变？
-**A:** final+无改API；池化、hash缓存、安全。
+**Q3 编译还是解释？**  
+A: 先编译字节码，再解释+JIT。
 
-## 5. Integer 缓存？
-**A:** -128~127；外用 equals。
+## 类型与运算
 
-## 6. 值传递？
-**A:** 只有值传递；引用传的是副本。
+**Q4 基本类型字节？**  
+A: 1 2 4 8 / 4 8 / 2 / boolean 实现相关。
 
-## 7. 重载 vs 重写？
-**A:** 参数不同编译期 / 子类覆盖运行期。
+**Q5 Integer 缓存？**  
+A: -128~127；外 false；用 equals。
 
-## 8. 抽象类 vs 接口？
-**A:** 抽象类可有状态构造；接口多实现+default。
+**Q6 & 与 &&？**  
+A: 都算 vs 短路。
 
-## 9. HashMap JDK8？
-**A:** 数组+链+红黑树；≥8且表≥64树化；0.75；2的幂。
+**Q7 2×8 位运算？**  
+A: `2<<3`。
 
-## 10. JDK7 vs 8 HashMap？
-**A:** 7头插可能死链；8尾插+树。
+**Q8 switch 类型？**  
+A: byte/short/char/int/enum/String；非 long。
 
-## 11. CHM vs Hashtable？
-**A:** 8用CAS+锁节点；HT全表锁；都不允许null。
+## OOP
 
-## 12. ArrayList vs LinkedList？
-**A:** 数组随机快 / 链表头尾插删。
+**Q9 三大特性？**  
+A: 封装继承多态（+抽象）。
 
-## 13. HashSet 底层？
-**A:** HashMap，value 固定对象。
+**Q10 多态条件？**  
+A: 继承+重写+父引用指子对象。
 
-## 14. 异常体系？
-**A:** Error/Exception；检查 vs 运行时。
+**Q11 重载 vs 重写？**  
+A: 参数不同编译期 / 覆盖运行期。
 
-## 15. final/finally/finalize？
-**A:** 修饰/必执行块/废弃的GC回调。
+**Q12 抽象类 vs 接口？**  
+A: 单继承模板 vs 多实现能力；default 方法。
 
-详解：[Java高频面试题与知识点.md](./Java高频面试题与知识点.md)
+**Q13 访问范围？**  
+A: public>protected>default>private。
+
+## 关键字
+
+**Q14 final 三种？**  
+A: 类/方法/变量（引用不可变）。
+
+**Q15 值传递？**  
+A: 只有值传递；引用传地址副本。
+
+**Q16 final/finally/finalize？**  
+A: 关键字 / 必执行块 / 废弃。
+
+## String
+
+**Q17 不可变原因？**  
+A: final+无改API；池化、hash、安全。
+
+**Q18 三兄弟？**  
+A: 不可变 / 可变非安全 / 可变安全。
+
+**Q19 "a" vs new String("a")？**  
+A: 池引用 vs 堆新建。
+
+**Q20 intern？**  
+A: 入池并返回池引用。
+
+## equals
+
+**Q21 == vs equals？**  
+A: 地址(值) / 默认同地址可重写内容。
+
+**Q22 为何双写 hashCode？**  
+A: 相等同 hash；HashMap 正确性。
+
+## 异常
+
+**Q23 体系？**  
+A: Error vs Exception；检查 vs 运行时。
+
+**Q24 try return 与 finally？**  
+A: finally 仍执行；可覆盖返回。
+
+## 其他
+
+**Q25 浅拷贝深拷贝？**  
+A: 引用共享 vs 递归复制。
+
+**Q26 泛型擦除？**  
+A: 编译检查，运行擦除；extends/super。
+
+**Q27 反射？**  
+A: 运行时拿类信息；框架基础；慢。
+
+**Q28 HashMap JDK8？**  
+A: 数组+链+树；8/64；0.75。
+
+---
+
+完整：[Java高频面试题与知识点.md](./Java高频面试题与知识点.md)
