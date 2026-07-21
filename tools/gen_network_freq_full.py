@@ -1,6 +1,17 @@
-# 计算机网络 · 高频八股知识点（完整卷）
+# -*- coding: utf-8 -*-
+"""计算机网络：按超高/高/中/低频完整卷 + 频率导航。不碰面渣。"""
+from pathlib import Path
 
-<!-- NAV:START -->
+DOCS = Path(__file__).resolve().parents[1] / "docs"
+
+
+def w(name, text):
+    p = DOCS / name
+    p.write_text(text.strip() + "\n", encoding="utf-8")
+    print(name, p.stat().st_size)
+
+
+NAV = """<!-- NAV:START -->
 > 📖 **网络完整卷** · 🗣️ [面渣](./计算机网络面渣级口述.md) · 🃏 [卡片](./计算机网络卡片速记.md) · 🔥 [频率导航](./计算机网络八股频率排序.md)
 >
 > 结合：[OS·epoll](./操作系统高频面试题与知识点.md) · [Nginx](./Nginx高频面试题与知识点.md) · [HTTPS 安全](./Prompt注入与AI安全高频面试题与知识点.md)
@@ -8,7 +19,11 @@
 > [四档主线](./Java后端面试频率-四档.md) · [路径](./路径-Java后端.md)
 >
 <!-- NAV:END -->
+"""
 
+NET = f"""# 计算机网络 · 高频八股知识点（完整卷）
+
+{NAV}
 
 > 后端基础高频模块。**TCP + HTTP/HTTPS 几乎必考。**  
 > 建议：状态图画图；综合题「URL → 页面」完整链条。
@@ -433,3 +448,208 @@
 | 日期 | 说明 |
 |------|------|
 | 2026-07-21 | 按超高/高/中/低频大纲重写网络完整卷 |
+"""
+
+RANK = f"""# 计算机网络 · 频率导航（2025–2026）
+
+> **完整卷：** [计算机网络高频面试题与知识点.md](./计算机网络高频面试题与知识点.md)  
+> **面渣：** [计算机网络面渣级口述.md](./计算机网络面渣级口述.md) · **卡片：** [计算机网络卡片速记.md](./计算机网络卡片速记.md)  
+> **全库主线：** [四档 P0](./Java后端面试频率-四档.md)
+
+---
+
+## 专项时间
+
+| 优先级 | 模块 | 时间 |
+|--------|------|:----:|
+| P0 | TCP 握手/挥手/可靠 + HTTP/HTTPS | **50%** |
+| P1 | URL 全流程 + DNS + Cookie/Session/Token | 20% |
+| P2 | HTTP 版本 + 拥塞 + 粘包 | 15% |
+| P3 | WebSocket、安全、CDN、LB | 15% |
+
+---
+
+## 一、超高频
+
+| # | 主题 | 入口 |
+|---|------|------|
+| 1 | TCP（三次/四次/TIME_WAIT/可靠/粘包/拥塞） | [§1](./计算机网络高频面试题与知识点.md) |
+| 2 | HTTP/HTTPS（握手、状态码、GET/POST、会话） | [§2](./计算机网络高频面试题与知识点.md) |
+| 3 | OSI/TCPIP + URL 全流程 | [§3](./计算机网络高频面试题与知识点.md) |
+| 4 | DNS | [§4](./计算机网络高频面试题与知识点.md) |
+
+---
+
+## 二、高频
+
+半连接/SYN Flood · 流量vs拥塞 · Nagle · HTTP/2/3 · 幂等 · WebSocket · JWT · ARP/ping  
+
+---
+
+## 三、中频
+
+正反向代理 · CDN · 跨域 · XSS/CSRF/DDoS · 零拷贝 · Socket 选项 · NAT/IPv6  
+
+---
+
+## 四、低频
+
+QUIC · TLS1.3 · TFO · BBR · 抓包 · 路由  
+
+---
+
+## 必须画图
+
+```text
+1. 三次握手状态
+2. 四次挥手 + TIME_WAIT
+3. HTTPS 握手步骤
+4. URL → 页面链路
+```
+
+## 2026 关注
+
+HTTP/3 · TLS 1.3 · 0-RTT  
+
+---
+
+## 点名
+
+`三次握手` · `TIME_WAIT` · `HTTPS握手` · `URL全流程`
+
+---
+
+## 修订
+
+| 日期 | 说明 |
+|------|------|
+| 2026-07-21 | 网络专项频率导航 |
+"""
+
+CARDS = f"""# 计算机网络 · 卡片速记
+
+<!-- NAV:START -->
+> [完整卷](./计算机网络高频面试题与知识点.md) · [频率](./计算机网络八股频率排序.md) · [面渣](./计算机网络面渣级口述.md)
+<!-- NAV:END -->
+
+> 遮住 A。**先 P0。**
+
+---
+
+## TCP
+
+**Q1 TCP vs UDP？** A: 可靠有连 vs 快无连。
+
+**Q2 为何三次？** A: 同步序号+双向确认；防旧SYN。
+
+**Q3 为何四次？** A: 全双工各关一边。
+
+**Q4 TIME_WAIT？** A: 保最后ACK；清旧包；2MSL。
+
+**Q5 CLOSE_WAIT 多？** A: 应用未close。
+
+**Q6 可靠机制？** A: 序号确认、重传、窗口、流量、拥塞。
+
+**Q7 粘包？** A: 字节流无边界；长度头/分隔符。
+
+**Q8 拥塞四阶段？** A: 慢启动、拥塞避免、快重传、快恢复。
+
+## HTTP/HTTPS
+
+**Q9 HTTP vs HTTPS？** A: 明文 vs TLS+证书。
+
+**Q10 HTTPS 为何混合加密？** A: 非对称换钥，对称传数据。
+
+**Q11 401 vs 403？** A: 未认证 vs 无权限。
+
+**Q12 502 vs 504？** A: 上游坏 vs 上游超时。
+
+**Q13 GET vs POST？** A: 获取语义 vs 提交；幂等差异。
+
+**Q14 Cookie vs Session？** A: 客户端 vs 服务端；常配合。
+
+## 全流程 / DNS
+
+**Q15 URL 到页面？** A: DNS→TCP→TLS→HTTP→渲染。
+
+**Q16 DNS 为何 UDP？** A: 查询短快；大响应/区传用TCP。
+
+## 高频
+
+**Q17 SYN Flood？** A: 占半连接；SYN Cookie等。
+
+**Q18 流量 vs 拥塞？** A: 接收方能力 vs 网络。
+
+**Q19 HTTP/2 多路复用？** A: 解应用队头；TCP丢包仍堵。
+
+**Q20 HTTP/3？** A: QUIC/UDP；减TCP队头阻塞。
+
+**Q21 301 vs 302？** A: 永久 vs 临时重定向。
+
+**Q22 WebSocket？** A: 长连接双向；HTTP升级。
+
+**Q23 幂等？** A: 多次效果同；GET/PUT/DELETE语义。
+
+**Q24 跨域？** A: CORS/代理。
+
+**Q25 XSS/CSRF？** A: 转义CSP vs Token/SameSite。
+
+---
+
+详解：[计算机网络高频面试题与知识点.md](./计算机网络高频面试题与知识点.md)
+"""
+
+
+def patch():
+    ft = DOCS / "Java后端面试频率-四档.md"
+    if ft.exists():
+        t = ft.read_text(encoding="utf-8")
+        if "计算机网络八股频率排序" not in t:
+            t = t.replace(
+                "[网络](./计算机网络高频面试题与知识点.md) · [OS完整卷]",
+                "[网络完整卷](./计算机网络高频面试题与知识点.md)·[网络频率](./计算机网络八股频率排序.md) · [OS完整卷]",
+            )
+            if "计算机网络八股频率排序" not in t:
+                t = t.replace(
+                    "[网络](./计算机网络高频面试题与知识点.md)",
+                    "[网络完整卷](./计算机网络高频面试题与知识点.md)·[网络频率](./计算机网络八股频率排序.md)",
+                )
+            ft.write_text(t, encoding="utf-8")
+            print("fourtier")
+
+    sb = DOCS / "_sidebar.md"
+    if sb.exists():
+        t = sb.read_text(encoding="utf-8")
+        if "计算机网络八股频率排序" not in t:
+            t = t.replace(
+                "  * [网络](计算机网络高频面试题与知识点.md) · [卡片](计算机网络卡片速记.md)\n",
+                "  * [网络完整卷](计算机网络高频面试题与知识点.md) · [频率](计算机网络八股频率排序.md) · [卡片](计算机网络卡片速记.md)\n",
+            )
+            t = t.replace(
+                "  * [网络](计算机网络面渣级口述.md) · [卡片](计算机网络卡片速记.md)\n",
+                "  * [网络完整卷](计算机网络高频面试题与知识点.md) · [频率](计算机网络八股频率排序.md) · [卡片](计算机网络卡片速记.md)\n",
+            )
+            sb.write_text(t, encoding="utf-8")
+            print("sidebar")
+
+    path = DOCS / "路径-Java后端.md"
+    if path.exists():
+        t = path.read_text(encoding="utf-8")
+        if "计算机网络八股频率排序" not in t:
+            t = t.replace(
+                "[网络知](./计算机网络高频面试题与知识点.md)",
+                "[网络完整卷](./计算机网络高频面试题与知识点.md)·[频率](./计算机网络八股频率排序.md)",
+            )
+            path.write_text(t, encoding="utf-8")
+            print("path")
+
+
+def main():
+    w("计算机网络高频面试题与知识点.md", NET)
+    w("计算机网络八股频率排序.md", RANK)
+    w("计算机网络卡片速记.md", CARDS)
+    patch()
+
+
+if __name__ == "__main__":
+    main()
