@@ -138,12 +138,18 @@
     }
     /* 侧栏站点图标 */
     .app-name-link img,
-    .sidebar .app-name img {
+    .sidebar .app-name img,
+    #sidebar-logo {
       width: 36px;
       height: 36px;
       border-radius: 8px;
       object-fit: cover;
       flex-shrink: 0;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .app-name-link .app-name-text {
+      vertical-align: middle;
     }
     .sidebar .app-name {
       color: var(--text-heading) !important;
@@ -315,9 +321,31 @@
     })();
   </script>
   <script>
+    // 站点根路径（兼容 / 与 /index.html）；logo 不要依赖 basePath=docs
+    function siteRootUrl() {
+      var path = window.location.pathname || '/';
+      if (/index\.html$/i.test(path)) {
+        path = path.replace(/index\.html$/i, '');
+      }
+      if (!path.endsWith('/')) {
+        path = path.replace(/\/[^/]*$/, '/');
+      }
+      if (!path) path = '/';
+      return window.location.origin + path;
+    }
+    var LOGO_CANDIDATES = [
+      'favicon-32.png',
+      'favicon.jpg',
+      'docs/favicon-32.png',
+      'docs/favicon.jpg',
+      'favicon.ico',
+    ];
+
     window.$docsify = {
       name: 'AI Engineering Interview',
-      logo: 'favicon-32.png',
+      // 不用相对 logo（易被 basePath/路由解析到 docs/ 下 404）
+      // 侧栏图由下方 plugin 注入绝对地址
+      logo: false,
       repo: 'https://github.com/cyforkk/ai-engineering-interview',
       homepage: 'README.md',
       basePath: './docs/',
@@ -356,6 +384,30 @@
               '<small>📝 [编辑本页](' + url + ') · 仓库 [ai-engineering-interview](https://github.com/cyforkk/ai-engineering-interview)</small>\n'
             );
           });
+          function fixSidebarLogo() {
+            var link = document.querySelector('.sidebar .app-name-link');
+            if (!link) return;
+            var root = siteRootUrl();
+            var img = document.getElementById('sidebar-logo');
+            if (img) return; // 已注入
+            img = document.createElement('img');
+            img.id = 'sidebar-logo';
+            img.alt = 'logo';
+            img.width = 36;
+            img.height = 36;
+            img.decoding = 'async';
+            link.insertBefore(img, link.firstChild);
+            var idx = 0;
+            function tryNext() {
+              if (idx >= LOGO_CANDIDATES.length) return;
+              img.src = root + LOGO_CANDIDATES[idx++];
+            }
+            img.onerror = tryNext;
+            tryNext();
+          }
+          hook.mounted(fixSidebarLogo);
+          hook.ready(fixSidebarLogo);
+          hook.doneEach(fixSidebarLogo);
         },
       ],
     };
