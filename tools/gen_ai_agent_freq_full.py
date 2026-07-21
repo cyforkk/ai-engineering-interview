@@ -1,0 +1,618 @@
+# -*- coding: utf-8 -*-
+"""AI/Agent：按超高/高/中/低频完整卷 + 频率导航。不碰面渣。"""
+from pathlib import Path
+
+DOCS = Path(__file__).resolve().parents[1] / "docs"
+
+
+def w(name, text):
+    p = DOCS / name
+    p.write_text(text.strip() + "\n", encoding="utf-8")
+    print(name, p.stat().st_size)
+
+
+NAV = """<!-- NAV:START -->
+> 📖 **AI/Agent 完整卷** · 🗣️ [Agent面渣](./Agent面渣级口述.md) · [向量库面渣](./向量库面渣级口述.md) · [LangGraph面渣](./LangGraph与自研工作流面渣级口述.md)  
+> 🃏 [Agent卡](./Agent卡片速记.md) · 🔥 [频率导航](./AI-Agent八股频率排序.md)
+>
+> 关联：[LLM基础](./LLM基础常识高频面试题与知识点.md) · [AI应用](./AI应用工程高频面试题与知识点.md) · [安全](./Prompt注入与AI安全高频面试题与知识点.md) · [LLMOps](./LLMOps与可观测高频面试题与知识点.md) · [路径A](./路径-AI工程.md)
+>
+<!-- NAV:END -->
+"""
+
+MAIN = f"""# AI / Agent · 高频八股知识点（完整卷）
+
+{NAV}
+
+> 2025–2026 AI 应用 / Agent 岗核心：**架构、RAG、工具调用、记忆、工程落地**；纯模型原理相对次要（算法岗除外）。
+
+### 专项时间占比
+
+| 优先级 | 模块 | 时间 |
+|--------|------|:----:|
+| **P0** | Agent 定义架构 + ReAct + RAG 全流程 + Function Calling | **50%** |
+| **P1** | 记忆 + 多 Agent + 幻觉治理 + 评估 | **20%** |
+| **P2** | LangGraph / 工具管理 / 可观测 / 成本 | **15%** |
+| **P3** | 微调边界、安全、MCP/A2A 等 | **15%** |
+
+### 高效准备
+
+1. **必须结合项目**：规划？记忆？工具失败？如何评估？  
+2. 1～2 个完整项目故事（问题→架构→关键点→数据→踩坑）  
+3. **会画图**：ReAct、RAG Pipeline、多 Agent、记忆分层  
+4. 2026 热点：MCP、LangGraph、Tool RAG、Agent 评估、Computer Use  
+
+---
+
+# 一、超高频（几乎必问）
+
+## 1. Agent 基础概念与架构
+
+### 1.1 什么是 AI Agent？与单次 LLM / ChatBot 区别？
+
+| | 单次 LLM / Chat | Agent |
+|--|-----------------|-------|
+| 形态 | 一问一答生成 | **目标驱动多步** |
+| 行动 | 主要出文本 | 可 **调工具改世界** |
+| 循环 | 通常无 | Thought→Action→Observe |
+
+- **公式**：`Agent ≈ LLM + 规划 + 记忆 + 工具 + 护栏/停止条件`  
+- 本质区别：**闭环行动**，不只是「更会聊」。  
+
+### 1.2 核心组件？
+
+| 组件 | 作用 |
+|------|------|
+| Planning | 分解目标、决定下一步 |
+| Memory | 短/长/工作记忆 |
+| Tool Use | 检索、API、代码、浏览器… |
+| Action | 真正执行工具 |
+| Observation | 工具结果回灌上下文 |
+
+### 1.3 Agent vs Workflow / Prompt Chain？
+
+| | Workflow / Chain | Agent |
+|--|------------------|-------|
+| 步骤 | **人写死** | 模型动态选 |
+| 可控 | 高 | 低 |
+| 成本 | 可控 | 易膨胀 |
+| 适合 | 固定 SOP | 探索、工具组合难枚举 |
+
+- 生产常 **工作流包 Agent 局部**。  
+
+### 1.4 ReAct？
+
+```text
+Thought → Action → Observation → Thought → … → Final Answer
+```
+
+- **解决问题**：边做边看，基于真实反馈，减少一次幻觉到底  
+- **风险**：死循环、步数爆炸 → max_steps、去重、超时、熔断、HITL  
+
+### 1.5 常见 Agent 模式？
+
+| 模式 | 要点 |
+|------|------|
+| **ReAct** | 推理与行动交错 |
+| **Plan-and-Execute** | 先计划再执行（可两模型） |
+| **Reflexion** | 失败后反思再试 |
+| **Multi-Agent** | 多角色协作 |
+
+口述：[Agent面渣](./Agent面渣级口述.md)
+
+---
+
+## 2. RAG（检索增强生成）
+
+### 2.1 完整流程？
+
+```text
+文档加载 → 切片(Chunk) → Embedding
+ → 向量库索引
+ → 用户问题 Embedding → 检索 topK
+ → （可选）Rerank 重排
+ → 拼上下文 + Prompt → LLM 生成
+ → （可选）引用/校验
+```
+
+### 2.2 为何切片？大小与重叠？
+
+- 窗口有限；整文档噪声大  
+- **过大**：噪声、难定位  
+- **过小**：缺上下文、实体切断  
+- 实践：按标题/段落；**重叠 overlap** 减切断；常见数百～千级 token 量级按业务调  
+
+### 2.3 稠密 vs 稀疏？
+
+| | 稠密（向量） | 稀疏（BM25 等） |
+|--|--------------|-----------------|
+| 擅长 | 语义、同义 | 专有名词、编号精确 |
+| 弱点 | 专名/编号 | 改写同义 |
+
+### 2.4 为何 Rerank？
+
+- 向量召回粗、可能漏排  
+- **重排**用更强交叉编码器精排 topK → 提精确、减噪声进上下文  
+
+### 2.5 如何减少幻觉？
+
+1. Prompt 边界：材料不足则说不知道  
+2. **强制引用**片段  
+3. 相关度阈值 / 拒答  
+4. 答案校验、二次检查  
+5. 评测回归  
+
+### 2.6 向量库选型与优化？
+
+| 库 | 直觉 |
+|----|------|
+| Milvus | 大规模生产 |
+| PGVector | 已有 PG 轻量 |
+| Chroma | 本地/原型 |
+| Pinecone | 托管 |
+
+- 优化：Hybrid Search、过滤元数据、调 topK、好 embedding、分片/量化  
+
+详见：[向量库](./向量库高频面试题与知识点.md) · [面渣](./向量库面渣级口述.md)
+
+---
+
+## 3. 工具调用（Function Calling）
+
+### 3.1 原理？
+
+```text
+Schema 描述工具 → 模型输出结构化调用意图
+ → 服务端校验权限与参数 → 真正执行
+ → 结果作 Observation 回灌
+```
+
+- 模型 **不直接执行**；执行权在服务端。  
+
+### 3.2 高质量 Tool 定义？
+
+| 字段 | 要求 |
+|------|------|
+| 名称 | 清晰、无歧义 |
+| 描述 | 何时用、不何时用 |
+| 参数 Schema | 类型、必填、枚举、约束 |
+
+### 3.3 失败/参数错误？
+
+- 校验失败：返回错误 Observation，允许重试  
+- 次数熔断；超时；降级人工  
+- 危险操作：二次确认 / HITL  
+
+### 3.4 MCP 是什么？vs Function Calling？
+
+| | Function Calling | MCP |
+|--|------------------|-----|
+| 形态 | 应用内绑工具 | **协议化** 连接外部工具/资源 |
+| 复用 | 项目内 | 跨应用标准接入（生态方向） |
+
+- 面试：MCP = 模型与工具/上下文的 **标准化协议**，利于插件生态。  
+
+### 3.5 工具很多时？
+
+- **Tool RAG**：先检索相关工具再暴露给模型  
+- 分层：常用工具常驻，长尾动态加载  
+- 权限分级  
+
+---
+
+## 4. 记忆系统
+
+### 4.1 分层？
+
+| 类型 | 内容 | 实现直觉 |
+|------|------|----------|
+| 短期 | 当前对话窗口 | 上下文消息列表 |
+| 工作 | 本轮任务中间状态 | Agent state |
+| 长期 | 用户画像、历史事实 | 向量库 / DB / KG |
+
+### 4.2 长期记忆存取？
+
+- 写入：对话摘要、关键事实抽取  
+- 检索：向量/关键词 + 时间/用户过滤  
+- 更新：覆盖、失效、冲突合并  
+- **权限隔离**（用户 A 不能检索 B）  
+
+### 4.3 压缩 / 摘要？
+
+- 滑动窗口 + 旧轮摘要  
+- 分层摘要（会话→主题）  
+- 只保留任务相关片段  
+
+---
+
+# 二、高频
+
+## 5. Agent 进阶
+
+### 5.1 规划与执行拆两模型？
+
+| 拆 | 不拆 |
+|----|------|
+| 计划稳、可审 | 延迟低、简单 |
+| 成本/延迟更高 | 易边做边偏 |
+
+### 5.2 多 Agent 模式？
+
+| 模式 | 说明 |
+|------|------|
+| 主从 | 中心规划，子 Agent 执行 |
+| 辩论 | 多角色互评提质量 |
+| 流水线 | 固定阶段传递 |
+| 群体 | 多角色涌现（难控） |
+
+### 5.3 Reflexion？
+
+- 执行失败 → 生成反思 → 改进再试  
+- 需限制重试次数  
+
+### 5.4 超长对话？
+
+- 摘要、检索长期记忆、工具结果截断、分会话  
+
+---
+
+## 6. RAG 进阶
+
+| 点 | 要点 |
+|----|------|
+| 增量索引 | 变更检测、upsert、版本/时间戳 |
+| Hybrid Search | 向量 + 关键词，通常更稳 |
+| Parent-Child | 小块检索、大块生成（Small-to-Big） |
+| 评估 | 召回/精确、忠实度、相关性、人工评 |
+
+---
+
+## 7. 工程落地
+
+### 7.1 如何评估 Agent？
+
+| 指标 | 含义 |
+|------|------|
+| 任务成功率 | 主指标 |
+| 平均步数 | 效率 |
+| 成本 / 延迟 | 商业与体验 |
+| 幻觉率 / 工具失败率 | 风险 |
+| 人工接管率 | 产品成熟度 |
+
+### 7.2 Prompt Injection 防御？
+
+- 不信任用户/文档中的「指令」  
+- 工具最小权限、参数白名单  
+- 写操作审批  
+- 过滤、监控、沙箱  
+
+详见：[Prompt注入与AI安全](./Prompt注入与AI安全高频面试题与知识点.md)
+
+### 7.3 可观测性？
+
+- **Tracing**：每步 Thought/Action/Observation  
+- 日志、延迟/token 指标  
+- 中间步骤可视化回放  
+
+详见：[LLMOps](./LLMOps与可观测高频面试题与知识点.md)
+
+### 7.4 成本与延迟优化？
+
+- 模型路由（简单→小模型）  
+- 缓存常见问答/检索  
+- 并行工具调用  
+- 少步数、强工具描述减乱调  
+
+---
+
+## 8. 框架
+
+| 框架 | 场景 |
+|------|------|
+| LangChain | 快速拼装、生态大 |
+| **LangGraph** | 状态机、循环、人机节点、可恢复 |
+| LlamaIndex | 偏数据/RAG 索引 |
+
+### LangGraph vs Chain？
+
+- Chain 偏线性；**Graph**：显式状态、分支循环、HITL、可观测更强  
+
+口述：[LangGraph面渣](./LangGraph与自研工作流面渣级口述.md)
+
+---
+
+# 三、中频
+
+| 点 | 要点 |
+|----|------|
+| CoT / ToT / GoT | 思维链 / 思维树 / 图；复杂推理 |
+| 微调 vs RAG | 知识常变→RAG；风格格式稳定→可 SFT/LoRA |
+| Embedding 选型 | 语言、领域、维度、MTEB/业务评测 |
+| 多模态 Agent | 视觉理解 + 工具；输入模态统一 |
+| HITL | 危险步骤人工确认 |
+| 安全边界 | 权限、沙箱、敏感操作确认 |
+| A2A | Agent 间互操作协议方向（了解） |
+| Computer Use / Browser | 环境噪声、定位 UI、安全与稳定是难点 |
+
+---
+
+# 四、低频 / 进阶
+
+- Transformer 自注意力（算法岗深挖）  
+- RLHF / DPO 等对齐  
+- MoE  
+- 记忆 + 知识图谱  
+- 多智能体涌现  
+- 端到端训练 vs 模块化 Agent  
+
+LLM 基础见：[LLM基础](./LLM基础常识高频面试题与知识点.md)
+
+---
+
+# 项目故事检查清单
+
+- [ ] 业务目标与成功标准  
+- [ ] 为何 Agent 而不是纯 Workflow  
+- [ ] 规划方式（ReAct/计划）  
+- [ ] 记忆如何存与检索  
+- [ ] 工具列表与失败处理  
+- [ ] 如何防幻觉/注入  
+- [ ] 评估指标与数据  
+- [ ] 成本延迟优化与踩坑  
+
+---
+
+# 自测清单
+
+### P0
+- [ ] Agent vs Chat vs Workflow  
+- [ ] ReAct + 五条护栏  
+- [ ] RAG 全流程 + 切片 + Rerank + 防幻觉  
+- [ ] Function Calling 服务端执行 + Tool 定义  
+
+### P1–P2
+- [ ] 记忆三层  
+- [ ] 多 Agent 一种模式  
+- [ ] Hybrid Search  
+- [ ] 评估指标 4 个  
+- [ ] LangGraph 优势  
+- [ ] MCP 一句话  
+
+**面渣：** [Agent](./Agent面渣级口述.md) · [向量库](./向量库面渣级口述.md) · [AI应用](./AI应用工程面渣级口述.md)  
+**卡片：** [Agent卡片速记.md](./Agent卡片速记.md)  
+**频率：** [AI-Agent八股频率排序.md](./AI-Agent八股频率排序.md)  
+**路径：** [路径-AI工程.md](./路径-AI工程.md)  
+
+---
+
+## 点名深挖
+
+- ReAct 原理与优化  
+- RAG 防幻觉完整方案  
+- Agent 记忆系统设计  
+- Function Calling 最佳实践  
+- 多 Agent 协作对比  
+
+---
+
+## 修订
+
+| 日期 | 说明 |
+|------|------|
+| 2026-07-21 | AI/Agent 完整卷：超高/高/中/低 |
+"""
+
+RANK = f"""# AI / Agent · 频率导航（2025–2026）
+
+> **完整卷：** [AI-Agent高频面试题与知识点.md](./AI-Agent高频面试题与知识点.md)  
+> **面渣：** [Agent](./Agent面渣级口述.md) · [向量库](./向量库面渣级口述.md) · [LangGraph](./LangGraph与自研工作流面渣级口述.md)  
+> **路径：** [路径-AI工程.md](./路径-AI工程.md)
+
+---
+
+## 专项时间
+
+| 优先级 | 模块 | 时间 |
+|--------|------|:----:|
+| P0 | Agent 架构 + ReAct + RAG + Function Calling | **50%** |
+| P1 | 记忆 + 多 Agent + 幻觉 + 评估 | 20% |
+| P2 | LangGraph / 工具管理 / 可观测 / 成本 | 15% |
+| P3 | 微调边界、安全、MCP/A2A | 15% |
+
+**说明：** 应用岗重工程落地；算法岗才深挖 Transformer/对齐。
+
+---
+
+## 一、超高频
+
+| # | 主题 | 入口 |
+|---|------|------|
+| 1 | Agent 定义/组件/vs Workflow/ReAct/模式 | [完整卷 §1](./AI-Agent高频面试题与知识点.md) |
+| 2 | RAG 全流程/切片/稠密稀疏/Rerank/幻觉/向量库 | [§2](./AI-Agent高频面试题与知识点.md) |
+| 3 | Function Calling / Tool / MCP | [§3](./AI-Agent高频面试题与知识点.md) |
+| 4 | 记忆系统 | [§4](./AI-Agent高频面试题与知识点.md) |
+
+---
+
+## 二、高频
+
+规划拆分 · 多 Agent · Reflexion · 超长对话  
+增量索引 · Hybrid · Parent-Child · RAG 评估  
+Agent 评估 · Injection · Tracing · 成本优化  
+LangChain / LangGraph / LlamaIndex  
+
+---
+
+## 三、中频
+
+CoT/ToT · 微调 vs RAG · Embedding · 多模态 · HITL · 安全 · A2A · Computer Use  
+
+---
+
+## 四、低频
+
+自注意力 · RLHF/DPO · MoE · 记忆+KG · 端到端 vs 模块化  
+
+---
+
+## 必须画图
+
+```text
+1. ReAct 循环
+2. RAG Pipeline
+3. 记忆分层
+4. 多 Agent 一种拓扑
+```
+
+## 2026 热点
+
+MCP · LangGraph · Tool RAG · Agent 评估体系 · Computer Use  
+
+---
+
+## 点名
+
+`ReAct` · `RAG防幻觉` · `记忆系统` · `Function Calling` · `多Agent`
+
+---
+
+## 修订
+
+| 日期 | 说明 |
+|------|------|
+| 2026-07-21 | AI/Agent 专项频率导航 |
+"""
+
+# Also update Agent knowledge to redirect + short summary
+AGENT_SHORT = f"""# Agent · 知识点（入口）
+
+<!-- NAV:START -->
+> **完整体系请看：** [AI-Agent高频面试题与知识点.md](./AI-Agent高频面试题与知识点.md)  
+> 🗣️ [面渣](./Agent面渣级口述.md) · 🃏 [卡片](./Agent卡片速记.md) · 🔥 [频率](./AI-Agent八股频率排序.md)
+>
+<!-- NAV:END -->
+
+## 30 秒定义
+
+Agent = 目标驱动 + 多步规划 + 工具 + 观察 + 护栏。  
+≠ 多聊两句；是 **Thought→Action→Observation** 闭环。
+
+## 必背三问
+
+1. vs Chat / RAG / Workflow？  
+2. ReAct + 防死循环 5 条？  
+3. 工具谁执行？安全三原则？  
+
+**展开全文：** [AI-Agent 完整卷](./AI-Agent高频面试题与知识点.md)
+"""
+
+CARDS = f"""# Agent / AI · 卡片速记
+
+<!-- NAV:START -->
+> [完整卷](./AI-Agent高频面试题与知识点.md) · [频率](./AI-Agent八股频率排序.md) · [面渣](./Agent面渣级口述.md)
+<!-- NAV:END -->
+
+> 遮住 A。**先 P0。**
+
+---
+
+## Agent
+
+**Q1 Agent vs Chat？** A: 多步目标+工具行动 vs 单次生成。
+
+**Q2 公式？** A: LLM+规划+记忆+工具+护栏。
+
+**Q3 vs Workflow？** A: 动态选型 vs 步骤写死。
+
+**Q4 ReAct？** A: Thought→Action→Observation。
+
+**Q5 防死循环？** A: max_steps、去重、超时、熔断、HITL。
+
+**Q6 谁执行工具？** A: 服务端；模型只出意图。
+
+## RAG
+
+**Q7 RAG 流程？** A: 切→嵌→存→检索→(重排)→生成。
+
+**Q8 为何切？** A: 窗口与噪声；overlap 防切断。
+
+**Q9 稠密 vs 稀疏？** A: 语义 vs 关键词精确。
+
+**Q10 Rerank？** A: 粗召回后精排提质。
+
+**Q11 防幻觉？** A: 引用、拒答、阈值、评测。
+
+**Q12 Hybrid？** A: 向量+关键词通常更好。
+
+## 工具 / 记忆 / 工程
+
+**Q13 好 Tool？** A: 清晰名描述+严格 Schema。
+
+**Q14 MCP？** A: 模型-工具上下文标准协议。
+
+**Q15 记忆分层？** A: 短时窗口/工作状态/长期外存。
+
+**Q16 评估 Agent？** A: 成功率、步数、成本、幻觉率。
+
+**Q17 LangGraph？** A: 状态机循环、HITL、可恢复。
+
+**Q18 成本优化？** A: 路由小模型、缓存、并行工具。
+
+**Q19 Injection？** A: 最小权限、校验、审批、不信文档指令。
+
+**Q20 微调 vs RAG？** A: 风格格式 vs 知识常变。
+
+---
+
+详解：[AI-Agent高频面试题与知识点.md](./AI-Agent高频面试题与知识点.md)
+"""
+
+
+def patch():
+    path = DOCS / "路径-AI工程.md"
+    if path.exists():
+        t = path.read_text(encoding="utf-8")
+        if "AI-Agent高频" not in t and "AI-Agent八股" not in t:
+            # prepend note after title block
+            if "完整卷" not in t[:500]:
+                t = t.replace(
+                    "**读法：**",
+                    "**AI/Agent 完整卷：** [AI-Agent高频面试题与知识点.md](./AI-Agent高频面试题与知识点.md) · [频率](./AI-Agent八股频率排序.md)\n\n**读法：**",
+                )
+            path.write_text(t, encoding="utf-8")
+            print("path-ai")
+
+    sb = DOCS / "_sidebar.md"
+    if sb.exists():
+        t = sb.read_text(encoding="utf-8")
+        if "AI-Agent高频" not in t:
+            t = t.replace(
+                "* **③ AI 专题**\n",
+                "* **③ AI 专题**\n"
+                "  * [**AI/Agent完整卷**](AI-Agent高频面试题与知识点.md) · [频率](AI-Agent八股频率排序.md)\n",
+            )
+            sb.write_text(t, encoding="utf-8")
+            print("sidebar")
+
+    readme = DOCS / "README.md"
+    if readme.exists():
+        t = readme.read_text(encoding="utf-8")
+        if "AI-Agent" not in t:
+            t = t.replace(
+                "| AI 应用 / LLM 工程 | **[路径 A · AI 工程](./路径-AI工程.md)** |",
+                "| AI 应用 / LLM 工程 | **[路径 A · AI 工程](./路径-AI工程.md)** · [**Agent完整卷**](./AI-Agent高频面试题与知识点.md) |",
+            )
+            readme.write_text(t, encoding="utf-8")
+            print("readme")
+
+
+def main():
+    w("AI-Agent高频面试题与知识点.md", MAIN)
+    w("AI-Agent八股频率排序.md", RANK)
+    w("Agent高频面试题与知识点.md", AGENT_SHORT)
+    w("Agent卡片速记.md", CARDS)
+    patch()
+
+
+if __name__ == "__main__":
+    main()
