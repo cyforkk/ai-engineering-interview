@@ -375,6 +375,17 @@
       plugins: [
         function (hook, vm) {
           hook.beforeEach(function (html) {
+            // 修复 marked/docsify 对「加粗包裹链接」解析失败：
+            // **文案 → [链接](url)** 会原样露出星号；改为加粗与链接分离
+            // **[链接文案](url)** 改为 [**链接文案**](url)
+            html = html.replace(
+              /\*\*([^*\n]+?)\s*→\s*\[([^\]]+)\]\(([^)\n]+)\)\*\*/g,
+              '**$1** → [$2]($3)'
+            );
+            html = html.replace(
+              /\*\*\[([^\]]+)\]\(([^)\n]+)\)\*\*/g,
+              '[**$1**]($2)'
+            );
             var url =
               'https://github.com/cyforkk/ai-engineering-interview/blob/main/docs/' +
               vm.route.file;
