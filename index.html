@@ -15,6 +15,8 @@
       --bg: #ffffff;
       --bg-sidebar: #f5f7fa;
       --text: #34495e;
+      --text-heading: #1e293b;
+      --text-strong: #0f172a;
       --text-muted: #7f8c8d;
       --border: #eee;
       --code-bg: #f8f8f8;
@@ -25,8 +27,11 @@
       --theme-color: #60a5fa;
       --bg: #0f1419;
       --bg-sidebar: #151b23;
+      /* 正文略柔和；标题/加粗更高对比，避免发灰发脏 */
       --text: #e6edf3;
-      --text-muted: #9aa4b2;
+      --text-heading: #f8fafc;
+      --text-strong: #ffffff;
+      --text-muted: #a8b3c2;
       --border: #2d333b;
       --code-bg: #1c2128;
       --toolbar-bg: rgba(21, 27, 35, 0.94);
@@ -40,14 +45,39 @@
     .sidebar { background: var(--bg-sidebar) !important; border-color: var(--border) !important; }
     .sidebar ul li a { color: var(--text) !important; }
     .sidebar ul li.active > a { color: var(--theme-color) !important; }
-    .sidebar-nav strong { color: var(--text-muted) !important; }
+    /* 侧栏分组标题：保持可辨认，夜间不发灰 */
+    .sidebar-nav > ul > li > p,
+    .sidebar-nav > ul > li > strong,
+    .sidebar-nav strong {
+      color: var(--text-heading) !important;
+      font-weight: 700;
+      opacity: 1;
+    }
     .markdown-section { color: var(--text) !important; }
     .markdown-section h1, .markdown-section h2, .markdown-section h3,
-    .markdown-section h4, .markdown-section h5 {
-      color: var(--text) !important;
+    .markdown-section h4, .markdown-section h5, .markdown-section h6 {
+      color: var(--text-heading) !important;
       border-color: var(--border) !important;
+      font-weight: 700;
+    }
+    /* 覆盖 vue 主题给 strong 的深色字，夜间会发灰/发脏 */
+    .markdown-section strong,
+    .markdown-section b {
+      color: var(--text-strong) !important;
+      font-weight: 700;
+    }
+    .markdown-section th {
+      color: var(--text-heading) !important;
+      font-weight: 700;
+    }
+    .markdown-section td {
+      color: var(--text) !important;
     }
     .markdown-section a { color: var(--theme-color) !important; }
+    .markdown-section a strong,
+    .markdown-section a b {
+      color: var(--theme-color) !important;
+    }
     .markdown-section tr { border-color: var(--border) !important; }
     .markdown-section tbody tr:nth-child(2n) { background: transparent !important; }
     html.dark .markdown-section tbody tr:nth-child(2n) {
@@ -59,9 +89,33 @@
       background: var(--code-bg) !important;
       color: var(--text) !important;
     }
+    .markdown-section pre > code {
+      color: var(--text) !important;
+    }
+    /* 引用块：正文色可读；加粗跟 strong 变量 */
     .markdown-section blockquote {
       border-color: var(--theme-color) !important;
+      color: var(--text) !important;
+      opacity: 1;
+    }
+    .markdown-section blockquote strong,
+    .markdown-section blockquote b {
+      color: var(--text-strong) !important;
+    }
+    .markdown-section blockquote code {
+      color: var(--text) !important;
+    }
+    /* 分页、页脚小字 */
+    .pagination-item a,
+    .pagination-item-title {
+      color: var(--text) !important;
+    }
+    .markdown-section small,
+    .markdown-section small a {
       color: var(--text-muted) !important;
+    }
+    .markdown-section small a {
+      color: var(--theme-color) !important;
     }
     .search input {
       background: var(--bg) !important;
@@ -69,9 +123,20 @@
       border-color: var(--border) !important;
     }
     .app-nav a { color: var(--text) !important; }
+    .app-name-link {
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: var(--text-heading) !important;
+    }
+    .sidebar .app-name {
+      color: var(--text-heading) !important;
+      border-bottom-color: var(--border) !important;
+    }
+    /* docsify 目录/锚点旁的标题色 */
+    .markdown-section .anchor span {
+      color: var(--text-heading) !important;
+    }
     body.close .sidebar { box-shadow: none; }
-
-    .app-name-link { font-weight: 700; font-size: 1.15rem; }
     .markdown-section {
       max-width: 960px;
       font-size: 1.05rem;
