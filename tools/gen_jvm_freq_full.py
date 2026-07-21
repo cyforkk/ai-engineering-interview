@@ -1,12 +1,27 @@
-# JVM · 高频八股知识点（完整卷）
+# -*- coding: utf-8 -*-
+"""JVM：按超高频/高频/中频/低频完整卷 + 频率导航。不碰面渣。"""
+from pathlib import Path
 
-<!-- NAV:START -->
+DOCS = Path(__file__).resolve().parents[1] / "docs"
+
+
+def w(name, text):
+    p = DOCS / name
+    p.write_text(text.strip() + "\n", encoding="utf-8")
+    print(name, p.stat().st_size)
+
+
+NAV = """<!-- NAV:START -->
 > 📖 **JVM 完整卷** · 🗣️ [面渣](./JVM面渣级口述.md) · 🃏 [卡片](./JVM卡片速记.md) · 🔥 [频率导航](./JVM八股频率排序.md)
 >
 > [四档主线](./Java后端面试频率-四档.md) · [并发](./并发高频面试题与知识点.md)
 >
 <!-- NAV:END -->
+"""
 
+JVM = f"""# JVM · 高频八股知识点（完整卷）
+
+{NAV}
 
 > 大厂/中厂出现频率高，小厂/国企相对少。**核心三块：内存区域 + GC + 类加载**（必须能画图讲）。  
 > 场景排查长答见 [JVM面渣级口述.md](./JVM面渣级口述.md)。
@@ -482,3 +497,228 @@ top 找进程/线程 → printf %x 转 nid → jstack 对栈
 | 日期 | 说明 |
 |------|------|
 | 2026-07-21 | 按超高/高/中/低频大纲重写 JVM 完整卷 |
+"""
+
+RANK = f"""# JVM · 频率导航（2025–2026）
+
+> **完整卷：** [JVM高频面试题与知识点.md](./JVM高频面试题与知识点.md)  
+> **面渣：** [JVM面渣级口述.md](./JVM面渣级口述.md) · **卡片：** [JVM卡片速记.md](./JVM卡片速记.md)  
+> **全库主线：** [四档 P0](./Java后端面试频率-四档.md)
+
+---
+
+## 专项时间
+
+| 优先级 | 模块 | 时间 |
+|--------|------|:----:|
+| P0 | 数据区 + GC 算法 + CMS/G1 + 双亲委派 | 55% |
+| P1 | 对象布局 + 引用 + OOM 排查 | 20% |
+| P2 | 参数 + 工具 + Full GC | 15% |
+| P3 | 逃逸分析 / JIT / ZGC | 10% |
+
+**注意**：大厂/中厂问得多，小厂/国企相对少；但后端岗建议 P0 必会。
+
+---
+
+## 一、超高频
+
+| # | 主题 | 入口 |
+|---|------|------|
+| 1 | 运行时数据区（私有共享、分代、元空间演变、直接内存、溢出） | [完整卷 §1](./JVM高频面试题与知识点.md) |
+| 2 | GC 核心（可达性、Roots、算法、Minor/Full、晋级、STW） | [§2](./JVM高频面试题与知识点.md) |
+| 3 | 收集器（CMS/G1/ZGC 对比） | [§3](./JVM高频面试题与知识点.md) |
+| 4 | 类加载 + 双亲委派 | [§4](./JVM高频面试题与知识点.md) |
+| 5 | 对象创建 + 布局 + 访问定位 | [§5](./JVM高频面试题与知识点.md) |
+
+---
+
+## 二、高频
+
+四引用 · OOM 类型 · 泄漏 vs 溢出 · 排查工具链 · 常用参数 · 常量池位置 · TLAB · 逃逸分析  
+→ [完整卷 二](./JVM高频面试题与知识点.md)
+
+---
+
+## 三、中频
+
+JIT · 内联 · 工具全家桶 · GC 日志 · CPU 飙高 · 元空间/直接内存溢出  
+
+---
+
+## 四、低频加分
+
+G1 RSet/CSet · ZGC 染色指针 · Safepoint · 调优案例 · GraalVM  
+
+---
+
+## 必须能画图讲的三块
+
+```text
+1. 内存结构（堆分代 + 线程私有区）
+2. GC 判断 + 分代收集直觉
+3. 双亲委派流程
+```
+
+---
+
+## 点名
+
+`内存结构画图` · `G1过程` · `双亲委派` · `对象五步` · `Full GC排查`
+
+---
+
+## 修订
+
+| 日期 | 说明 |
+|------|------|
+| 2026-07-21 | JVM 专项频率导航 |
+"""
+
+CARDS = f"""# JVM · 卡片速记
+
+<!-- NAV:START -->
+> [完整卷](./JVM高频面试题与知识点.md) · [频率](./JVM八股频率排序.md) · [面渣](./JVM面渣级口述.md)
+<!-- NAV:END -->
+
+> 遮住 A。**先 P0。**
+
+---
+
+## 内存结构
+
+**Q1 线程私有？** A: 计数器、虚拟机栈、本地方法栈。
+
+**Q2 共享？** A: 堆、方法区/元空间。
+
+**Q3 堆分代？** A: Eden+S0/S1 + 老年代。
+
+**Q4 永久代→元空间？** A: JDK8 元空间用本地内存，易调、减 Perm OOM。
+
+**Q5 直接内存？** A: 堆外；NIO；也要防 OOM。
+
+**Q6 栈溢出 vs 堆溢出？** A: SOE 递归深；Heap OOM 堆不足/泄漏。
+
+## GC
+
+**Q7 存活判断？** A: 可达性分析；非引用计数。
+
+**Q8 GC Roots？** A: 栈引用、静态、常量、JNI 等。
+
+**Q9 四算法？** A: 标记清除、复制、标记整理、分代。
+
+**Q10 Minor vs Full？** A: 新代；整堆/大范围，STW更重。
+
+**Q11 进老年代？** A: 年龄阈值、大对象、动态年龄、担保失败等。
+
+**Q12 STW？** A: 停用户线程保证一致性。
+
+## 收集器
+
+**Q13 CMS 缺点？** A: 碎片、浮动垃圾、并发失败。
+
+**Q14 G1？** A: Region、RSet、可控停顿、Garbage First。
+
+**Q15 CMS vs G1？** A: 碎片 vs Region 可整理；G1 更主流。
+
+**Q16 ZGC？** A: 超低延迟（大堆）。
+
+## 类加载
+
+**Q17 五阶段？** A: 加载验证准备解析初始化。
+
+**Q18 双亲委派？** A: 先父后子；安全+唯一。
+
+**Q19 打破？** A: SPI、Tomcat、热部署、自定义。
+
+**Q20 加载器？** A: 启动/平台/应用/自定义。
+
+## 对象
+
+**Q21 创建五步？** A: 检查→分配→零值→对象头→init。
+
+**Q22 布局？** A: 头(Mark+Klass)+实例+对齐。
+
+**Q23 访问？** A: HotSpot 直接指针。
+
+## 高频排查
+
+**Q24 四引用？** A: 强软弱虚。
+
+**Q25 泄漏 vs 溢出？** A: 未释放渐少 vs 申请失败。
+
+**Q26 排查？** A: dump→MAT 引用链；jstack 对 CPU。
+
+**Q27 -Xms -Xmx？** A: 堆初始最大；常设相同。
+
+**Q28 常量池 JDK7+？** A: 在堆。
+
+**Q29 TLAB？** A: 线程本地分配缓冲。
+
+**Q30 逃逸分析？** A: 栈上/标量替换/锁消除。
+
+---
+
+详解：[JVM高频面试题与知识点.md](./JVM高频面试题与知识点.md)
+"""
+
+
+def patch():
+    ft = DOCS / "Java后端面试频率-四档.md"
+    if ft.exists():
+        t = ft.read_text(encoding="utf-8")
+        if "JVM八股频率排序" not in t:
+            t = t.replace(
+                "🗣️ [JVM面渣](./JVM面渣级口述.md) · 🃏 [JVM卡](./JVM卡片速记.md)",
+                "🗣️ [JVM面渣](./JVM面渣级口述.md) · 🃏 [JVM卡](./JVM卡片速记.md) · 🔥 [JVM频率](./JVM八股频率排序.md)",
+            )
+            ft.write_text(t, encoding="utf-8")
+            print("fourtier")
+
+    sb = DOCS / "_sidebar.md"
+    if sb.exists():
+        t = sb.read_text(encoding="utf-8")
+        if "JVM八股频率排序" not in t:
+            t = t.replace(
+                "  * [JVM完整卷](JVM高频面试题与知识点.md) · [卡片](JVM卡片速记.md)\n",
+                "  * [JVM完整卷](JVM高频面试题与知识点.md) · [频率](JVM八股频率排序.md) · [卡片](JVM卡片速记.md)\n",
+            )
+            # also older pattern
+            t = t.replace(
+                "  * [JVM](JVM高频面试题与知识点.md) · [卡片](JVM卡片速记.md)\n",
+                "  * [JVM完整卷](JVM高频面试题与知识点.md) · [频率](JVM八股频率排序.md) · [卡片](JVM卡片速记.md)\n",
+            )
+            sb.write_text(t, encoding="utf-8")
+            print("sidebar")
+
+    ov = DOCS / "Java八股模块总览.md"
+    if ov.exists():
+        t = ov.read_text(encoding="utf-8")
+        if "JVM八股频率排序" not in t:
+            t = t.replace(
+                "| 3 JVM | [JVM](./JVM高频面试题与知识点.md) |",
+                "| 3 **JVM 完整卷** | [JVM](./JVM高频面试题与知识点.md) · [频率](./JVM八股频率排序.md) |",
+            )
+            ov.write_text(t, encoding="utf-8")
+            print("overview")
+
+    path = DOCS / "路径-Java后端.md"
+    if path.exists():
+        t = path.read_text(encoding="utf-8")
+        if "JVM八股频率排序" not in t:
+            t = t.replace(
+                "[JVM八股](./JVM高频面试题与知识点.md)",
+                "[JVM完整卷](./JVM高频面试题与知识点.md)·[频率](./JVM八股频率排序.md)",
+            )
+            path.write_text(t, encoding="utf-8")
+            print("path")
+
+
+def main():
+    w("JVM高频面试题与知识点.md", JVM)
+    w("JVM八股频率排序.md", RANK)
+    w("JVM卡片速记.md", CARDS)
+    patch()
+
+
+if __name__ == "__main__":
+    main()

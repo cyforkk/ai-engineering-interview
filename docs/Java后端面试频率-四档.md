@@ -71,7 +71,7 @@
 | 对象创建与内存布局 | 同上 |
 | GC 调优参数与排查 | 同上 + [面渣场景](./JVM面渣级口述.md) |
 
-🗣️ [JVM面渣](./JVM面渣级口述.md) · 🃏 [JVM卡](./JVM卡片速记.md)
+🗣️ [JVM面渣](./JVM面渣级口述.md) · 🃏 [JVM卡](./JVM卡片速记.md) · 🔥 [JVM频率](./JVM八股频率排序.md)
 
 ## 4. Spring / Spring Boot
 
