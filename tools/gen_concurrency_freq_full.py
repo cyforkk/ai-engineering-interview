@@ -1,12 +1,27 @@
-# 并发编程 · 高频八股知识点（完整卷）
+# -*- coding: utf-8 -*-
+"""并发编程：按超高频/高频/中频/低频完整卷 + 专项频率导航。不碰面渣。"""
+from pathlib import Path
 
-<!-- NAV:START -->
+DOCS = Path(__file__).resolve().parents[1] / "docs"
+
+
+def w(name, text):
+    p = DOCS / name
+    p.write_text(text.strip() + "\n", encoding="utf-8")
+    print(name, p.stat().st_size)
+
+
+NAV = """<!-- NAV:START -->
 > 📖 **并发完整卷** · 🗣️ [面渣](./并发面渣级口述.md) · 🃏 [卡片](./并发卡片速记.md) · 🔥 [频率导航](./并发八股频率排序.md)
 >
 > [四档主线](./Java后端面试频率-四档.md) · [集合CHM](./Java集合框架高频面试题与知识点.md)
 >
 <!-- NAV:END -->
+"""
 
+CONC = f"""# 并发编程 · 高频八股知识点（完整卷）
+
+{NAV}
 
 > 2025–2026 大厂深挖最狠模块之一。**线程池 / 锁 / AQS / CAS 几乎必考。**  
 > 建议：源码关键路径 + **画图** + 项目场景。
@@ -501,3 +516,222 @@ ReentrantLock、Semaphore、CountDownLatch、ReentrantReadWriteLock、部分 Blo
 | 日期 | 说明 |
 |------|------|
 | 2026-07-21 | 按超高/高/中/低频大纲重写并发完整卷 |
+"""
+
+RANK = f"""# 并发编程 · 频率导航（2025–2026）
+
+> **完整卷：** [并发高频面试题与知识点.md](./并发高频面试题与知识点.md)  
+> **面渣：** [并发面渣级口述.md](./并发面渣级口述.md) · **卡片：** [并发卡片速记.md](./并发卡片速记.md)  
+> **全库主线：** [四档 P0](./Java后端面试频率-四档.md)
+
+---
+
+## 专项时间（并发内部）
+
+| 优先级 | 模块 | 时间 |
+|--------|------|:----:|
+| P0 | 线程池 + synchronized + volatile + CAS + AQS | 50% |
+| P1 | ThreadLocal + 死锁 + Latch/Barrier/Semaphore | 20% |
+| P2 | JMM + HB + 乐观/悲观锁 | 15% |
+| P3 | BlockingQueue + CF + 虚拟线程 | 15% |
+
+---
+
+## 一、超高频
+
+| # | 主题 | 完整卷 |
+|---|------|--------|
+| 1 | 线程基础（进程线程/状态/sleep wait/start run/切换） | [§1](./并发高频面试题与知识点.md) |
+| 2 | synchronized（原理/升级/优化/vs Lock） | [§2](./并发高频面试题与知识点.md) |
+| 3 | volatile（屏障/i++/DCL） | [§3](./并发高频面试题与知识点.md) |
+| 4 | **线程池**（参数/流程/拒绝/Executors/设参/关闭） | [§4](./并发高频面试题与知识点.md) |
+| 5 | CAS + 原子类 | [§5](./并发高频面试题与知识点.md) |
+| 6 | AQS | [§6](./并发高频面试题与知识点.md) |
+
+---
+
+## 二、高频
+
+ThreadLocal · 死锁 · 工具类 · JMM · 乐观悲观/公平可重入/读写锁  
+→ [完整卷 二](./并发高频面试题与知识点.md)
+
+---
+
+## 三、中频
+
+BlockingQueue · 生产者消费者 · CompletableFuture · ForkJoin · 中断  
+→ [完整卷 三](./并发高频面试题与知识点.md)
+
+---
+
+## 四、低频加分
+
+虚拟线程 · Mark Word 细节 · AQS 源码流程 · Condition · LongAdder · 池监控与动态调参 · StampedLock  
+
+---
+
+## 追问链（线程池）
+
+```text
+参数怎么设？ → 拒绝策略？ → 为何不用 Executors？
+→ 如何监控？ → 能否动态调？ → 项目里怎么配的？
+```
+
+---
+
+## 点名
+
+`线程池` · `锁升级` · `AQS` · `ThreadLocal泄漏` · `虚拟线程`
+
+---
+
+## 修订
+
+| 日期 | 说明 |
+|------|------|
+| 2026-07-21 | 并发专项频率导航 |
+"""
+
+CARDS = f"""# 并发 · 卡片速记
+
+<!-- NAV:START -->
+> [完整卷](./并发高频面试题与知识点.md) · [频率](./并发八股频率排序.md) · [面渣](./并发面渣级口述.md)
+<!-- NAV:END -->
+
+> 遮住 A。**先 P0。**
+
+---
+
+## 线程基础
+
+**Q1 进程 vs 线程？** A: 资源分配 vs 调度；共享堆。
+
+**Q2 六状态？** A: NEW/RUNNABLE/BLOCKED/WAITING/TIMED_WAITING/TERMINATED。
+
+**Q3 sleep vs wait？** A: 不释放锁 vs 释放；wait 在 Object。
+
+**Q4 start vs run？** A: 启新线程 vs 普通调用。
+
+**Q5 上下文切换？** A: 保存恢复现场；过多损吞吐。
+
+## synchronized / Lock
+
+**Q6 原理关键字？** A: monitorenter；Mark Word；Monitor。
+
+**Q7 锁升级？** A: 偏向→轻量→重量。
+
+**Q8 vs ReentrantLock？** A: 可中断/公平/多Condition/手动unlock。
+
+**Q9 锁消除粗化？** A: 逃逸消除同步；合并相邻锁。
+
+## volatile
+
+**Q10 三性？** A: 可见+有序；不原子。
+
+**Q11 i++？** A: 读改写三步；volatile 不够。
+
+**Q12 DCL？** A: 防 new 重排；需 volatile。
+
+## 线程池 P0
+
+**Q13 为何用池？** A: 复用、控并发、好管理。
+
+**Q14 七参数？** A: core/max/keepAlive/unit/queue/factory/handler。
+
+**Q15 流程？** A: core→队列→max→拒绝。
+
+**Q16 拒绝4？** A: Abort/CallerRuns/Discard/DiscardOldest。
+
+**Q17 Executors 坑？** A: 无界队列OOM/线程爆炸。
+
+**Q18 设参？** A: CPU≈核数；IO更大；压测。
+
+**Q19 execute vs submit？** A: void vs Future。
+
+**Q20 关闭？** A: shutdown 跑完队列；shutdownNow 中断。
+
+## CAS / AQS
+
+**Q21 CAS？** A: 比较交换；ABA/自旋/单变量。
+
+**Q22 ABA？** A: AtomicStampedReference。
+
+**Q23 AQS？** A: state+CLH队列+模板方法。
+
+**Q24 独占共享？** A: Lock vs Semaphore/Latch。
+
+## 高频
+
+**Q25 ThreadLocal 泄漏？** A: 弱key强value；池化remove。
+
+**Q26 死锁四条件？** A: 互斥、请求保持、不剥夺、环路。
+
+**Q27 Latch vs Barrier？** A: 一个等多个 / 互等可重用。
+
+**Q28 Semaphore？** A: 许可证限流。
+
+**Q29 JMM？** A: 主内存与工作内存；hb 保可见有序。
+
+**Q30 乐观悲观？** A: CAS vs 先加锁。
+
+## 中频 / 加分
+
+**Q31 阻塞队列？** A: Array有界；Linked；Synchronous交接。
+
+**Q32 CF 陷阱？** A: 默认公共池；要自定义池。
+
+**Q33 虚拟线程？** A: 适阻塞IO；不适重CPU。
+
+**Q34 LongAdder？** A: 分段计数，高竞争更优。
+
+---
+
+详解：[并发高频面试题与知识点.md](./并发高频面试题与知识点.md)
+"""
+
+
+def patch():
+    # four tier link to concurrency freq
+    ft = DOCS / "Java后端面试频率-四档.md"
+    if ft.exists():
+        t = ft.read_text(encoding="utf-8")
+        if "并发八股频率排序" not in t:
+            t = t.replace(
+                "🗣️ [并发面渣](./并发面渣级口述.md) · 🃏 [并发卡](./并发卡片速记.md)",
+                "🗣️ [并发面渣](./并发面渣级口述.md) · 🃏 [并发卡](./并发卡片速记.md) · 🔥 [并发频率](./并发八股频率排序.md)",
+            )
+            ft.write_text(t, encoding="utf-8")
+            print("fourtier")
+
+    sb = DOCS / "_sidebar.md"
+    if sb.exists():
+        t = sb.read_text(encoding="utf-8")
+        if "并发八股频率排序" not in t:
+            t = t.replace(
+                "  * [并发](并发高频面试题与知识点.md) · [卡片](并发卡片速记.md)\n",
+                "  * [并发完整卷](并发高频面试题与知识点.md) · [频率](并发八股频率排序.md) · [卡片](并发卡片速记.md)\n",
+            )
+            sb.write_text(t, encoding="utf-8")
+            print("sidebar")
+
+    ov = DOCS / "Java八股模块总览.md"
+    if ov.exists():
+        t = ov.read_text(encoding="utf-8")
+        if "并发八股频率排序" not in t:
+            t = t.replace(
+                "| 2 **并发完整卷** | [并发](./并发高频面试题与知识点.md) |",
+                "| 2 **并发完整卷** | [并发](./并发高频面试题与知识点.md) · [频率](./并发八股频率排序.md) |",
+            )
+            ov.write_text(t, encoding="utf-8")
+            print("overview")
+
+
+def main():
+    w("并发高频面试题与知识点.md", CONC)
+    w("并发八股频率排序.md", RANK)
+    w("并发卡片速记.md", CARDS)
+    patch()
+
+
+if __name__ == "__main__":
+    main()
