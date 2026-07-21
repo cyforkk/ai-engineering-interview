@@ -13,7 +13,8 @@
 | `gen_cards_all.py` | 中：卡片重生成 |
 | `inject_nav.py` | 中：改 NAV 区块 |
 | `inject_thin_banners.py` | 低：仅补 ⚠️ 横幅（可重复） |
-| `check_md_links.py` | 无：只检查链接 |
+| `check_md_links.py` | 无：检查链接 + **薄知识点白名单** |
+| `thin_knowledge_whitelist.txt` | 登记允许的薄 `*高频面试题与知识点*` |
 | `rewrite_commit_msgs.py` | 与文档内容无关 |
 
 **原则：**
@@ -26,12 +27,15 @@
 ## 推荐常用命令
 
 ```bash
-# 死链检查（CI 同款；archive 跳过）
+# 死链 + 薄知识点策略（CI 同款；archive 跳过）
+# 薄页必须：白名单登记 + 精简/入口横幅
 python tools/check_md_links.py
 
 # 仅为尚无横幅的精简页补 ⚠️（已有则 skip）
 python tools/inject_thin_banners.py
 ```
+
+新增薄知识点时：要么写到 ≥2500 字节，要么加入 `thin_knowledge_whitelist.txt` 并加 ⚠️ 横幅。
 
 ## 新增文档约定
 
