@@ -31,7 +31,7 @@
 | 1b Java8+ | [Java8+](./Java8加分项知识点.md) | 同上 | 同上 |
 | 2 **并发完整卷** | [并发](./并发高频面试题与知识点.md) | [面渣](./并发面渣级口述.md) | [卡](./并发卡片速记.md) |
 | 3 JVM | [JVM](./JVM高频面试题与知识点.md) | [面渣](./JVM面渣级口述.md) | [卡](./JVM卡片速记.md) |
-| 4 Spring | [Spring](./Spring高频面试题与知识点.md) | [面渣](./Spring面渣级口述.md) | [卡](./Spring卡片速记.md) |
+| 4 **Spring 完整卷** | [Spring](./Spring高频面试题与知识点.md) · [频率](./Spring八股频率排序-SABC.md) | [面渣](./Spring面渣级口述.md) | [卡](./Spring卡片速记.md) |
 | 5 MySQL | [MySQL](./MySQL高频面试题与知识点.md) | [面渣](./MySQL面渣级口述.md) | [卡](./MySQL卡片速记.md) |
 | 6 Redis | [Redis](./Redis高频面试题与知识点.md) | [面渣](./Redis面渣级口述.md) | [卡](./Redis卡片速记.md) |
 | 7 设计模式 | [模式](./设计模式高频面试题与知识点.md) | [面渣](./设计模式面渣级口述.md) | [卡](./设计模式卡片速记.md) |

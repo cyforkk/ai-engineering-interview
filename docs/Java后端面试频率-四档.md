@@ -73,7 +73,7 @@
 
 | 必考点 | 入口 |
 |--------|------|
-| IoC / AOP 原理 | [Spring](./Spring高频面试题与知识点.md) · [面渣](./Spring面渣级口述.md) |
+| IoC / AOP 原理 | [Spring完整卷](./Spring高频面试题与知识点.md) · [频率](./Spring八股频率排序-SABC.md) · [面渣](./Spring面渣级口述.md) |
 | 循环依赖（三级缓存） | 同上 |
 | Bean 生命周期 | 同上 |
 | Boot 自动装配 | 同上 |

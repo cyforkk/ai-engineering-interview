@@ -1,6 +1,17 @@
-# Spring / Spring Boot · 高频八股知识点（完整卷）
+# -*- coding: utf-8 -*-
+"""Spring/Spring Boot 高频八股完整卷 + 频率排序。不碰面渣。"""
+from pathlib import Path
 
-<!-- NAV:START -->
+DOCS = Path(__file__).resolve().parents[1] / "docs"
+
+
+def w(name, text):
+    p = DOCS / name
+    p.write_text(text.strip() + "\n", encoding="utf-8")
+    print(name, p.stat().st_size)
+
+
+NAV = """<!-- NAV:START -->
 > 📖 **Spring 八股** · 🗣️ [面渣](./Spring面渣级口述.md) · 🃏 [卡片](./Spring卡片速记.md) · 🔥 [频率SABC](./Spring八股频率排序-SABC.md)
 >
 > [模块总览](./Java八股模块总览.md) · [后端四档](./Java后端面试频率-四档.md) · [路径](./路径-Java后端.md)
@@ -8,7 +19,11 @@
 > [首页](./README.md) · [如何使用](./如何使用本仓库.md)
 >
 <!-- NAV:END -->
+"""
 
+SPRING = f"""# Spring / Spring Boot · 高频八股知识点（完整卷）
+
+{NAV}
 
 > 2025–2026 面试频率：S 级几乎必问。格式：**题 + 核心要点**；能背流程、会对比、懂为什么。  
 > 练嘴 → [Spring面渣级口述.md](./Spring面渣级口述.md)
@@ -301,7 +316,7 @@ SpringApplication.run()
 
 ## 13. 配置文件优先级 + Profile？
 
-- 常见：命令行 > 环境变量 > `application-{profile}.yml` > `application.yml` 等（完整优先级表很长，记「命令行最高、profile 覆盖默认」）。  
+- 常见：命令行 > 环境变量 > `application-{{profile}}.yml` > `application.yml` 等（完整优先级表很长，记「命令行最高、profile 覆盖默认」）。  
 - `spring.profiles.active=dev` 激活多环境。  
 - 同 key：高优先级覆盖低优先级。
 
@@ -423,3 +438,231 @@ SpringApplication.run()
 | 日期 | 说明 |
 |------|------|
 | 2026-07-21 | Spring 完整卷：S/A/B/C 全覆盖 |
+"""
+
+RANK = f"""# Spring / Spring Boot · 频率排名（2026）
+
+> 综合 2025–2026 面经与主流资料。  
+> **完整知识点：** [Spring高频面试题与知识点.md](./Spring高频面试题与知识点.md)  
+> **面渣：** [Spring面渣级口述.md](./Spring面渣级口述.md) · **卡片：** [Spring卡片速记.md](./Spring卡片速记.md)
+
+---
+
+## S 级（几乎必问，70%+）
+
+| 排名 | 知识点 | 核心考察点 | 入口 |
+|:----:|--------|------------|------|
+| 1 | Boot **自动装配** | EnableAutoConfiguration → imports/factories → Conditional | [§1](./Spring高频面试题与知识点.md) |
+| 2 | **Bean 生命周期** | 实例化→注入→Aware→BPP→初始化→销毁 | [§2](./Spring高频面试题与知识点.md) |
+| 3 | **循环依赖 + 三级缓存** | 为何三级、二级不够、何解不了 | [§3](./Spring高频面试题与知识点.md) |
+| 4 | **IoC / DI** | 本质、三种注入、Autowired vs Resource | [§4](./Spring高频面试题与知识点.md) |
+| 5 | **AOP** | JDK vs CGLIB、默认代理、通知 | [§5](./Spring高频面试题与知识点.md) |
+| 6 | **@Transactional 失效** | this/非public/吞异常/检查异常… | [§6](./Spring高频面试题与知识点.md) |
+
+### 必须滚瓜烂熟
+
+```text
+自动装配 → 生命周期 → 三级缓存 → 事务失效 → AOP 代理
+```
+
+---
+
+## A 级（40%～70%）
+
+| 排名 | 知识点 | 入口 |
+|:----:|--------|------|
+| 7 | Spring vs Spring Boot | [§7](./Spring高频面试题与知识点.md) |
+| 8 | 事务传播 + 隔离 | [§8](./Spring高频面试题与知识点.md) |
+| 9 | 作用域 + 单例线程安全 | [§9](./Spring高频面试题与知识点.md) |
+| 10 | 构造器注入 vs 字段注入 | [§10](./Spring高频面试题与知识点.md) |
+| 11 | MVC 执行流程 | [§11](./Spring高频面试题与知识点.md) |
+| 12 | Boot 启动流程 | [§12](./Spring高频面试题与知识点.md) |
+| 13 | 配置优先级 + Profile | [§13](./Spring高频面试题与知识点.md) |
+
+---
+
+## B 级（25%～45%）
+
+14 自定义 Starter · 15 Filter/Interceptor/AOP · 16 BeanFactory vs ApplicationContext  
+17 设计模式 · 18 内嵌 Tomcat · 19 事件 · 20 @Component vs @Bean  
+
+→ 均见 [完整卷 B 级](./Spring高频面试题与知识点.md)
+
+---
+
+## C 级（&lt;25%）
+
+refresh、BeanDefinition、FactoryBean、条件注解细节、Actuator、热部署、Boot 3.x 变化  
+
+---
+
+## 与全库关系
+
+| 文档 | 作用 |
+|------|------|
+| [后端四档](./Java后端面试频率-四档.md) | P1 含 Spring |
+| [Java SABC](./Java八股频率排序-SABC.md) | S7 Spring 核心 |
+| [设计模式](./设计模式高频面试题与知识点.md) | Spring 中的模式 |
+
+---
+
+## 点名深挖
+
+回复：`S1 自动装配` / `S3 三级缓存` / `S级可背诵模板` / `源码 refresh` 等。
+
+---
+
+## 修订
+
+| 日期 | 说明 |
+|------|------|
+| 2026-07-21 | Spring 专项频率表 2026 |
+"""
+
+CARDS = f"""# Spring · 卡片速记
+
+<!-- NAV:START -->
+> [完整卷](./Spring高频面试题与知识点.md) · [频率](./Spring八股频率排序-SABC.md) · [面渣](./Spring面渣级口述.md)
+<!-- NAV:END -->
+
+> 遮住 A。**先刷 S 级。**
+
+---
+
+## S 级
+
+**Q1 自动装配链路？**  
+A: EnableAutoConfiguration → ImportSelector → factories/imports → Conditional → 注册Bean。
+
+**Q2 Bean 生命周期主干？**  
+A: 实例化→属性注入→Aware→BPP前→初始化→BPP后→使用→销毁。
+
+**Q3 三级缓存？**  
+A: 一级成品；二级早期对象；三级工厂（循环时暴露，可代理）。
+
+**Q4 构造器环？**  
+A: 三级缓存解决不了构造器循环依赖。
+
+**Q5 为何要三级？**  
+A: 延迟创建早期引用，正确处理AOP代理。
+
+**Q6 IoC/DI？**  
+A: 容器管创建装配；依赖由容器注入。
+
+**Q7 推荐哪种注入？**  
+A: 构造器注入。
+
+**Q8 @Autowired vs @Resource？**  
+A: 默认按类型 vs 按名称。
+
+**Q9 JDK代理 vs CGLIB？**  
+A: 接口 vs 子类；Boot常默认CGLIB倾向。
+
+**Q10 事务失效 4 条？**  
+A: this调用、非public、吞异常、检查异常未rollbackFor。
+
+---
+
+## A 级
+
+**Q11 Spring vs Boot？**  
+A: Boot=约定+Starter+自动配置+内嵌容器。
+
+**Q12 REQUIRED vs REQUIRES_NEW？**  
+A: 加入已有事务 vs 新开事务。
+
+**Q13 单例线程安全？**  
+A: 默认否（有状态时）；无状态Service可单例。
+
+**Q14 MVC 核心？**  
+A: DispatcherServlet→Mapping→Adapter→ViewResolver。
+
+**Q15 启动抓什么？**  
+A: Environment→建上下文→refresh→内嵌服务器。
+
+---
+
+## B 级
+
+**Q16 自定义Starter？**  
+A: 自动配置类+Conditional+imports/factories。
+
+**Q17 Filter vs Interceptor？**  
+A: Servlet层 vs SpringMVC Handler前后。
+
+**Q18 BeanFactory vs ApplicationContext？**  
+A: 基础容器 vs 功能完整上下文。
+
+**Q19 @Component vs @Bean？**  
+A: 自有类注解 vs 方法声明第三方/定制Bean。
+
+---
+
+详解：[Spring高频面试题与知识点.md](./Spring高频面试题与知识点.md)
+"""
+
+
+def patch_nav():
+    # overview
+    ov = DOCS / "Java八股模块总览.md"
+    if ov.exists():
+        t = ov.read_text(encoding="utf-8")
+        if "Spring八股频率" not in t:
+            t = t.replace(
+                "| 4 Spring | [Spring](./Spring高频面试题与知识点.md) |",
+                "| 4 **Spring 完整卷** | [Spring](./Spring高频面试题与知识点.md) · [频率](./Spring八股频率排序-SABC.md) |",
+            )
+            ov.write_text(t, encoding="utf-8")
+            print("overview")
+
+    # path
+    path = DOCS / "路径-Java后端.md"
+    if path.exists():
+        t = path.read_text(encoding="utf-8")
+        if "Spring八股频率" not in t:
+            t = t.replace(
+                "[Spring八股](./Spring高频面试题与知识点.md)",
+                "[Spring八股](./Spring高频面试题与知识点.md)·[频率](./Spring八股频率排序-SABC.md)",
+            )
+            # other pattern
+            t = t.replace(
+                "| [Spring](./Spring面渣级口述.md) | [Spring八股](./Spring高频面试题与知识点.md) |",
+                "| [Spring](./Spring面渣级口述.md) | [Spring完整卷](./Spring高频面试题与知识点.md) · [频率](./Spring八股频率排序-SABC.md) |",
+            )
+            path.write_text(t, encoding="utf-8")
+            print("path")
+
+    # sidebar
+    sb = DOCS / "_sidebar.md"
+    if sb.exists():
+        t = sb.read_text(encoding="utf-8")
+        if "Spring八股频率" not in t:
+            t = t.replace(
+                "  * [Spring](Spring高频面试题与知识点.md) · [卡片](Spring卡片速记.md)\n",
+                "  * [Spring完整卷](Spring高频面试题与知识点.md) · [频率](Spring八股频率排序-SABC.md) · [卡片](Spring卡片速记.md)\n",
+            )
+            sb.write_text(t, encoding="utf-8")
+            print("sidebar")
+
+    # four tier
+    ft = DOCS / "Java后端面试频率-四档.md"
+    if ft.exists():
+        t = ft.read_text(encoding="utf-8")
+        if "Spring八股频率" not in t:
+            t = t.replace(
+                "| [Spring](./Spring高频面试题与知识点.md) · [面渣](./Spring面渣级口述.md) |",
+                "| [Spring完整卷](./Spring高频面试题与知识点.md) · [频率](./Spring八股频率排序-SABC.md) · [面渣](./Spring面渣级口述.md) |",
+            )
+            ft.write_text(t, encoding="utf-8")
+            print("fourtier")
+
+
+def main():
+    w("Spring高频面试题与知识点.md", SPRING)
+    w("Spring八股频率排序-SABC.md", RANK)
+    w("Spring卡片速记.md", CARDS)
+    patch_nav()
+
+
+if __name__ == "__main__":
+    main()
