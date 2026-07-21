@@ -1,65 +1,59 @@
 # Java · 卡片速记
 
 <!-- NAV:START -->
-> **只背要点。** 原理 → [详解](./Java高频面试题与知识点.md) · 怎么说 → [面渣](./Java面渣级口述.md)
+> **只背要点。** 原理 → [知识点](./Java高频面试题与知识点.md) · 怎么说 → [面渣](./Java面渣级口述.md)
 >
-> [首页](./README.md) · [如何使用](./如何使用本仓库.md) · [路径](./路径-Java后端.md)
+> [模块总览](./Java八股模块总览.md) · [如何使用](./如何使用本仓库.md)
 >
 <!-- NAV:END -->
 
-> 用法：遮住 **A**，只看 **Q** 回忆；卡壳回详解。
+> 遮住 A，只看 Q。
 
 ---
 
-## 1. == 和 equals 区别？
+## 1. == 与 equals？
+**A:** 基本比値/引用比地址；equals 默认同地址，可重写比内容。
 
-**A:** 基本类型/引用地址 vs 可重写的内容相等；默认 equals≈==。
+## 2. 重写 equals 为何必须 hashCode？
+**A:** 相等对象同 hash；否则 HashMap 存取失败。
 
-## 2. equals 与 hashCode 契约？
+## 3. String 三兄弟？
+**A:** String 不可变；Builder 可变非安全；Buffer 可变且安全。
 
-**A:** equals 为 true ⇒ hashCode 必须相同；否则 HashMap 找错桶。
+## 4. String 为何不可变？
+**A:** final+无改API；池化、hash缓存、安全。
 
-## 3. String 为何不可变？
+## 5. Integer 缓存？
+**A:** -128~127；外用 equals。
 
-**A:** 池化共享、hash 可缓存、线程安全/防篡改；拼接用 StringBuilder。
+## 6. 值传递？
+**A:** 只有值传递；引用传的是副本。
 
-## 4. HashMap 结构？
+## 7. 重载 vs 重写？
+**A:** 参数不同编译期 / 子类覆盖运行期。
 
-**A:** 数组 + 链表/红黑树；JDK8。
+## 8. 抽象类 vs 接口？
+**A:** 抽象类可有状态构造；接口多实现+default。
 
-## 5. put 流程要点？
+## 9. HashMap JDK8？
+**A:** 数组+链+红黑树；≥8且表≥64树化；0.75；2的幂。
 
-**A:** hash→下标→空则放/equals 覆盖/链追加→可能树化扩容。
+## 10. JDK7 vs 8 HashMap？
+**A:** 7头插可能死链；8尾插+树。
 
-## 6. 树化条件？
+## 11. CHM vs Hashtable？
+**A:** 8用CAS+锁节点；HT全表锁；都不允许null。
 
-**A:** 链长≥8 且 表长≥64；≤6 退化链表。
+## 12. ArrayList vs LinkedList？
+**A:** 数组随机快 / 链表头尾插删。
 
-## 7. 为何容量 2 的幂？
+## 13. HashSet 底层？
+**A:** HashMap，value 固定对象。
 
-**A:** (n-1)&hash 代替取模，分布均匀且快。
+## 14. 异常体系？
+**A:** Error/Exception；检查 vs 运行时。
 
-## 8. HashMap 线程安全？
+## 15. final/finally/finalize？
+**A:** 修饰/必执行块/废弃的GC回调。
 
-**A:** 否；并发用 ConcurrentHashMap。
-
-## 9. ArrayList vs LinkedList？
-
-**A:** 随机访问数组优；中间插删链表理论优，实际小数据 ArrayList 常更快。
-
-## 10. fail-fast？
-
-**A:** 迭代时结构被改抛 CME；并发容器弱一致迭代。
-
----
-
-
-## 11. Integer 缓存？
-
-**A:** 默认 -128～127；区间内 a==b 可能 true；区间外 false，比内容用 equals。
-
-## 12. 装箱拆箱？
-
-**A:** 基本↔包装；valueOf/intValue；比较内容用 equals。
-
-详解：[Java高频面试题与知识点.md](./Java高频面试题与知识点.md) · 面渣：[Java面渣级口述.md](./Java面渣级口述.md)
+详解：[Java高频面试题与知识点.md](./Java高频面试题与知识点.md)
