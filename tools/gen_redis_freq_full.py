@@ -1,12 +1,27 @@
-# Redis · 高频八股知识点（完整卷）
+# -*- coding: utf-8 -*-
+"""Redis：按超高/高/中/低频完整卷 + 频率导航。不碰面渣。"""
+from pathlib import Path
 
-<!-- NAV:START -->
+DOCS = Path(__file__).resolve().parents[1] / "docs"
+
+
+def w(name, text):
+    p = DOCS / name
+    p.write_text(text.strip() + "\n", encoding="utf-8")
+    print(name, p.stat().st_size)
+
+
+NAV = """<!-- NAV:START -->
 > 📖 **Redis 完整卷** · 🗣️ [面渣](./Redis面渣级口述.md) · 🃏 [卡片](./Redis卡片速记.md) · 🔥 [频率导航](./Redis八股频率排序.md)
 >
 > [四档主线](./Java后端面试频率-四档.md) · [MySQL](./MySQL高频面试题与知识点.md)
 >
 <!-- NAV:END -->
+"""
 
+REDIS = f"""# Redis · 高频八股知识点（完整卷）
+
+{NAV}
 
 > 后端面试出现频率极高。**三连 + 持久化 + 分布式锁 + 数据类型** 几乎必考。  
 > 建议：原理 + **项目场景** + 方案优缺点与失败怎么办。
@@ -415,3 +430,209 @@ Lua: if get==me then del
 | 日期 | 说明 |
 |------|------|
 | 2026-07-21 | 按超高/高/中/低频大纲重写 Redis 完整卷 |
+"""
+
+RANK = f"""# Redis · 频率导航（2025–2026）
+
+> **完整卷：** [Redis高频面试题与知识点.md](./Redis高频面试题与知识点.md)  
+> **面渣：** [Redis面渣级口述.md](./Redis面渣级口述.md) · **卡片：** [Redis卡片速记.md](./Redis卡片速记.md)  
+> **全库主线：** [四档 P0](./Java后端面试频率-四档.md)
+
+---
+
+## 专项时间
+
+| 优先级 | 模块 | 时间 |
+|--------|------|:----:|
+| P0 | 数据类型 + 三连 + 持久化 + 分布式锁 | **50%** |
+| P1 | 主从/哨兵/Cluster + 淘汰 + 双写一致 | 25% |
+| P2 | 为什么快 + Pipeline/Lua + 大/热 Key | 15% |
+| P3 | 底层结构 + 监控运维 | 10% |
+
+---
+
+## 一、超高频
+
+| # | 主题 | 入口 |
+|---|------|------|
+| 1 | 数据类型与场景（含跳表、扩展类型） | [§1](./Redis高频面试题与知识点.md) |
+| 2 | 穿透 / 击穿 / 雪崩 | [§2](./Redis高频面试题与知识点.md) |
+| 3 | RDB / AOF / 混合 / 刷盘 | [§3](./Redis高频面试题与知识点.md) |
+| 4 | 分布式锁 / Redisson / RedLock | [§4](./Redis高频面试题与知识点.md) |
+| 5 | 过期删除 + 内存淘汰 + 大 Key | [§5](./Redis高频面试题与知识点.md) |
+
+---
+
+## 二、高频
+
+主从 · 哨兵 · Cluster 16384 · 为何快 · epoll · Pipeline/事务/Lua · Cache Aside  
+
+---
+
+## 三、中频
+
+Redis 事务 · Pub/Sub · 延时队列 · 热 Key · 慢查询 · 阻塞 · 布隆 · 限流  
+
+---
+
+## 四、低频加分
+
+SDS/跳表细节 · 渐进 rehash · 6.0 多线程 IO · 碎片 · 监控指标  
+
+---
+
+## 必须能讲清的三块
+
+```text
+1. 缓存三连（定义不混 + 方案）
+2. 分布式锁（NX EX + Lua + 看门狗）
+3. RDB vs AOF 选型
+```
+
+## 追问链
+
+```text
+为何这方案？ → 优缺点？ → 失败怎么办？ → 有没有更好？
+```
+
+---
+
+## 点名
+
+`三连对比` · `Redisson` · `RDB/AOF` · `跳表` · `Cluster槽`
+
+---
+
+## 修订
+
+| 日期 | 说明 |
+|------|------|
+| 2026-07-21 | Redis 专项频率导航 |
+"""
+
+CARDS = f"""# Redis · 卡片速记
+
+<!-- NAV:START -->
+> [完整卷](./Redis高频面试题与知识点.md) · [频率](./Redis八股频率排序.md) · [面渣](./Redis面渣级口述.md)
+<!-- NAV:END -->
+
+> 遮住 A。**先 P0。**
+
+---
+
+## 类型
+
+**Q1 五类型场景？** A: 缓存计数锁/对象字段/列表/去重/排行榜。
+
+**Q2 ZSet 结构？** A: 跳表+dict。
+
+**Q3 Bitmap/HLL/GEO/Stream？** A: 签到/UV/附近/消息流。
+
+## 三连
+
+**Q4 穿透？** A: 不存在→空值/布隆。
+
+**Q5 击穿？** A: 热点过期→互斥/逻辑过期。
+
+**Q6 雪崩？** A: 大量过期或挂→TTL随机+HA+限流。
+
+**Q7 区别？** A: 假数据 vs 单热点 vs 大面积。
+
+## 持久化
+
+**Q8 RDB vs AOF？** A: 快照快恢复 vs 日志更全。
+
+**Q9 AOF 刷盘？** A: always/everysec/no。
+
+**Q10 混合？** A: RDB前缀+增量AOF。
+
+## 锁
+
+**Q11 命令？** A: SET key val NX EX。
+
+**Q12 误删？** A: 唯一value + Lua删。
+
+**Q13 看门狗？** A: Redisson 自动续期。
+
+**Q14 RedLock？** A: 多数实例加锁；有争议。
+
+## 过期淘汰
+
+**Q15 过期？** A: 惰性+定期。
+
+**Q16 淘汰？** A: allkeys-lru/lfu 等。
+
+**Q17 LRU vs LFU？** A: 最久未用 vs 频率。
+
+**Q18 大Key？** A: 拆分、UNLINK、避高峰。
+
+## 高频
+
+**Q19 为何快？** A: 内存、单线程命令、结构、多路复用。
+
+**Q20 主从？** A: 全量+增量复制。
+
+**Q21 哨兵？** A: 监控+自动切主。
+
+**Q22 Cluster？** A: 16384槽分片。
+
+**Q23 Cache Aside写？** A: 先DB再删缓存。
+
+**Q24 Pipeline vs 事务？** A: 减RTT vs 排队不回滚。
+
+**Q25 Lua？** A: 服务端原子执行。
+
+---
+
+详解：[Redis高频面试题与知识点.md](./Redis高频面试题与知识点.md)
+"""
+
+
+def patch():
+    ft = DOCS / "Java后端面试频率-四档.md"
+    if ft.exists():
+        t = ft.read_text(encoding="utf-8")
+        if "Redis八股频率排序" not in t:
+            t = t.replace(
+                "🗣️ [Redis面渣](./Redis面渣级口述.md) · 🃏 [Redis卡](./Redis卡片速记.md)",
+                "🗣️ [Redis面渣](./Redis面渣级口述.md) · 🃏 [Redis卡](./Redis卡片速记.md) · 🔥 [Redis频率](./Redis八股频率排序.md)",
+            )
+            ft.write_text(t, encoding="utf-8")
+            print("fourtier")
+
+    sb = DOCS / "_sidebar.md"
+    if sb.exists():
+        t = sb.read_text(encoding="utf-8")
+        if "Redis八股频率排序" not in t:
+            t = t.replace(
+                "  * [Redis完整卷](Redis高频面试题与知识点.md) · [卡片](Redis卡片速记.md)\n",
+                "  * [Redis完整卷](Redis高频面试题与知识点.md) · [频率](Redis八股频率排序.md) · [卡片](Redis卡片速记.md)\n",
+            )
+            t = t.replace(
+                "  * [Redis](Redis高频面试题与知识点.md) · [卡片](Redis卡片速记.md)\n",
+                "  * [Redis完整卷](Redis高频面试题与知识点.md) · [频率](Redis八股频率排序.md) · [卡片](Redis卡片速记.md)\n",
+            )
+            sb.write_text(t, encoding="utf-8")
+            print("sidebar")
+
+    path = DOCS / "路径-Java后端.md"
+    if path.exists():
+        t = path.read_text(encoding="utf-8")
+        if "Redis八股频率排序" not in t:
+            t = t.replace(
+                "[Redis八股](./Redis高频面试题与知识点.md)",
+                "[Redis完整卷](./Redis高频面试题与知识点.md)·[频率](./Redis八股频率排序.md)",
+            )
+            path.write_text(t, encoding="utf-8")
+            print("path")
+
+
+def main():
+    w("Redis高频面试题与知识点.md", REDIS)
+    w("Redis八股频率排序.md", RANK)
+    w("Redis卡片速记.md", CARDS)
+    patch()
+
+
+if __name__ == "__main__":
+    main()

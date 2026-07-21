@@ -106,7 +106,7 @@
 | 分布式锁 / Redisson | 同上 |
 | 过期删除 + 淘汰策略 | 同上 |
 
-🗣️ [Redis面渣](./Redis面渣级口述.md) · 🃏 [Redis卡](./Redis卡片速记.md)
+🗣️ [Redis面渣](./Redis面渣级口述.md) · 🃏 [Redis卡](./Redis卡片速记.md) · 🔥 [Redis频率](./Redis八股频率排序.md)
 
 ---
 
