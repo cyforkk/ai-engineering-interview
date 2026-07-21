@@ -1,5 +1,5 @@
 * [首页](README.md)
-* [AI路径](路径-AI工程.md)
-* [Java路径](路径-Java后端.md)
-* [Python路径](路径-Python.md)
+* [AI](路径-AI工程.md)
+* [Java](路径-Java后端.md)
+* [Python](路径-Python.md)
 * [GitHub](https://github.com/cyforkk/ai-engineering-interview)

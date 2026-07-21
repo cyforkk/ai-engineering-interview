@@ -135,6 +135,8 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      min-width: 0;
+      max-width: 100%;
     }
     /* 侧栏站点图标 */
     .app-name-link img,
@@ -150,10 +152,22 @@
     }
     .app-name-link .app-name-text {
       vertical-align: middle;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      min-width: 0;
     }
     .sidebar .app-name {
       color: var(--text-heading) !important;
       border-bottom-color: var(--border) !important;
+      overflow: hidden;
+    }
+    /* 顶栏导航：始终压在内容标题之上，避免被大字挡住 */
+    .app-nav {
+      z-index: 30 !important;
+    }
+    .app-nav li ul {
+      z-index: 31 !important;
     }
     /* docsify 目录/锚点旁的标题色 */
     .markdown-section .anchor span {
@@ -228,13 +242,96 @@
     }
     @media screen and (max-width: 768px) {
       :root {
-        --base-font-size: 17px;
-        --code-font-size: 14px;
+        --base-font-size: 16px;
+        --code-font-size: 13px;
+        --sidebar-font-size: 15px;
+      }
+      /* 右上角 GitHub 角标会压住顶栏「GitHub / Python路径」→ 手机隐藏，导航里已有链接 */
+      .github-corner {
+        display: none !important;
+      }
+      /* 顶栏：固定、可横滑、不透明底，避免被正文 h1 大字盖住 */
+      .app-nav {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        margin: 0 !important;
+        padding: 10px 12px 10px 52px !important; /* 左侧留给汉堡菜单 */
+        z-index: 40 !important;
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 2px;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch;
+        white-space: nowrap !important;
+        background: var(--bg) !important;
+        border-bottom: 1px solid var(--border);
+        box-shadow: 0 1px 0 var(--border);
+      }
+      .app-nav li {
+        float: none !important;
+        display: inline-block !important;
+        margin: 0 4px !important;
+        line-height: 1.2 !important;
+      }
+      .app-nav a {
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        padding: 4px 2px !important;
+        white-space: nowrap !important;
+      }
+      .app-nav ul,
+      .app-nav li ul {
+        position: static !important;
+      }
+      /* 汉堡按钮抬到顶栏上方 */
+      .sidebar-toggle {
+        z-index: 45 !important;
+        top: 6px !important;
+      }
+      /* 正文顶距，避免标题顶到固定导航下 */
+      .content {
+        padding-top: 52px !important;
+      }
+      section.content {
+        padding-top: 52px !important;
+      }
+      /* 正文大标题缩小，减少“大字压顶”感 */
+      .markdown-section h1 {
+        font-size: 1.4rem !important;
+        line-height: 1.35 !important;
+        word-break: break-word;
+        padding-right: 0 !important;
+      }
+      .markdown-section h2 {
+        font-size: 1.22rem !important;
+      }
+      .markdown-section h3 {
+        font-size: 1.1rem !important;
+      }
+      /* 侧栏站名：字号缩小 + 省略，避免撑破 */
+      .sidebar .app-name {
+        padding: 12px 12px 10px !important;
+      }
+      .app-name-link {
+        font-size: 0.92rem !important;
+        gap: 8px !important;
+      }
+      .app-name-link img,
+      .sidebar .app-name img,
+      #sidebar-logo {
+        width: 28px !important;
+        height: 28px !important;
       }
       #site-toolbar {
         right: 10px;
         bottom: 12px;
         padding: 6px;
+        z-index: 50;
       }
       #site-toolbar button {
         padding: 5px 8px;
@@ -408,6 +505,29 @@
             img.height = 36;
             img.decoding = 'async';
             link.insertBefore(img, link.firstChild);
+            // 站名包进 span，手机端可 ellipsis，避免大字挤占导航
+            if (!link.querySelector('.app-name-text')) {
+              var textNodes = [];
+              for (var ci = 0; ci < link.childNodes.length; ci++) {
+                var n = link.childNodes[ci];
+                if (n.nodeType === 3 && n.textContent && n.textContent.trim()) {
+                  textNodes.push(n);
+                }
+              }
+              if (textNodes.length) {
+                var span = document.createElement('span');
+                span.className = 'app-name-text';
+                var nameText = '';
+                for (var ti = 0; ti < textNodes.length; ti++) {
+                  nameText += textNodes[ti].textContent;
+                }
+                span.textContent = nameText.trim();
+                for (var ri = 0; ri < textNodes.length; ri++) {
+                  link.removeChild(textNodes[ri]);
+                }
+                link.appendChild(span);
+              }
+            }
             var idx = 0;
             function tryNext() {
               if (idx >= LOGO_CANDIDATES.length) return;
