@@ -57,3 +57,16 @@
 ---
 
 详解：[AI-Agent高频面试题与知识点.md](./AI-Agent高频面试题与知识点.md)
+
+---
+
+## P0 口述骨架（考前必背）
+
+**Agent vs Chat vs Workflow（30 秒）：**  
+Agent = 目标驱动多步 + 工具；Chat 主生成；Workflow 步骤写死更可控。  
+**ReAct：** Thought→Action→Observation；max_steps/去重/熔断/HITL 防死循环。  
+**RAG 防幻觉：** 切→嵌→检索→(重排)→生成；引用 + 低分拒答 + 金标。  
+**工具：** Schema + 服务端鉴权；模型不可信。  
+**易错：** 把 Agent 说成「多聊两句」；只靠 Prompt 防注入。
+
+**链：** [完整卷](./AI-Agent高频面试题与知识点.md) · [面渣](./Agent面渣级口述.md) · [三故事](./加分-AI-必背三故事.md) · [结构图](./核心结构图.md)

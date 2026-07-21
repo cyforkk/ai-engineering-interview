@@ -85,3 +85,14 @@
 ---
 
 详解：[Spring高频面试题与知识点.md](./Spring高频面试题与知识点.md)
+
+---
+
+## P0 口述骨架（考前必背）
+
+**IOC/装配：** 容器管生命周期；Boot 自动装配 = EnableAutoConfiguration + spring.factories/AutoConfiguration.imports + Conditional。  
+**三级缓存与循环依赖：** 三级工厂提前暴露引用；构造器注入/ prototype 解不了。  
+**事务失效：** 同类 this 调用、非 public、异常被吞、检查异常未 rollbackFor 等。  
+**易错：** 只背「有三级缓存」不说哪一级干什么。
+
+**链：** [完整卷](./Spring高频面试题与知识点.md) · [面渣](./Spring面渣级口述.md) · [结构图·三级缓存](./核心结构图.md)
