@@ -18,6 +18,7 @@
   * [架构图集](架构图集.md)
   * [算法入口](算法入口.md)
   * [T0 错因口述](算法T0错因与口述.md)
+  * [算法默写代码册](算法高频默写代码册.md)
   * [追问 · Java](追问三连-Java.md)
   * [追问 · Python](追问三连-Python.md)
   * [追问 · AI](追问三连-AI.md)
@@ -61,8 +62,8 @@
   * [MyBatis 精简](MyBatis高频面试题与知识点.md)
   * [设计模式 精简](设计模式高频面试题与知识点.md)
   * [微服务 精简](微服务与分布式高频面试题与知识点.md)
-  * [Kafka 精简](Kafka高频面试题与知识点.md)
-  * [RocketMQ 精简](RocketMQ高频面试题与知识点.md)
+  * [Kafka 差异](Kafka高频面试题与知识点.md)
+  * [RocketMQ 差异](RocketMQ高频面试题与知识点.md)
   * [K8s 精简](Docker与K8s高频面试题与知识点.md)
 
 * **⑤ Python 检索**
