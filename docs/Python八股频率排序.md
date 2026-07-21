@@ -1,5 +1,7 @@
 # Python · 频率导航（2025–2026）
 
+> **频率页只做索引。** 正文以链接的「完整卷」为准，避免重复维护。
+
 > **完整卷：** [Python高频面试题与知识点.md](./Python高频面试题与知识点.md)  
 > **面渣：** [Python面渣级口述.md](./Python面渣级口述.md) · [异步FastAPI](./Python异步与FastAPI面渣级口述.md)  
 > **卡片：** [Python卡片速记.md](./Python卡片速记.md) · **手写：** [Python手写题.md](./Python手写题.md)  

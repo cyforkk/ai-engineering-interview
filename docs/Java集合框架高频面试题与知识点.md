@@ -9,6 +9,9 @@
 >
 <!-- NAV:END -->
 
+> 结构图：[HashMap](./核心结构图.md#1-hashmapjdk8)
+
+
 
 > 集合是面试 **出现频率最高** 模块之一；**HashMap / ConcurrentHashMap** 几乎每场必问。  
 > 格式：题目 + 核心知识点；强调对比、JDK7/8 差异、场景。
