@@ -1,0 +1,23 @@
+name: docs-check
+
+on:
+  push:
+    paths:
+      - "docs/**"
+      - "tools/check_md_links.py"
+      - ".github/workflows/docs-check.yml"
+  pull_request:
+    paths:
+      - "docs/**"
+      - "tools/check_md_links.py"
+
+jobs:
+  md-links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check relative markdown links
+        run: python tools/check_md_links.py
