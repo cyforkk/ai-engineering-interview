@@ -1,6 +1,17 @@
-# Java 多线程与并发 · 高频八股知识点（完整卷）
+# -*- coding: utf-8 -*-
+"""Java 多线程与并发高频八股完整卷。不碰面渣。"""
+from pathlib import Path
 
-<!-- NAV:START -->
+DOCS = Path(__file__).resolve().parents[1] / "docs"
+
+
+def w(name, text):
+    p = DOCS / name
+    p.write_text(text.strip() + "\n", encoding="utf-8")
+    print(name, p.stat().st_size)
+
+
+NAV = """<!-- NAV:START -->
 > 📖 **并发八股** · 🗣️ [面渣](./并发面渣级口述.md) · 🃏 [卡片](./并发卡片速记.md)
 >
 > [模块总览](./Java八股模块总览.md) · [集合/CHM](./Java集合框架高频面试题与知识点.md) · [JVM](./JVM高频面试题与知识点.md)
@@ -8,7 +19,11 @@
 > [首页](./README.md) · [如何使用](./如何使用本仓库.md) · [路径](./路径-Java后端.md)
 >
 <!-- NAV:END -->
+"""
 
+CONC = f"""# Java 多线程与并发 · 高频八股知识点（完整卷）
+
+{NAV}
 
 > 并发是面试 **难度最高、区分度最大** 的模块之一，大厂必深挖。  
 > 格式：题目 + 核心知识点；强调原理、对比、场景。
@@ -152,12 +167,12 @@ NEW → RUNNABLE → BLOCKED / WAITING / TIMED_WAITING → TERMINATED
 ## 11. DCL 单例为什么要 volatile？
 
 ```text
-if (instance == null) {
-  synchronized {
+if (instance == null) {{
+  synchronized {{
     if (instance == null)
       instance = new Singleton(); // 可能指令重排
-  }
-}
+  }}
+}}
 ```
 - `new` 可能：**分配内存 → 构造 → 赋值引用** 被重排为 **分配 → 赋值 → 构造**。  
 - 其他线程看到非 null 引用但对象未初始化完 → 出错。  
@@ -401,3 +416,133 @@ ReentrantLock、Semaphore、CountDownLatch、ReentrantReadWriteLock、部分 Que
 | 日期 | 说明 |
 |------|------|
 | 2026-07-21 | 并发完整卷：10 大模块按大厂高频大纲补全 |
+"""
+
+CARDS = f"""# 并发 · 卡片速记
+
+<!-- NAV:START -->
+> [完整知识点](./并发高频面试题与知识点.md) · [面渣](./并发面渣级口述.md) · [总览](./Java八股模块总览.md)
+<!-- NAV:END -->
+
+> 遮住 **A**。
+
+---
+
+## 基础
+
+**Q1 进程 vs 线程？**  
+A: 资源分配 vs CPU调度；线程共享堆。
+
+**Q2 并发 vs 并行？**  
+A: 时间段交替 vs 同一时刻同时。
+
+**Q3 创建线程 4 种？**  
+A: Thread / Runnable / Callable / 线程池。
+
+**Q4 线程状态？**  
+A: NEW→RUNNABLE→BLOCKED/WAITING/TIMED_WAITING→TERMINATED。
+
+**Q5 start vs run？**  
+A: start 启新线程；run 普通调用。
+
+## synchronized / Lock
+
+**Q6 synchronized 锁谁？**  
+A: 实例this / 静态Class / 代码块指定对象。
+
+**Q7 锁升级？**  
+A: 偏向→轻量→重量。
+
+**Q8 ReentrantLock 优势？**  
+A: 可中断、公平、多Condition、tryLock；需手动unlock。
+
+## volatile / JMM
+
+**Q9 volatile 三性？**  
+A: 可见、有序；不保证原子。
+
+**Q10 DCL 为何 volatile？**  
+A: 防 new 重排导致未初始化发布。
+
+**Q11 happens-before 举例？**  
+A: 解锁hb加锁；volatile写hb读；传递性。
+
+## CAS / AQS
+
+**Q12 CAS？**  
+A: 期望值匹配才更新；ABA用版本戳。
+
+**Q13 LongAdder？**  
+A: 分段计数，高并发计数更优。
+
+**Q14 AQS 核心？**  
+A: state + CLH变体队列；独占/共享。
+
+## 线程池
+
+**Q15 七大参数？**  
+A: core/max/keepAlive/unit/queue/factory/handler。
+
+**Q16 提交流程？**  
+A: core→入队→max→拒绝。
+
+**Q17 拒绝策略 4？**  
+A: Abort/CallerRuns/Discard/DiscardOldest。
+
+**Q18 Executors 坑？**  
+A: 无界队列OOM/无线程上限；手写TPE。
+
+**Q19 CPU vs IO 线程数？**  
+A: CPU≈核数；IO可更大，压测调。
+
+## 工具 / TL / 死锁 / VT
+
+**Q20 CountDownLatch vs CyclicBarrier？**  
+A: 一个等多个 / 多个互等可重用。
+
+**Q21 Semaphore？**  
+A: 许可证限流。
+
+**Q22 ThreadLocal 泄漏？**  
+A: 弱引用key+强value；池化必remove。
+
+**Q23 死锁四条件？**  
+A: 互斥、请求保持、不剥夺、环路。
+
+**Q24 虚拟线程？**  
+A: JVM轻量线程，适高并发阻塞IO；不适重CPU。
+
+---
+
+详解：[并发高频面试题与知识点.md](./并发高频面试题与知识点.md)
+"""
+
+
+def patch():
+    ov = DOCS / "Java八股模块总览.md"
+    if ov.exists():
+        t = ov.read_text(encoding="utf-8")
+        if "并发完整卷" not in t and "并发八股完整" not in t:
+            t = t.replace(
+                "| 2 并发 | [并发](./并发高频面试题与知识点.md) |",
+                "| 2 **并发完整卷** | [并发](./并发高频面试题与知识点.md) |",
+            )
+            note = "\n\n> **并发**已按 10 大模块补全：基础、synchronized/Lock、volatile/JMM、CAS、AQS、线程池、工具类、ThreadLocal、死锁、虚拟线程。→ [并发高频面试题与知识点.md](./并发高频面试题与知识点.md)\n"
+            if "并发已按 10 大模块" not in t:
+                t = t.replace(
+                    "原则：**原理 + 对比 + 场景**，不要死背一句话。",
+                    "原则：**原理 + 对比 + 场景**，不要死背一句话。" + note,
+                    1,
+                )
+            ov.write_text(t, encoding="utf-8")
+            print("overview patched")
+
+
+def main():
+    w("并发高频面试题与知识点.md", CONC)
+    w("并发卡片速记.md", CARDS)
+    patch()
+
+
+if __name__ == "__main__":
+    main()
