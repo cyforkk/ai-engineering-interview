@@ -299,80 +299,29 @@
       }
 
       /*
-       * 汉堡按钮：强制左上角可见（避开 notch；z-index 压过顶栏）
-       * docsify 默认 bottom:0，不能和 top 同时生效。
+       * 原 docsify 汉堡：藏起来（避免出现在中间/右侧），逻辑仍用它 toggle
        */
       .sidebar-toggle,
       body.close .sidebar-toggle {
         position: fixed !important;
-        top: max(8px, env(safe-area-inset-top, 0px)) !important;
+        left: -9999px !important;
+        top: 0 !important;
         bottom: auto !important;
-        left: max(8px, env(safe-area-inset-left, 0px)) !important;
-        right: auto !important;
-        width: 44px !important;
-        height: 44px !important;
-        min-width: 44px !important;
-        max-width: 44px !important;
-        min-height: 44px !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        z-index: 10050 !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        pointer-events: auto !important;
-        background: var(--bg) !important;
-        border: 1px solid var(--border) !important;
-        border-radius: 10px !important;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18) !important;
-        overflow: visible !important;
-        transform: none !important;
-      }
-      .sidebar-toggle .sidebar-toggle-button {
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: center !important;
-        align-items: center !important;
-        gap: 4px !important;
-        width: 22px !important;
-        height: 18px !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        opacity: 1 !important;
-      }
-      .sidebar-toggle span {
-        display: block !important;
-        width: 20px !important;
-        height: 2.5px !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        border-radius: 1px;
-        background-color: var(--theme-color) !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-      }
-      /* 三线若被主题隐藏，用 ☰ 兜底 */
-      .sidebar-toggle::after {
-        content: "☰";
-        position: absolute;
-        font-size: 22px;
-        line-height: 1;
-        color: var(--theme-color);
-        pointer-events: none;
-        opacity: 0;
-      }
-      .sidebar-toggle:not(:has(span))::after,
-      .sidebar-toggle.menu-fallback::after {
-        opacity: 1;
+        width: 1px !important;
+        height: 1px !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        overflow: hidden !important;
+        z-index: 0 !important;
       }
 
-      /* 独立悬浮菜单（最稳）：点它 = 点 docsify 原按钮 */
+      /* 唯一可见菜单：强制左上角 ☰（不要和右下角 A+/主题搞混） */
       #mobile-menu-fab {
         position: fixed !important;
-        top: max(8px, env(safe-area-inset-top, 0px)) !important;
-        left: max(8px, env(safe-area-inset-left, 0px)) !important;
+        top: 8px !important;
+        left: 8px !important;
+        right: auto !important;
+        bottom: auto !important;
         width: 44px !important;
         height: 44px !important;
         z-index: 10060 !important;
@@ -396,48 +345,92 @@
       }
 
       /*
-       * 侧栏：固定视口高度 + 内部滚动（否则白屏一块滑不动）
-       * 采用遮罩式滑入，不强制把正文一起 translate（减少滚动锁死）
+       * 侧栏滚动：禁止对同一节点既 transform 又 overflow（iOS 会滑不动）
+       * 用 left 滑入/滑出；overflow-y: scroll 开在侧栏上
        */
       .sidebar {
         position: fixed !important;
         top: 0 !important;
         bottom: 0 !important;
-        left: 0 !important;
-        width: min(86vw, 300px) !important;
-        height: 100% !important;
+        width: 86vw !important;
+        max-width: 300px !important;
+        height: 100vh !important;
+        height: 100dvh !important;
         max-height: 100vh !important;
         max-height: 100dvh !important;
-        padding: 56px 0 24px !important;
+        /* 关闭：移出屏幕左侧（不用 transform） */
+        left: -300px !important;
+        margin: 0 !important;
+        padding: 0 !important;
         overflow-x: hidden !important;
-        overflow-y: auto !important;
+        overflow-y: scroll !important;
         -webkit-overflow-scrolling: touch !important;
-        overscroll-behavior: contain;
-        touch-action: pan-y;
-        z-index: 36 !important;
+        overscroll-behavior-y: contain !important;
+        touch-action: pan-y !important;
+        z-index: 10030 !important;
         background: var(--bg-sidebar) !important;
-        /* 关闭：完全藏到左侧（覆盖 left:-300px / translate 组合） */
-        transform: translate3d(-105%, 0, 0) !important;
-        transition: transform 0.25s ease-out !important;
+        transform: none !important;
+        transition: left 0.25s ease-out !important;
+        box-sizing: border-box !important;
+      }
+      .sidebar .app-name {
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 2 !important;
+        background: var(--bg-sidebar) !important;
+        padding: 14px 12px 10px !important;
+        margin: 0 !important;
+      }
+      .sidebar .search {
+        padding: 0 12px 8px !important;
       }
       .sidebar .sidebar-nav {
-        padding-bottom: 48px !important;
-        min-height: 0;
+        display: block !important;
+        padding: 8px 0 96px !important;
+        margin: 0 !important;
+        /* 内容要高于视口才会出滚动条 */
+        min-height: calc(100dvh + 1px) !important;
       }
-      /* docsify：body.close 表示手机端「侧栏打开」 */
+      .sidebar .sidebar-nav ul {
+        white-space: normal !important;
+      }
+      .sidebar ul li a {
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: unset !important;
+        line-height: 1.45 !important;
+        padding: 4px 0 !important;
+      }
+      /* docsify：body.close = 手机端侧栏打开 */
       body.close .sidebar {
-        transform: translate3d(0, 0, 0) !important;
+        left: 0 !important;
+        transform: none !important;
       }
       body.close .content {
         transform: none !important;
       }
-      /* 打开时点空白关闭：半透明遮罩 */
-      body.close::before {
-        content: "";
+      /* 打开时锁住背后页面滚动，只让侧栏滚 */
+      body.close {
+        overflow: hidden !important;
+      }
+      body.close .content,
+      body.close main {
+        overflow: hidden !important;
+        touch-action: none;
+      }
+      /* 遮罩：点空白关闭（z 在侧栏下、菜单钮下） */
+      #sidebar-backdrop {
+        display: none;
         position: fixed;
         inset: 0;
-        background: rgba(0, 0, 0, 0.35);
-        z-index: 34;
+        z-index: 10020;
+        background: rgba(0, 0, 0, 0.4);
+        border: 0;
+        padding: 0;
+        margin: 0;
+      }
+      body.close #sidebar-backdrop {
+        display: block;
       }
 
       /* 正文顶距，避免标题顶到固定导航下 */
@@ -687,11 +680,18 @@
           hook.ready(fixSidebarLogo);
           hook.doneEach(fixSidebarLogo);
 
+          function toggleDocsifySidebar() {
+            var t = document.querySelector("button.sidebar-toggle, .sidebar-toggle");
+            if (t) t.click();
+          }
+
           function ensureMobileMenuFab() {
             var isMobile = window.matchMedia && window.matchMedia("(max-width: 768px)").matches;
             var fab = document.getElementById("mobile-menu-fab");
+            var backdrop = document.getElementById("sidebar-backdrop");
             if (!isMobile) {
               if (fab) fab.hidden = true;
+              if (backdrop) backdrop.hidden = true;
               return;
             }
             if (!fab) {
@@ -703,17 +703,32 @@
               fab.addEventListener("click", function (e) {
                 e.preventDefault();
                 e.stopPropagation();
-                var t = document.querySelector("button.sidebar-toggle, .sidebar-toggle");
-                if (t) t.click();
+                toggleDocsifySidebar();
               });
               document.body.appendChild(fab);
             }
             fab.hidden = false;
-            // 原按钮若三线丢失，加兜底 class
-            var toggle = document.querySelector(".sidebar-toggle");
-            if (toggle) {
-              var spans = toggle.querySelectorAll("span");
-              if (!spans || spans.length < 3) toggle.classList.add("menu-fallback");
+
+            if (!backdrop) {
+              backdrop = document.createElement("button");
+              backdrop.id = "sidebar-backdrop";
+              backdrop.type = "button";
+              backdrop.setAttribute("aria-label", "关闭侧栏");
+              backdrop.hidden = true;
+              backdrop.addEventListener("click", function (e) {
+                e.preventDefault();
+                if (document.body.classList.contains("close")) toggleDocsifySidebar();
+              });
+              document.body.appendChild(backdrop);
+            }
+
+            // 侧栏强制可滚（部分 WebView 需要写 style）
+            var sb = document.querySelector(".sidebar");
+            if (sb) {
+              sb.style.setProperty("overflow-y", "scroll", "important");
+              sb.style.setProperty("-webkit-overflow-scrolling", "touch", "important");
+              sb.style.setProperty("transform", "none", "important");
+              sb.style.setProperty("touch-action", "pan-y", "important");
             }
           }
           hook.mounted(ensureMobileMenuFab);
