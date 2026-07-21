@@ -1,12 +1,27 @@
-# Python · 高频八股知识点（完整卷）
+# -*- coding: utf-8 -*-
+"""Python：按超高/高/中/低频完整卷 + 频率导航。不碰面渣。"""
+from pathlib import Path
 
-<!-- NAV:START -->
+DOCS = Path(__file__).resolve().parents[1] / "docs"
+
+
+def w(name, text):
+    p = DOCS / name
+    p.write_text(text.strip() + "\n", encoding="utf-8")
+    print(name, p.stat().st_size)
+
+
+NAV = """<!-- NAV:START -->
 > 📖 **Python 完整卷** · 🗣️ [面渣](./Python面渣级口述.md) · [异步FastAPI](./Python异步与FastAPI面渣级口述.md) · 🃏 [卡片](./Python卡片速记.md) · 🔥 [频率](./Python八股频率排序.md)
 >
 > [路径 C](./路径-Python.md) · [手写题](./Python手写题.md) · [四档主线](./Java后端面试频率-四档.md)
 >
 <!-- NAV:END -->
+"""
 
+MAIN = f"""# Python · 高频八股知识点（完整卷）
+
+{NAV}
 
 > 2025–2026 大厂 + AI/后端岗：重 **语言特性、底层原理、实际使用**。  
 > 能结合代码讲清；手写见 [Python手写题.md](./Python手写题.md)。
@@ -43,7 +58,7 @@
 | dict | ✓ | 3.7+ 插入有序 | **哈希表** | KV 映射 |
 | set | ✓ | 无序 | 哈希集合 | 去重、成员检测 |
 
-\*有序指元素顺序；set 无序。
+\\*有序指元素顺序；set 无序。
 
 ### 1.2 可变 vs 不可变？
 
@@ -128,8 +143,8 @@ def log(func):
 |------|------|------|
 | `[x for x in it]` | list | 全量 |
 | `(x for x in it)` | generator | 惰性 |
-| `{k:v for ...}` | dict | 全量 |
-| `{x for ...}` | set | 全量 |
+| `{{k:v for ...}}` | dict | 全量 |
+| `{{x for ...}}` | set | 全量 |
 
 ---
 
@@ -448,3 +463,196 @@ Local → Enclosing → Global → Built-in
 | 日期 | 说明 |
 |------|------|
 | 2026-07-21 | 按超高/高/中/低频大纲写 Python 完整卷 |
+"""
+
+RANK = f"""# Python · 频率导航（2025–2026）
+
+> **完整卷：** [Python高频面试题与知识点.md](./Python高频面试题与知识点.md)  
+> **面渣：** [Python面渣级口述.md](./Python面渣级口述.md) · [异步FastAPI](./Python异步与FastAPI面渣级口述.md)  
+> **卡片：** [Python卡片速记.md](./Python卡片速记.md) · **手写：** [Python手写题.md](./Python手写题.md)  
+> **路径：** [路径-Python.md](./路径-Python.md)
+
+---
+
+## 专项时间
+
+| 优先级 | 模块 | 时间 |
+|--------|------|:----:|
+| P0 | 数据类型 + 装饰器 + 生成器 + GIL + 拷贝 | **45%** |
+| P1 | OOP + GC + 闭包 | 25% |
+| P2 | 并发模型 + with + 标准库 | 15% |
+| P3 | 元类/描述符/异步/性能 | 15% |
+
+---
+
+## 一、超高频
+
+| # | 主题 | 入口 |
+|---|------|------|
+| 1 | list/dict/set 底层、可变不可变、深浅拷贝 | [§1](./Python高频面试题与知识点.md) |
+| 2 | args/kwargs、装饰器、闭包、生成器 | [§2](./Python高频面试题与知识点.md) |
+| 3 | OOP：new/init、classmethod、MRO、魔法方法 | [§3](./Python高频面试题与知识点.md) |
+| 4 | GIL、多线程/进程/协程、GC | [§4](./Python高频面试题与知识点.md) |
+| 5 | 传参、is/==、with、异常 | [§5](./Python高频面试题与知识点.md) |
+
+---
+
+## 二、高频
+
+LEGB · global/nonlocal · lambda · 元类 · slots · 模块导入 · 性能 · 鸭子类型 · 描述符  
+
+---
+
+## 三、中频
+
+asyncio · typing · 单例 · collections · pytest  
+
+---
+
+## 四、低频
+
+gc 细节 · PyPy · Cython · mypy  
+
+---
+
+## 必须能手写
+
+```text
+装饰器（wraps）· 生成器 · 深浅拷贝 · 单例 · 上下文管理器
+```
+
+---
+
+## 点名
+
+`装饰器` · `GIL` · `生成器` · `深浅拷贝` · `垃圾回收`
+
+---
+
+## 修订
+
+| 日期 | 说明 |
+|------|------|
+| 2026-07-21 | Python 专项频率导航 |
+"""
+
+CARDS = f"""# Python · 卡片速记
+
+<!-- NAV:START -->
+> [完整卷](./Python高频面试题与知识点.md) · [频率](./Python八股频率排序.md) · [面渣](./Python面渣级口述.md)
+<!-- NAV:END -->
+
+> 遮住 A。**先 P0。**
+
+---
+
+## 数据类型
+
+**Q1 list vs tuple？** A: 可变序列 vs 不可变；tuple 可作键（元素可哈希）。
+
+**Q2 dict 底层？** A: 哈希表；键须可哈希。
+
+**Q3 可变不可变？** A: list/dict/set vs int/str/tuple。
+
+**Q4 默认参数坑？** A: 可变默认只创建一次；用 None。
+
+**Q5 浅拷贝深拷贝？** A: 内层共享 vs 递归复制。
+
+## 函数
+
+**Q6 *args **kwargs？** A: 位置元组 / 关键字字典。
+
+**Q7 装饰器？** A: 函数包函数；@ 语法糖；wraps。
+
+**Q8 闭包？** A: 内函数引用外变量并返回。
+
+**Q9 yield？** A: 生成器惰性产出。
+
+**Q10 列表推导 vs 生成器表达式？** A: 全量 list vs 惰性。
+
+## OOP / 并发
+
+**Q11 __new__ vs __init__？** A: 创建 vs 初始化。
+
+**Q12 classmethod vs staticmethod？** A: 收 cls / 无强制实例。
+
+**Q13 GIL？** A: 同进程同时一线程跑字节码；CPU用进程。
+
+**Q14 线程进程协程？** A: IO / CPU / 高并发IO。
+
+**Q15 GC？** A: 引用计数+循环检测+分代。
+
+## 其他
+
+**Q16 is vs ==？** A: 同一对象 vs 相等。
+
+**Q17 with？** A: enter/exit 保证清理。
+
+**Q18 LEGB？** A: Local Enclosing Global Builtin。
+
+**Q19 字符串拼接？** A: join 优于循环 +。
+
+**Q20 asyncio 禁忌？** A: 协程里阻塞调用。
+
+---
+
+详解：[Python高频面试题与知识点.md](./Python高频面试题与知识点.md) · 手写：[Python手写题.md](./Python手写题.md)
+"""
+
+
+def patch():
+    path = DOCS / "路径-Python.md"
+    if path.exists():
+        t = path.read_text(encoding="utf-8")
+        if "Python八股频率排序" not in t:
+            t = t.replace(
+                "[详解](./Python高频面试题与知识点.md)",
+                "[**完整卷**](./Python高频面试题与知识点.md)·[频率](./Python八股频率排序.md)",
+            )
+            t = t.replace(
+                "[知](./Python高频面试题与知识点.md)",
+                "[完整卷](./Python高频面试题与知识点.md)·[频率](./Python八股频率排序.md)",
+            )
+            if "Python八股频率排序" not in t:
+                t = t.replace(
+                    "**读法：**",
+                    "**Python 完整卷：** [知识点](./Python高频面试题与知识点.md) · [频率](./Python八股频率排序.md) · [卡片](./Python卡片速记.md)\n\n**读法：**",
+                )
+            path.write_text(t, encoding="utf-8")
+            print("path")
+
+    sb = DOCS / "_sidebar.md"
+    if sb.exists():
+        t = sb.read_text(encoding="utf-8")
+        if "Python八股频率排序" not in t:
+            t = t.replace(
+                "  * [Python 详解](Python高频面试题与知识点.md)\n"
+                "  * [异步 FastAPI 口述](Python异步与FastAPI面渣级口述.md)\n",
+                "  * [Python 完整卷](Python高频面试题与知识点.md)\n"
+                "  * [Python 频率](Python八股频率排序.md)\n"
+                "  * [异步 FastAPI 口述](Python异步与FastAPI面渣级口述.md)\n",
+            )
+            sb.write_text(t, encoding="utf-8")
+            print("sidebar")
+
+    readme = DOCS / "README.md"
+    if readme.exists():
+        t = readme.read_text(encoding="utf-8")
+        if "Python完整卷" not in t and "Python 完整卷" not in t:
+            t = t.replace(
+                "| Python / AI 服务 | **[路径 C · Python](./路径-Python.md)** |",
+                "| Python / AI 服务 | **[路径 C · Python](./路径-Python.md)** · [**Python完整卷**](./Python高频面试题与知识点.md) |",
+            )
+            readme.write_text(t, encoding="utf-8")
+            print("readme")
+
+
+def main():
+    w("Python高频面试题与知识点.md", MAIN)
+    w("Python八股频率排序.md", RANK)
+    w("Python卡片速记.md", CARDS)
+    patch()
+
+
+if __name__ == "__main__":
+    main()

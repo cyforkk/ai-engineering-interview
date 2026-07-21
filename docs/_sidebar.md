@@ -56,5 +56,6 @@
   * [场景题完整卷](场景题高频面试题与知识点.md)
 
 * **⑤ Python 专题**
-  * [Python 详解](Python高频面试题与知识点.md)
+  * [Python 完整卷](Python高频面试题与知识点.md)
+  * [Python 频率](Python八股频率排序.md)
   * [异步 FastAPI 口述](Python异步与FastAPI面渣级口述.md)

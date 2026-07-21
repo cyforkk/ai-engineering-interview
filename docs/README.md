@@ -27,7 +27,7 @@
 |------|------|
 | AI 应用 / LLM 工程 | **[路径 A · AI 工程](./路径-AI工程.md)** · [**Agent完整卷**](./AI-Agent高频面试题与知识点.md) |
 | Java 后端 | **[路径 B](./路径-Java后端.md)** · [**四档主线P0**](./Java后端面试频率-四档.md) · [总览](./Java八股模块总览.md) · [SABC](./Java八股频率排序-SABC.md) |
-| Python / AI 服务 | **[路径 C · Python](./路径-Python.md)** |
+| Python / AI 服务 | **[路径 C · Python](./路径-Python.md)** · [**Python完整卷**](./Python高频面试题与知识点.md) |
 
 周计划：[4～8 周路线图](./学习路线图-4到8周.md)
 

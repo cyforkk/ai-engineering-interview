@@ -11,7 +11,7 @@
 
 | 步 | 面渣（怎么说） | 知识点详解 | 卡片速记 |
 |:--:|----------------|------------|----------|
-| 1 | [Python 面渣](./Python面渣级口述.md) | [详解](./Python高频面试题与知识点.md) | [卡片](./Python卡片速记.md) |
+| 1 | [Python 面渣](./Python面渣级口述.md) | [**完整卷**](./Python高频面试题与知识点.md)·[频率](./Python八股频率排序.md) | [卡片](./Python卡片速记.md) |
 | 2 | [异步 FastAPI](./Python异步与FastAPI面渣级口述.md) | （并入 Python 详解异步节） | [卡片](./Python卡片速记.md) |
 | 3 | [Python 手写题](./Python手写题.md) | — | — |
 | 4 | [追问·Python](./追问三连-Python.md) | — | — |

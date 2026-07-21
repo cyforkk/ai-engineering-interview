@@ -1,56 +1,61 @@
 # Python · 卡片速记
 
 <!-- NAV:START -->
-> **只背要点。** 原理 → [详解](./Python高频面试题与知识点.md) · 怎么说 → [面渣](./Python面渣级口述.md)
->
-> [首页](./README.md) · [如何使用](./如何使用本仓库.md) · [路径](./路径-Python.md)
->
+> [完整卷](./Python高频面试题与知识点.md) · [频率](./Python八股频率排序.md) · [面渣](./Python面渣级口述.md)
 <!-- NAV:END -->
 
-> 用法：遮住 **A**，只看 **Q** 回忆；卡壳回详解。
+> 遮住 A。**先 P0。**
 
 ---
 
-## 1. 默认参数陷阱？
+## 数据类型
 
-**A:** 可变默认只创建一次；用 None。
+**Q1 list vs tuple？** A: 可变序列 vs 不可变；tuple 可作键（元素可哈希）。
 
-## 2. 浅拷贝 vs 深拷贝？
+**Q2 dict 底层？** A: 哈希表；键须可哈希。
 
-**A:** 外层 vs 递归。
+**Q3 可变不可变？** A: list/dict/set vs int/str/tuple。
 
-## 3. 装饰器？
+**Q4 默认参数坑？** A: 可变默认只创建一次；用 None。
 
-**A:** 函数包函数；wraps 保元数据。
+**Q5 浅拷贝深拷贝？** A: 内层共享 vs 递归复制。
 
-## 4. 生成器？
+## 函数
 
-**A:** yield 惰性，省内存。
+**Q6 *args **kwargs？** A: 位置元组 / 关键字字典。
 
-## 5. with？
+**Q7 装饰器？** A: 函数包函数；@ 语法糖；wraps。
 
-**A:** 上下文，保证清理。
+**Q8 闭包？** A: 内函数引用外变量并返回。
 
-## 6. GIL？
+**Q9 yield？** A: 生成器惰性产出。
 
-**A:** 同进程同时多一线程执行字节码。
+**Q10 列表推导 vs 生成器表达式？** A: 全量 list vs 惰性。
 
-## 7. CPU 密集？
+## OOP / 并发
 
-**A:** 多进程/外部服务。
+**Q11 __new__ vs __init__？** A: 创建 vs 初始化。
 
-## 8. IO 密集？
+**Q12 classmethod vs staticmethod？** A: 收 cls / 无强制实例。
 
-**A:** 线程或 asyncio。
+**Q13 GIL？** A: 同进程同时一线程跑字节码；CPU用进程。
 
-## 9. asyncio 禁忌？
+**Q14 线程进程协程？** A: IO / CPU / 高并发IO。
 
-**A:** 协程里阻塞调用堵事件循环。
+**Q15 GC？** A: 引用计数+循环检测+分代。
 
-## 10. FastAPI 适合？
+## 其他
 
-**A:** async API、类型、OpenAPI；仍要超时限流。
+**Q16 is vs ==？** A: 同一对象 vs 相等。
+
+**Q17 with？** A: enter/exit 保证清理。
+
+**Q18 LEGB？** A: Local Enclosing Global Builtin。
+
+**Q19 字符串拼接？** A: join 优于循环 +。
+
+**Q20 asyncio 禁忌？** A: 协程里阻塞调用。
 
 ---
 
-详解：[Python高频面试题与知识点.md](./Python高频面试题与知识点.md) · 面渣：[Python面渣级口述.md](./Python面渣级口述.md)
+详解：[Python高频面试题与知识点.md](./Python高频面试题与知识点.md) · 手写：[Python手写题.md](./Python手写题.md)
