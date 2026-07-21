@@ -1,12 +1,27 @@
-# Java 基础 · 高频八股知识点（完整卷）
+# -*- coding: utf-8 -*-
+"""Java 基础：按超高/高/中/低频完整卷 + 频率导航。不碰面渣。集合独立卷。"""
+from pathlib import Path
 
-<!-- NAV:START -->
+DOCS = Path(__file__).resolve().parents[1] / "docs"
+
+
+def w(name, text):
+    p = DOCS / name
+    p.write_text(text.strip() + "\n", encoding="utf-8")
+    print(name, p.stat().st_size)
+
+
+NAV = """<!-- NAV:START -->
 > 📖 **Java 基础完整卷** · 🗣️ [面渣](./Java面渣级口述.md) · 🃏 [卡片](./Java卡片速记.md) · 🔥 [频率导航](./Java基础八股频率排序.md)
 >
 > [集合完整卷](./Java集合框架高频面试题与知识点.md) · [四档主线](./Java后端面试频率-四档.md) · [Java8+](./Java8加分项知识点.md)
 >
 <!-- NAV:END -->
+"""
 
+JAVA = f"""# Java 基础 · 高频八股知识点（完整卷）
+
+{NAV}
 
 > 所有后端面试的基石。**OOP、String、equals/hashCode、异常** 出现频率极高。  
 > 集合见独立卷；本卷聚焦语言基础。
@@ -416,3 +431,204 @@ Throwable
 | 日期 | 说明 |
 |------|------|
 | 2026-07-21 | 按超高/高/中/低频大纲重写 Java 基础完整卷 |
+"""
+
+RANK = f"""# Java 基础 · 频率导航（2025–2026）
+
+> **完整卷：** [Java高频面试题与知识点.md](./Java高频面试题与知识点.md)  
+> **面渣：** [Java面渣级口述.md](./Java面渣级口述.md) · **卡片：** [Java卡片速记.md](./Java卡片速记.md)  
+> **集合另卷：** [集合完整卷](./Java集合框架高频面试题与知识点.md)  
+> **全库主线：** [四档 P0](./Java后端面试频率-四档.md)
+
+---
+
+## 专项时间
+
+| 优先级 | 模块 | 时间 |
+|--------|------|:----:|
+| P0 | OOP + equals/hashCode + String + 异常 | **50%** |
+| P1 | 装箱 + final/static + 值传递 + 拷贝 | 20% |
+| P2 | 泛型 + Java 8 | 20% |
+| P3 | 反射/序列化/IO/注解 | 10% |
+
+---
+
+## 一、超高频
+
+| # | 主题 | 入口 |
+|---|------|------|
+| 1 | 面向对象（特性、重载重写、抽象类接口、修饰符、多态） | [§1](./Java高频面试题与知识点.md) |
+| 2 | equals / hashCode | [§2](./Java高频面试题与知识点.md) |
+| 3 | String 全家桶 | [§3](./Java高频面试题与知识点.md) |
+| 4 | 基本类型与包装/缓存 | [§4](./Java高频面试题与知识点.md) |
+| 5 | 异常体系 | [§5](./Java高频面试题与知识点.md) |
+
+---
+
+## 二、高频
+
+final/static · 值传递 · 深浅拷贝 · Object 方法 · 泛型/PECS · Lambda/Stream/Optional  
+
+---
+
+## 三、中频
+
+反射 · 注解 · 序列化 · BIO/NIO · 枚举单例 · 内部类 · 创建对象方式  
+
+---
+
+## 四、低频加分
+
+位运算 · switch 演变 · BigDecimal · 类初始化 · JPMS · Record/Sealed  
+
+---
+
+## 必须讲清
+
+```text
+1. equals + hashCode 契约
+2. String 不可变三原因
+3. 异常体系 + finally 与 return
+4. 多态与重写（结合代码）
+```
+
+---
+
+## 点名
+
+`String不可变` · `equals模板` · `Integer缓存` · `finally return`
+
+---
+
+## 修订
+
+| 日期 | 说明 |
+|------|------|
+| 2026-07-21 | Java 基础专项频率导航 |
+"""
+
+CARDS = f"""# Java 基础 · 卡片速记
+
+<!-- NAV:START -->
+> [完整卷](./Java高频面试题与知识点.md) · [频率](./Java基础八股频率排序.md) · [面渣](./Java面渣级口述.md)
+<!-- NAV:END -->
+
+> 遮住 A。**先 P0。** 集合见 [集合卡](./Java集合卡片速记.md)。
+
+---
+
+## OOP
+
+**Q1 四大特性？** A: 封装继承多态抽象。
+
+**Q2 重载 vs 重写？** A: 参数不同编译期 / 覆盖运行期。
+
+**Q3 抽象类 vs 接口？** A: 单继承模板 vs 多实现能力。
+
+**Q4 访问范围？** A: public>protected>default>private。
+
+**Q5 多态条件？** A: 继承+重写+父引用指子对象。
+
+## equals
+
+**Q6 == vs equals？** A: 地址(值) / 可重写比内容。
+
+**Q7 必须双写 hashCode？** A: 相等同 hash；HashMap 正确性。
+
+**Q8 默认 equals？** A: 比引用 this==obj。
+
+## String
+
+**Q9 三兄弟？** A: 不可变 / 可变非安全 / 可变安全。
+
+**Q10 为何不可变？** A: final+无改API；池化、hash、安全。
+
+**Q11 "a" vs new？** A: 池引用 vs 堆新建。
+
+**Q12 拼接？** A: 循环用 StringBuilder。
+
+## 包装 / 异常
+
+**Q13 Integer 缓存？** A: -128~127；外用 equals。
+
+**Q14 异常分类？** A: Error/Exception；检查 vs 运行时。
+
+**Q15 finally？** A: 通常执行；return 先暂存再 finally。
+
+## 高频
+
+**Q16 final/finally/finalize？** A: 关键字/必执行块/废弃。
+
+**Q17 值传递？** A: 只有值传递；引用传副本。
+
+**Q18 浅拷贝深拷贝？** A: 共享内部 vs 递归复制。
+
+**Q19 泛型擦除？** A: 运行时擦除；编译期检查。
+
+**Q20 PECS？** A: extends 产；super 消。
+
+**Q21 Optional？** A: 显式可空；防 NPE。
+
+**Q22 反射？** A: 运行时拿类信息；框架用；慢。
+
+---
+
+详解：[Java高频面试题与知识点.md](./Java高频面试题与知识点.md)
+"""
+
+
+def patch():
+    ft = DOCS / "Java后端面试频率-四档.md"
+    if ft.exists():
+        t = ft.read_text(encoding="utf-8")
+        if "Java基础八股频率排序" not in t:
+            t = t.replace(
+                "[Java基础完整卷](./Java高频面试题与知识点.md) · [卡片](./Java卡片速记.md)",
+                "[Java基础完整卷](./Java高频面试题与知识点.md) · [频率](./Java基础八股频率排序.md) · [卡片](./Java卡片速记.md)",
+            )
+            ft.write_text(t, encoding="utf-8")
+            print("fourtier")
+
+    sb = DOCS / "_sidebar.md"
+    if sb.exists():
+        t = sb.read_text(encoding="utf-8")
+        if "Java基础八股频率排序" not in t:
+            t = t.replace(
+                "  * [Java 基础](Java高频面试题与知识点.md) · [卡片](Java卡片速记.md)\n",
+                "  * [Java基础完整卷](Java高频面试题与知识点.md) · [频率](Java基础八股频率排序.md) · [卡片](Java卡片速记.md)\n",
+            )
+            sb.write_text(t, encoding="utf-8")
+            print("sidebar")
+
+    path = DOCS / "路径-Java后端.md"
+    if path.exists():
+        t = path.read_text(encoding="utf-8")
+        if "Java基础八股频率排序" not in t:
+            t = t.replace(
+                "[基础](./Java高频面试题与知识点.md)",
+                "[基础完整卷](./Java高频面试题与知识点.md)·[频率](./Java基础八股频率排序.md)",
+            )
+            path.write_text(t, encoding="utf-8")
+            print("path")
+
+    ov = DOCS / "Java八股模块总览.md"
+    if ov.exists():
+        t = ov.read_text(encoding="utf-8")
+        if "Java基础八股频率排序" not in t:
+            t = t.replace(
+                "| 1 Java 基础 | [Java基础](./Java高频面试题与知识点.md) |",
+                "| 1 **Java 基础完整卷** | [Java基础](./Java高频面试题与知识点.md) · [频率](./Java基础八股频率排序.md) |",
+            )
+            ov.write_text(t, encoding="utf-8")
+            print("overview")
+
+
+def main():
+    w("Java高频面试题与知识点.md", JAVA)
+    w("Java基础八股频率排序.md", RANK)
+    w("Java卡片速记.md", CARDS)
+    patch()
+
+
+if __name__ == "__main__":
+    main()

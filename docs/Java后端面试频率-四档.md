@@ -113,7 +113,7 @@
 # 二、高频（大概率）
 
 ### Java 基础
-[Java基础完整卷](./Java高频面试题与知识点.md) · [卡片](./Java卡片速记.md)  
+[Java基础完整卷](./Java高频面试题与知识点.md) · [频率](./Java基础八股频率排序.md) · [卡片](./Java卡片速记.md)  
 equals/hashCode、String、OOP、final/finally/finalize、深浅拷贝、异常体系
 
 ### 并发进阶
