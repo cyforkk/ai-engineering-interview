@@ -1,76 +1,51 @@
-# Python · 大白话详解
+# Python · 知识点
 
 <!-- NAV:START -->
-> 📖 **本文用大白话讲懂** · 🗣️ [练嘴·面渣](./Python面渣级口述.md) · 🃏 [卡片速记](./Python卡片速记.md)
+> 📖 **知识点（笔记体）** · 🗣️ [面渣练嘴](./Python面渣级口述.md) · 🃏 [卡片](./Python卡片速记.md)
 >
 > [首页](./README.md) · [如何使用](./如何使用本仓库.md) · [路径](./路径-Python.md)
 >
 <!-- NAV:END -->
 
-> 读不懂术语？先看 **生活例子**。会说了再去面渣练开口。
-
 
 ---
 
-## 1. 默认参数大坑（必考）
+## 1. 可变 / 不可变？默认参数陷阱？
 
-### 错法
-
-```python
-def add(item, bag=[]):  # 糟糕
-    bag.append(item)
-    return bag
-```
-
-多次调用会共用**同一个 list**，数据串了。
-
-### 为啥？
-
-默认参数在**函数定义时**就创建好了，不是每次调用新建。
-
-### 对法
-
-```python
-def add(item, bag=None):
-    if bag is None:
-        bag = []
-    bag.append(item)
-    return bag
-```
+- 可变：list、dict、set；不可变：int、str、tuple 等。
+- **坑**：`def f(a=[])` 的默认 list 在**定义时创建一次**，多次调用共享。
+- **改法**：`def f(a=None):`，函数内 `if a is None: a = []`。
 
 ---
 
-## 2. 装饰器 / 生成器 / with（用途向）
+## 2. 装饰器 / 生成器 / with？
 
-| 特性 | 人话 | 干啥用 |
-|------|------|--------|
-| 装饰器 | 给函数外面套马甲 | 日志、登录检查、重试 |
-| 生成器 | 一次吐一点，不一次全造好 | 读大文件省内存 |
-| with | 用完自动收拾 | 关文件、放锁 |
+- **装饰器**：函数增强（日志、鉴权、重试）；`@wraps` 保留元数据。
+- **生成器**：`yield` 惰性产出，省内存。
+- **with**：上下文管理，保证资源释放。
 
 ---
 
-## 3. GIL：为啥多线程算得不快？
+## 3. GIL？线程 / 进程 / asyncio 怎么选？
 
-### 先记一句
+- CPython：**同一时刻通常一个线程执行 Python 字节码**（简化理解）。
+- **CPU 密集**：多进程 / 外部计算。
+- **IO 密集**：多线程或 asyncio。
+- **高并发等网络（调 LLM）**：asyncio + 异步客户端。
+- **禁忌**：async 里 `time.sleep` / 同步 `requests` 会堵事件循环。
 
-CPython 里，**同一时刻通常只有一个线程在跑 Python 字节码**（简化理解）。
+---
 
-### 怎么选？
+## 4. 浅拷贝 / 深拷贝？
 
-| 你在干啥 | 更合适 |
-|----------|--------|
-| 狂算 CPU | **多进程**或丢到别的服务 |
-| 等网络/磁盘 | 多线程或 **asyncio** 都行 |
-| 大量等 LLM 接口 | **asyncio** 很合适 |
+- 浅：只复制外层；深：递归复制内部对象。
 
-### asyncio 大忌
+---
 
-在 async 函数里写 `time.sleep` 或同步 `requests`：  
-像单行道上有人停车睡觉——**后面全堵死**。  
-要用异步库、`await asyncio.sleep`。
+## 自测
 
-FastAPI 适合做 AI 接口服务，但仍要自己做超时、限流。  
-长文： [Python异步与FastAPI面渣级口述.md](./Python异步与FastAPI面渣级口述.md)
+- [ ] 默认参数陷阱  
+- [ ] GIL 选型三句话  
+- [ ] async 不能阻塞  
 
-**练嘴：** [Python面渣级口述.md](./Python面渣级口述.md) · **卡片：** [Python卡片速记.md](./Python卡片速记.md)
+**口述：** [Python面渣级口述.md](./Python面渣级口述.md) · [FastAPI](./Python异步与FastAPI面渣级口述.md) · **卡片：** [Python卡片速记.md](./Python卡片速记.md)
